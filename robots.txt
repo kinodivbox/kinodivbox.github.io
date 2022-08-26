@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://torvdn.github.io/sitemap.xml
