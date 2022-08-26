@@ -1,0 +1,1 @@
+<p style="text-align: center;"><a href="https://kingpoisk.github.io"><img alt="" src="https://sun9-4.userapi.com/impf/_laEgYyL83wlUSsgvMi6l92Ahcx6raS0xMb-2A/APr0V9SuhOI.jpg?size=795x265&amp;quality=95&amp;crop=0,46,795,265&amp;sign=821fbbc77443551d1af8b89293ac9c39&amp;type=cover_group" style="width: 795px; height: 265px;" /></a></p>
