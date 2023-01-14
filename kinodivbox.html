@@ -20,9 +20,162 @@
  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-	
  <link rel="stylesheet" href="/css_js/common.css?v=0.0.2">
-<script src="//kinoplayer.top/top.js"></script>
+ 
+     <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            font-size: 16px;
+            color: #dddddd;
+            background: #202020;
+        }
+
+        a {
+           color: #666cff;
+        }
+
+        a:hover {
+            color: #666cff;
+        }
+
+        svg {
+            vertical-align: top;
+            fill: #dddddd;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .container {
+            padding:  16px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin: 16px 0 32px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        nav a {
+            color: #bbbbbb;
+            text-decoration: none;
+            border-bottom: solid 2px #303030;
+        }
+
+        .logo {
+            font-weight: 600;
+            color: #dddddd;
+        }
+
+        /* Search */
+        form {
+            position: relative;
+            display: flex;
+            margin-bottom: 32px;
+        }
+
+        .search__input {
+            flex: 1;
+            min-width: 200px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 18px;
+            color: #dddddd;
+            background: #303030;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px #111111;
+            padding: 12px 16px;
+        }
+
+        .search__input:focus {
+            background: #383838;
+            outline: none;
+        }
+
+        .search__button {
+            position: absolute;
+            right: 4px;
+            background: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 12px;
+        }
+
+        .search__button svg {
+            fill: #9e9e9e;
+        }
+
+        .search__button:hover svg {
+            fill: #dddddd;
+        }
+
+        .search__button:active {
+            top: 1px;
+        }
+
+        /* Placeholder */
+        .placeholder {
+            background: #282828;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px #111111;
+            padding: 16px;
+        }
+
+        .placeholder__title {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .placeholder__list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 0;
+        }
+
+        .placeholder__list li {
+            line-height: 1.5;
+            margin-left: 32px;
+        }
+
+        .placeholder__list span {
+            font: 16px 'Consolas', monospace;
+            color: #dddddd;
+            background: #383838;
+            border-radius: 4px;
+            padding: 2px 5px;
+        }
+
+        .placeholder__note {
+            margin-top: 16px;
+        }
+
+        /* Player */
+        .player {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            background: #282828;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px #111111;
+            margin-bottom: 32px;
+        }
+    </style>
+ 
 </head>
 <body>
 <main>
@@ -41,8 +194,81 @@
  </header>
 <p>&nbsp;</p>
 <div>
-	
-<div id="kinoplayertop" data-show-errors="true" data-token-balancer="bazon:fd96dcfe0417aa1f2d99b595658afbf4, tabus:0c54da2301073eafd15dcefc417e20e3, dbhdvb:8a22f8e7684404c3815e3ffa940f00a0"></div>	
+
+<div class="container">
+    <header>
+        <nav>
+            <a class="logo" href="https://kinodivbox.github.io/kinodivbox.html">Поиск</a>
+            <a href="5555" target="_blank">5555</a>
+        </nav>
+    </header>
+    <main>
+        <form method="get">
+            <input name="q" class="search__input" aria-label="search" placeholder="Поиск фильма">
+            <button class="search__button">
+                
+                </svg>
+            </button>
+        </form>
+        <div class="placeholder hidden">
+            <div class="placeholder__title">Поиск доступен по следующим данным:</div>
+            <ul class="placeholder__list">
+                <li>ID фильма на Кинопоиске: <span>258687</span></li>
+                <li>ID фильма на IMDb: <span>tt0816692</span></li>
+                <li>Ссылка на страницу фильма на Кинопоиске: <span>https://www.kinopoisk.ru/film/258687/</span></li>
+                <li>Ссылка на страницу фильма на IMDb: <span>https://www.imdb.com/title/tt0816692/</span></li>
+                <li>Название фильма: <span>Интерстеллар</span></li>
+            </ul>
+            <p class="placeholder__note">⚡ Рекомендуется использовать ID или ссылку Кинопоиска для точного поиска.</p>
+        </div>
+        <div class="player hidden">
+            <div class="kinobox_player"></div>
+        </div>
+    </main>
+</div>
+<script src="https://kinobox.tv/kinobox.min.js"></script>
+<script>
+    const form = document.querySelector('form');
+    const input = document.querySelector('input[name="q"]');
+
+    function getQuery() {
+        const params = new URLSearchParams(location.search);
+        if (params.has('q')) {
+            const value = params.get('q').trim();
+            if (value.includes('kinopoisk.ru') || value.includes('imdb.com')) {
+                const match = value.match(/\/(?:film|series|title)\/(?<id>(tt)*\d+)/);
+                return match.groups.id;
+            }
+            return decodeURI(value);
+        }
+        return '';
+    }
+
+    function updateView() {
+        const placeholder = document.querySelector('.placeholder');
+        const player = document.querySelector('.player');
+        if (getQuery() === '') {
+            placeholder.classList.remove('hidden');
+            player.classList.add('hidden');
+        } else {
+            placeholder.classList.add('hidden');
+            player.classList.remove('hidden');
+            initPlayer();
+        }
+    }
+
+    function initPlayer() {
+        new Kinobox('.kinobox_player', {
+            token: '0e883d3e7f1c4675a312862ef3655387',
+            search: {
+                query: getQuery()
+            }
+        }).init();
+    }
+
+    input.value = getQuery();
+    updateView();
+</script>
 
 </div>
 </div>
