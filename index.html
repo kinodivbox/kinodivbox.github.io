@@ -159,7 +159,7 @@ ID фильма на Кинопоиске: 258687<br />
                             window.location.href = 'https://kinodivbox.github.io/#' + yohoho.dataset.kinopoisk;
                             return;
                         }
-                        window.location.hash = 'https://kinodivbox.github.io/#' + yohoho.dataset.kinopoisk;
+                        window.location.hash = '#' + yohoho.dataset.kinopoisk;
                         document.title = 'КиноПоиск: ' + yohoho.dataset.kinopoisk;
                     }
                 } else if (/^\d+$/.test(title.value)) {
@@ -168,7 +168,7 @@ ID фильма на Кинопоиске: 258687<br />
                         window.location.href = 'https://kinodivbox.github.io/#' + yohoho.dataset.kinopoisk;
                         return;
                     }
-                    window.location.hash = 'https://kinodivbox.github.io/#' + yohoho.dataset.kinopoisk;
+                    window.location.hash = '#' + yohoho.dataset.kinopoisk;
                     document.title = 'КиноПоиск: ' + yohoho.dataset.kinopoisk;
                 } else {
                     yohoho.dataset.title = encodeURIComponent(title.value);
@@ -176,7 +176,7 @@ ID фильма на Кинопоиске: 258687<br />
                         window.location.href = 'https://kinodivbox.github.io/#' + yohoho.dataset.title;
                         return;
                     }
-                    window.location.hash = 'https://kinodivbox.github.io/#' + yohoho.dataset.title;
+                    window.location.hash = '#' + yohoho.dataset.title;
                     document.title = title.value;
                 }
                 items = [];
