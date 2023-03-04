@@ -1,0 +1,160 @@
+<style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            font-size: 16px;
+            color: #dddddd;
+            background: #202020;
+        }
+
+        a {
+           color: #666cff;
+        }
+
+        a:hover {
+            color: #666cff;
+        }
+
+        svg {
+            vertical-align: top;
+            fill: #dddddd;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .container {
+            padding:  16px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin: 16px 0 32px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        nav a {
+            color: #bbbbbb;
+            text-decoration: none;
+            border-bottom: solid 2px #303030;
+        }
+
+        .logo {
+            font-weight: 600;
+            color: #dddddd;
+        }
+
+        /* Search */
+        form {
+            position: relative;
+            display: flex;
+            margin-bottom: 32px;
+        }
+
+        .search__input {
+            flex: 1;
+            min-width: 200px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 18px;
+            color: #dddddd;
+            background: #303030;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px #111111;
+            padding: 12px 16px;
+        }
+
+        .search__input:focus {
+            background: #383838;
+            outline: none;
+        }
+
+        .search__button {
+            position: absolute;
+            right: 4px;
+            background: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 12px;
+        }
+
+        .search__button svg {
+            fill: #9e9e9e;
+        }
+
+        .search__button:hover svg {
+            fill: #dddddd;
+        }
+
+        .search__button:active {
+            top: 1px;
+        }
+
+        /* Placeholder */
+        .placeholder {
+            background: #282828;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px #111111;
+            padding: 16px;
+        }
+
+        .placeholder__title {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .placeholder__list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 0;
+        }
+
+        .placeholder__list li {
+            line-height: 1.5;
+            margin-left: 32px;
+        }
+
+        .placeholder__list span {
+            font: 16px 'Consolas', monospace;
+            color: #dddddd;
+            background: #383838;
+            border-radius: 4px;
+            padding: 2px 5px;
+        }
+
+        .placeholder__note {
+            margin-top: 16px;
+        }
+
+        /* Player */
+        .player {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            background: #282828;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px #111111;
+            margin-bottom: 32px;
+        }
+
+        .kinobox_player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #111111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffd100' style='animation: loader_spin 2s linear infinite;'%3E%3Cstyle%3E%0A@keyframes loader_spin %7Bfrom %7Btransform: rotate(0deg);%7D to %7Btransform: rotate(360deg);%7D%7D%0A%3C/style%3E%3Cpath d='M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z'%3E%3C/path%3E%3C/svg%3E") no-repeat center;
+            background-size: 64px;
+        }
+    </style>
