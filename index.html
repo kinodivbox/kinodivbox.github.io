@@ -69,20 +69,24 @@
 </ul>
 
 <p class="placeholder__note" style="text-align: center;"><span style="color:#ffff00;"><strong><span style="font-size:18px;">⚡ Рекомендуется использовать ID или ссылку Кинопоиска для точного поиска.</span></strong></span></p>
-
 		
-<!--uSpoiler--><div class="uSpoilerClosed" id="uSpoilerwEBZnz"><div class="uSpoilerButBl"><input type="button" class="uSpoilerButton" onclick="if($('#uSpoilerwEBZnz')[0]){if ($('.uSpoilerText',$('#uSpoilerwEBZnz'))[0].style.display=='none'){$('.uSpoilerText',$('#uSpoilerwEBZnz'))[0].style.display='';$('.uSpoilerButton',$('#uSpoilerwEBZnz')).val('Закрыть: Live twitch');$('#uSpoilerwEBZnz').attr('class','uSpoilerOpened');}else {$('.uSpoilerText',$('#uSpoilerwEBZnz'))[0].style.display='none';$('.uSpoilerButton',$('#uSpoilerwEBZnz')).val('Открыть: Live twitch');$('#uSpoilerwEBZnz').attr('class','uSpoilerClosed');}}" value="Открыть: Live twitch"/></div> 
-<div class="uSpoilerText" style="display:none;"><!--ust--><!--IMG2--><center>
+<p style="text-align: center;">
+<span style="font-size:20px;"><strong><a href="javascript://" onclick="$('#ID').slideToggle('slow');"><span style="color:#FFFF00;"><span style="background-color:#000000;">Открыть: Live twitch</span></span></a></strong></span></p>
+
+<div id="ID" style="display: none;">
+	<center>
 <div id="twitch-embed"></div>
 <script src="https://player.twitch.tv/js/embed/v1.js"></script>
 <script type="text/javascript">
   new Twitch.Player("twitch-embed", {
-width: 720,
-height: 400,
+  width: 720,
+  height: 400,
     channel: "kinodivbox"
   });
 </script>
-</center></a><!--IMG2--><!--/ust--></div></div><!--/uSpoiler-->
+</center>
+<div id="hdgoplayer">&nbsp;</div>
+</div>
 		
 <p style="text-align: center;"><br />
 <p class="text-muted">Онлайн и торренты <span id="count">335 201</span> фильмов и сериалов.</p>
