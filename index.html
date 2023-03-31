@@ -69,7 +69,25 @@
 </ul>
 
 <p class="placeholder__note" style="text-align: center;"><span style="color:#ffff00;"><strong><span style="font-size:18px;">⚡ Рекомендуется использовать ID или ссылку Кинопоиска для точного поиска.</span></strong></span></p>
-		
+
+
+<div id="donate-button-container">
+<div id="donate-button"></div>
+<script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
+<script>
+PayPal.Donation.Button({
+env:'production',
+hosted_button_id:'4Y9BR24J4S584',
+image: {
+src:'https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif',
+alt:'Donate with PayPal button',
+title:'PayPal - The safer, easier way to pay online!',
+}
+}).render('#donate-button');
+</script>
+</div>
+
+
 <p style="text-align: center;"><br />
 <p class="text-muted">Онлайн и торренты <span id="count">335 201</span> фильмов и сериалов.</p>
     </div>
