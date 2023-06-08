@@ -73,12 +73,12 @@
     }
 
     function initPlayer() {
-        new Kinobox('.kinobox_player', {
-            token: '0e883d3e7f1c4675a312862ef3655387',
-            search: {
+    new Kinobox('.kinobox_player', {
+        search: {
                 query: getQuery()
-            }
-        }).init();
+        },
+        'players':{'Collaps':{'enable':true,'position':1,'token':'0c54da2301073eafd15dcefc417e20e3'},'Bazon':{'enable':true,'position':2,'token':'fd96dcfe0417aa1f2d99b595658afbf4'},'Videocdn':{'enable':true,'position':3,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'},'Hdvb':{'enable':true,'position':4,'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Kodik':{'enable':true,'position':5,'token':'a86ae0a2a3430b4daae6b1125acf29d3'}},
+    }).init();
     }
 
     input.value = getQuery();
