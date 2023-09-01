@@ -46,43 +46,74 @@
     const form = document.querySelector('form');
     const input = document.querySelector('input[name="q"]');
 
-function getQuery() { const params = new URLSearchParams(location.search); if (params.has('q')) { const value = params.get('q').trim(); if (value.includes('kinopoisk.ru') || value.includes('imdb.com')) { const match = value. match(/\/(?:film|series|title)\/(?<id>(tt)*\d+)/); return match.groups.id; } return decodeURI(value); } return "; } function updateView() { const placeholder = document.querySelector('.placeholder'); const player = document.querySelector(".player"); if (getQuery() === ") { placeholder.classList.delete("hidden"); player.classList.add("hidden"); } more { placeholder.classList.add("hidden"); player.classList.remove("hidden"); initPlayer(); } } function initPlayer() { new Kinobox('.kinobox_player', { search: { query: getQuery() }, 'players':{'collapse':{'enable':true,'position':1,'token':'0c54da2301073eafd15dcefc417e20e3'},'bason':{'enable':true,'position':2,'token ':'fd96dcfe0417aa1f2d99b595658afbf4'},'Videocdn':{'enable':true,'position':3,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'},'Hdvb':{'enable':true,'position':4, 'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Kodik':{'enable':true,'position':5,'token':'a86ae0a2a3430b4daae6b1125acf29d3'}}, }).init(); } input.value = getQuery(); updateView(); </script>
+id>(tt)*\d+)/);
+                return match.groups.id;
+            }
+            return decodeURI(value);
+        }
+        return ";
+    }
+
+    function updateView() {
+        const placeholder = document.querySelector('.placeholder');
+        const player = document.querySelector(".player");
+        if (getQuery() === ") {
+            placeholder.classList.delete("hidden");
+            player.classList.add("hidden");
+        } more {
+            placeholder.classList.add("hidden");
+            player.classList.remove("hidden");
+            initPlayer();
+        }
+    }
+
+    function initPlayer() {
+    new Kinobox('.kinobox_player', {
+        search: {
+                query: getQuery()
+        },
+        'players':{'collapse':{'enable':true,'position':1,'token':'0c54da2301073eafd15dcefc417e20e3'},'bason':{'enable':true,'position':2,'token ':'fd96dcfe0417aa1f2d99b595658afbf4'},'Videocdn':{'enable':true,'position':3,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'},'Hdvb':{'enable':true,'position':4, 'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Kodik':{'enable':true,'position':5,'token':'a86ae0a2a3430b4daae6b1125acf29d3'}},
+    }).init();
+    }
+
+    input.value = getQuery();
+    updateView();
+</script>
 	
 </Div >
-
-<нижний колонтитул>
-    <Div класс="footer_body">
-        <a href="Http://kinoglobus.at.ua/" цель=«_blank»>KINOGLOBUS</a>
-	<a href="https://t.me/ +7rdptT_SDxVlZjgy" цель=«_blank»>ТЕЛЕГРАММА</a>
-	<a href="https://www.kinopoisk.ru/lists/films/" цель=«_blank»>СПИСОК КОНТЕНТА</a>	
-    </Div >
-</нижний колонтитул>
-</центр>
+<footer>
+    <div class="footer_body">
+        <a href="Http://kinoglobus.at.ua/" target="_blank">KINOGLOBUS</a>
+<a href="https://t.me/ +7rdptT_SDxVlZjgy" target="_blank">TELEGRAM</a>
+<a href="https://www.kinopoisk.ru/lists/films/" target="_blank">CONTENT LIST</a>
+    </div>
+</footer>
+</center>
 	
-<скрипт > 
- document.oncontextmenu = функция() { 
- возвращение ложный; 
- }; 
- document.onkeydown = функция(e) { 
- если (е.keyCode == 123) { 
- возвращение ложный; 
- } 
- если (е.CtrlKey && е.ShiftKey && е.keyCode == 'Я'.charCodeAt(0)) { 
- возвращение ложный; 
- } 
- если (е.CtrlKey && е.ShiftKey && е.keyCode == 'J'.charCodeAt(0)) { 
- возвращение ложный; 
- } 
- если (е.CtrlKey && е.keyCode == 'U'.charCodeAt(0)) { 
- возвращение ложный; 
- } 
+<script>
+ document.oncontextmenu = function() {
+ return false;
+ };
+ document.onkeydown = function(e) {
+ if (e.keyCode == 123) {
+ return false;
+ }
+ if (e.CtrlKey && e.ShiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+ return false;
+ }
+ if (e.CtrlKey && e.ShiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+ return false;
+ }
+ if (e.CtrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+ return false;
+ }
 
- если (е.CtrlKey && е.ShiftKey && е.keyCode == «С».charCodeAt(0)) { 
- возвращение ложный; 
- } 
- } 
-</скрипт >
-
+ if (e.CtrlKey && e.ShiftKey && e.keyCode == "C".charCodeAt(0)) {
+ return false;
+ }
+ }
+</script>
+	
 <центр>
 <!-- hit.ua -->
 <a href='Http://hit.ua/?х = 39011' цель='_blank'>
