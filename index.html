@@ -46,44 +46,7 @@
     const form = document.querySelector('form');
     const input = document.querySelector('input[name="q"]');
 
-    function getQuery() {
-        const params = new URLSearchParams(location.search);
-        if (params.has('q')) {
-            const value = params.get('q').trim();
-            if (value.includes('kinopoisk.ru') || value.includes('imdb.com')) {
-                const match = value.match(/\/(?:film|series|title)\/(?<id>(tt)*\d+)/);
-                return match.groups.id;
-            }
-            return decodeURI(value);
-        }
-        возвращение «;
-    }
-
-    функция updateView() {
-        конст заполнитель = документ.querySelector('.placeholder');
-        конст игрок = документ.querySelector(«.player»);
-        если (getQuery() === «) {
-            placeholder.classList.удалить(«скрытый»);
-            player.classList.добавить(«скрытый»);
-        } еще {
-            placeholder.classList.добавить(«скрытый»);
-            player.classList.удалить(«скрытый»);
-            initPlayer();
-        }
-    }
-
-    функция initPlayer() {
-    новый Kinobox('.kinobox_player', {
-        поиск: {
-                запрос: getQuery()
-        },
-        «игроки»:{«Свертывания»:{'enable':правда,'позиция':1,«Токен»:'0c54da2301073eafd15dcefc417e20e3'},«Базон»:{'enable':правда,'position':2,'token':'fd96dcfe0417aa1f2d99b595658afbf4'},'Videocdn':{'enable':true,'position':3,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'},'Hdvb':{'enable':true,'position':4,'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Kodik':{'enable':true,'position':5,'token':'a86ae0a2a3430b4daae6b1125acf29d3'}},
-    }).init();
-    }
-
-    input.ценность = getQuery();
-    updateView();
-</скрипт>
+function getQuery() { const params = new URLSearchParams(location.search); if (params.has('q')) { const value = params.get('q').trim(); if (value.includes('kinopoisk.ru') || value.includes('imdb.com')) { const match = value. match(/\/(?:film|series|title)\/(?<id>(tt)*\d+)/); return match.groups.id; } return decodeURI(value); } return "; } function updateView() { const placeholder = document.querySelector('.placeholder'); const player = document.querySelector(".player"); if (getQuery() === ") { placeholder.classList.delete("hidden"); player.classList.add("hidden"); } more { placeholder.classList.add("hidden"); player.classList.remove("hidden"); initPlayer(); } } function initPlayer() { new Kinobox('.kinobox_player', { search: { query: getQuery() }, 'players':{'collapse':{'enable':true,'position':1,'token':'0c54da2301073eafd15dcefc417e20e3'},'bason':{'enable':true,'position':2,'token ':'fd96dcfe0417aa1f2d99b595658afbf4'},'Videocdn':{'enable':true,'position':3,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'},'Hdvb':{'enable':true,'position':4, 'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Kodik':{'enable':true,'position':5,'token':'a86ae0a2a3430b4daae6b1125acf29d3'}}, }).init(); } input.value = getQuery(); updateView(); </script>
 	
 <центр>
 
