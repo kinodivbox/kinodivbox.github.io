@@ -14,7 +14,7 @@
 <div class="container">
     <header>
         <nav>
-            <a class="logo" href="/kinodivbox">KinoDivBox - Поиск</a>
+            <a class="logo" href="/">KinoDivBox - Поиск</a>
             <a href="/contact" target="_blank">Контакты -</a>
         </nav>
     </header>
@@ -56,124 +56,123 @@
             }
             return decodeURI(value);
         }
-        return '';
+        возвращение «;
     }
 
-    function updateView() {
-        const placeholder = document.querySelector('.placeholder');
-        const player = document.querySelector('.player');
-        if (getQuery() === '') {
-            placeholder.classList.remove('hidden');
-            player.classList.add('hidden');
-        } else {
-            placeholder.classList.add('hidden');
-            player.classList.remove('hidden');
+    функция updateView() {
+        конст заполнитель = документ.querySelector('.placeholder');
+        конст игрок = документ.querySelector(«.player»);
+        если (getQuery() === «) {
+            placeholder.classList.удалить(«скрытый»);
+            player.classList.добавить(«скрытый»);
+        } еще {
+            placeholder.classList.добавить(«скрытый»);
+            player.classList.удалить(«скрытый»);
             initPlayer();
         }
     }
 
-    function initPlayer() {
-    new Kinobox('.kinobox_player', {
-        search: {
-                query: getQuery()
+    функция initPlayer() {
+    новый Kinobox('.kinobox_player', {
+        поиск: {
+                запрос: getQuery()
         },
-        'players':{'Collaps':{'enable':true,'position':1,'token':'0c54da2301073eafd15dcefc417e20e3'},'Bazon':{'enable':true,'position':2,'token':'fd96dcfe0417aa1f2d99b595658afbf4'},'Videocdn':{'enable':true,'position':3,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'},'Hdvb':{'enable':true,'position':4,'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Kodik':{'enable':true,'position':5,'token':'a86ae0a2a3430b4daae6b1125acf29d3'}},
+        «игроки»:{«Свертывания»:{'enable':правда,'позиция':1,«Токен»:'0c54da2301073eafd15dcefc417e20e3'},«Базон»:{'enable':правда,'position':2,'token':'fd96dcfe0417aa1f2d99b595658afbf4'},'Videocdn':{'enable':true,'position':3,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'},'Hdvb':{'enable':true,'position':4,'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Kodik':{'enable':true,'position':5,'token':'a86ae0a2a3430b4daae6b1125acf29d3'}},
     }).init();
     }
 
-    input.value = getQuery();
+    input.ценность = getQuery();
     updateView();
-</script>
+</скрипт>
 	
-<center>
+<центр>
 
-<div id="donate-button-container">
-<div id="donate-button"></div>
-<script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
-<script>
-PayPal.Donation.Button({
-env:'production',
+<Div ID="Донат-кнопка-контейнер">
+<Div ID="кнопка пожертвования"></Div >
+<скрипт src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset=«UTF-8»></скрипт >
+<скрипт >
+PayPal.Пожертвование.Кнопка({
+env:«производство»,
 hosted_button_id:'4Y9BR24J4S584',
-image: {
+изображение: {
 src:'https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif',
-alt:'Donate with PayPal button',
-title:'PayPal - The safer, easier way to pay online!',
+альт:«Пожертвовать с помощью кнопки PayPal»,
+название:«PayPal - более безопасный и простой способ оплаты онлайн!«,
 }
-}).render('#donate-button');
-</script>
-</div>
+}).рендеринг('# donate-кнопка');
+</скрипт >
+</Div >
 
-<footer>
-    <div class="footer_body">
-        <a href="http://kinoglobus.at.ua/" target="_blank">KINOGLOBUS</a>
-	<a href="https://t.me/+7rdptT_SDxVlZjgy" target="_blank">TELEGRAM</a>
-	<a href="https://www.kinopoisk.ru/lists/films/" target="_blank">СПИСОК КОНТЕНТА</a>	
-	<a href="https://kinodivbox.github.io" target="_blank">МОДУЛЬ ПОИСКА 1</a>
-    </div>
-</footer>
-</center>
+<нижний колонтитул>
+    <Div класс="footer_body">
+        <a href="Http://kinoglobus.at.ua/" цель=«_blank»>KINOGLOBUS</a>
+	<a href="https://t.me/ +7rdptT_SDxVlZjgy" цель=«_blank»>ТЕЛЕГРАММА</a>
+	<a href="https://www.kinopoisk.ru/lists/films/" цель=«_blank»>СПИСОК КОНТЕНТА</a>	
+    </Div >
+</нижний колонтитул>
+</центр>
 	
-<script> 
- document.oncontextmenu = function() { 
- return false; 
+<скрипт > 
+ document.oncontextmenu = функция() { 
+ возвращение ложный; 
  }; 
- document.onkeydown = function(e) { 
- if (e.keyCode == 123) { 
- return false; 
+ document.onkeydown = функция(e) { 
+ если (е.keyCode == 123) { 
+ возвращение ложный; 
  } 
- if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { 
- return false; 
+ если (е.CtrlKey && е.ShiftKey && е.keyCode == 'Я'.charCodeAt(0)) { 
+ возвращение ложный; 
  } 
- if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { 
- return false; 
+ если (е.CtrlKey && е.ShiftKey && е.keyCode == 'J'.charCodeAt(0)) { 
+ возвращение ложный; 
  } 
- if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { 
- return false; 
+ если (е.CtrlKey && е.keyCode == 'U'.charCodeAt(0)) { 
+ возвращение ложный; 
  } 
 
- if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { 
- return false; 
+ если (е.CtrlKey && е.ShiftKey && е.keyCode == «С».charCodeAt(0)) { 
+ возвращение ложный; 
  } 
  } 
-</script>
+</скрипт >
 
-<center>
+<центр>
 <!-- hit.ua -->
-<a href='http://hit.ua/?x=39011' target='_blank'>
-<script language="javascript" type="text/javascript"><!--
-Cd=document;Cr="&"+Math.random();Cp="&s=1";
-Cd.cookie="b=b";if(Cd.cookie)Cp+="&c=1";
-Cp+="&t="+(new Date()).getTimezoneOffset();
-if(self!=top)Cp+="&f=1";
-//--></script>
-<script language="javascript1.1" type="text/javascript"><!--
-if(navigator.javaEnabled())Cp+="&j=1";
-//--></script>
-<script language="javascript1.2" type="text/javascript"><!--
-if(typeof(screen)!='undefined')Cp+="&w="+screen.width+"&h="+
-screen.height+"&d="+(screen.colorDepth?screen.colorDepth:screen.pixelDepth);
-//--></script>
-<script language="javascript" type="text/javascript"><!--
-Cd.write("<img src='//c.hit.ua/hit?i=39011&g=0&x=4"+Cp+Cr+
-"&r="+escape(Cd.referrer)+"&u="+escape(window.location.href)+
-"' border='0' width='88' height='15' "+
+<a href='Http://hit.ua/?х = 39011' цель='_blank'>
+<скрипт язык=«Javascript» тип="текст / Javascript"><!--
+Cd=document;Cr="&»+ Математика.случайный(); Cp ="& s = 1";
+Cd.печенье=«Б = б»;если(Cd.печенье)Cp + ="& c = 1";
+Cp+="& T ="+(новый Свидание()).getTimezoneOffset();
+если(себя!= Вверх)Cp + ="& F = 1";
+//--></скрипт >
+<скрипт язык="javascript1.1" тип="текст / Javascript"><!--
+если(навигатор.javaEnabled())Cp + ="& J = 1";
+//--></скрипт >
+<скрипт язык="javascript1.2" тип="текст / Javascript"><!--
+если(тип(экран)=!«Неопределенный»)Cp + ="& W ="+ экран.ширина+"& h ="+
+screen.высота+"& D ="+(экран.colorDepth?экран.colorDepth:экран.pixelDepth);
+//--></скрипт >
+<скрипт язык=«Javascript» тип="текст / Javascript"><!--
+Cd.пиши("<img src='//c.hit.ua/hit?i=39011&g=0&x=4"+ Ср + Кр +
+"& r ="+побег(Cd.реферер)+"& U ="+побег(окно.расположение.href)+
+"'border = '0' width = '88' height = '15' "+
 "alt='hit.ua: посетителей за сегодня' title='hit.ua: посетителей за сегодня'/>");
-//--></script>
+//--></скрипт >
 <noscript>
-<img src='//c.hit.ua/hit?i=39011&amp;g=0&amp;x=4' border='0' width='88' height='15' alt='hit.ua: посетителей за сегодня' title='hit.ua: посетителей за сегодня'/>
+<img src='//c.hit.ua/hit?i = 39011 & amp; g = 0 & amp; x = 4 ' граница='0' ширина='88' высота='15' альт='hit.ua: посетителей за сегодня' название='hit.ua: посетителей за сегодня'/>
 </noscript></a>
 <!-- / hit.ua -->
 
 <!--LiveInternet counter--><a href="https://www.liveinternet.ru/click"
-target="_blank"><img id="licnt4BAD" width="88" height="15" style="border:0" 
-title="LiveInternet: показано число посетителей за сегодня"
-src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
-alt=""/></a><script>(function(d,s){d.getElementById("licnt4BAD").src=
-"https://counter.yadro.ru/hit?t23.6;r"+escape(d.referrer)+
-((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
-(s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
-";h"+escape(d.title.substring(0,150))+";"+Math.random()})
-(document,screen)</script><!--/LiveInternet-->
-</center>
+цель=«_blank»><img ID="licnt4BAD" ширина=«88» высота=«15» стиль="граница:0" 
+название="LiveInternet: показано число посетителей за сегодни"
+src="данные: изображение / gif; base64, R0lGODlhAQABAIAAAAAAAP /// yH5BAEAAAEALAAAAAAAAAAAABAAABA7"
+альт=«»/></a><скрипт >(функция(d,s){д.getElementById("licnt4BAD").src=
+"https://counter.yadro.ru/hit?t23,6; r "+побег(д.реферер)+
+((тип(s) == «Неопределенный»)?«»:«; S»+ s.ширина+"*»+ s.высота+"*»+
+(s.colorDepths?colorDepth: s.pixelDepth))+«; U»+побег(д.URL)+
+«; h»+побег(д.название.подстрока(0,150))+«;»+ Математика.случайный()})
+(документ, экран)</скрипт ><!--/LiveInternet-->
+</центр>
 </body>
 </html>
