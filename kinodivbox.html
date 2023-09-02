@@ -248,15 +248,12 @@
         if (['4624950'].includes(query)) {
             document.querySelector('.player').innerHTML = '<h1 style="text-align: center; padding: 32px;">404. Not found</h1>';
         } else {
-<div class="kinobox_player"></div>
-<script>
-    new Kinobox('.kinobox_player', {
-        search: {
-            query: getQuery()
-            }
-        },
-        'players':{'Alloha':{'enable':true,'position':1,'token':'token'},'Bazon':{'enable':true,'position':3,'token':'fd96dcfe0417aa1f2d99b595658afbf4'},'Collaps':{'enable':true,'position':5,'token':'0c54da2301073eafd15dcefc417e20e3'},'Hdvb':{'enable':true,'position':6,'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Videocdn':{'enable':true,'position':9,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'}},
-    }).init();
+            new Kinobox('.kinobox_player', {
+                token: '0e883d3e7f1c4675a312862ef3655387',
+                search: {
+                    query: getQuery()
+                }
+            }).init();
         }
     }
 
