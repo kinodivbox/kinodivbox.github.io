@@ -249,17 +249,12 @@
             document.querySelector('.player').innerHTML = '<h1 style="text-align: center; padding: 32px;">404. Not found</h1>';
         } else {
             new Kinobox('.kinobox_player', {
-                search: {
+        search: {
                     query: getQuery()
-                },
-                'players':{'Collaps':
-	{'enable':true,'position':1,'token':'0c54da2301073eafd15dcefc417e20e3'},'Collaps':
-	{'enable':true,'position':3,'token':'fd96dcfe0417aa1f2d99b595658afbf4'},'Bazon':
-	{'enable':true,'position':5,'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Hdvb':
-	{'enable':true,'position':6,'token':'{token}'},'Kodik':
-	{'enable':true,'position':8,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'},'Videocdn':
-	{'enable':true,'position':9,'token':'{token}''Alloha':}},
-            }).init()
+                }
+        },
+        'players':{'Alloha':{'enable':true,'position':1,'token':'{token}'},'Bazon':{'enable':true,'position':3,'token':'fd96dcfe0417aa1f2d99b595658afbf4'},'Collaps':{'enable':true,'position':5,'token':'0c54da2301073eafd15dcefc417e20e3'},'Hdvb':{'enable':true,'position':6,'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Kodik':{'enable':true,'position':8,'token':'{token}'},'Videocdn':{'enable':true,'position':9,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'}},
+    }).init();
         }
     }
 
