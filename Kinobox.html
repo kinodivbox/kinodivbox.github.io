@@ -20,10 +20,6 @@
 
     <meta property="vk:image" content="/cover.png"/>
 
-    <script src="https://kinomix.web.app/vue.global.prod.js"></script>
-
-    <script type="module" src="https://kinomix.web.app/main.min.js"></script>
-
     <script src="https://kinobox.tv/kinobox.min.js"></script>
 
 </head>
@@ -92,86 +88,7 @@
 
         </div>
 
-        <div class="popular">
-
-            <div class="popular_switch">
-
-                <button @click="setPopular('films')" :class="{ active: isPopular('films') }">Популярные фильмы</button>
-
-                <button @click="setPopular('series')" :class="{ active: isPopular('series') }"> Популярные сериалы
-
-                </button>
-
-            </div>
-
-            <div class="loader" v-if="isFetching"></div>
-
-            <div class="covers">
-
-                <div class="cover" v-for="film in popular">
-
-                    <a class="cover_poster" :href="`.#${film.id}`" @click.prevent="toPlayer(film.id)">
-
-                        <img class="cover_image" :src="coverUrl(film.posterUrl)" loading="lazy" alt="">
-
-                    </a>
-
-                    <div class="cover_title">{{ film.primaryTitle }}</div>
-
-                    <div class="cover_year">{{ film.year }}</div>
-
-                    <div class="cover_rating" :class="`rating-${filmRatingBase(film.rating)}`">{{ filmRating(film.rating) }}</div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="section section_results" v-else-if="section === 2">
-
-        <div class="results">
-
-            <div class="results_header">Результаты поиска:</div>
-
-            <div class="loader" v-if="isFetching"></div>
-
-            <div class="results_message" v-if="isFetching === false && searchResults.length === 0">
-
-                <div class="results_empty">Ничего не найдено.</div>
-
-            </div>
-
-            <div class="covers">
-
-                <div class="cover" v-for="film in searchResults">
-
-                    <a class="cover_poster" :href="`.#${film.id}`" @click.prevent="toPlayer(film.id)">
-
-                        <img class="cover_image" :src="posterUrl(film.id)" loading="lazy" alt="">
-
-                    </a>
-
-                    <div class="cover_title">{{ film.primaryTitle }}</div>
-
-                    <div class="cover_year">{{ film.year }}</div>
-
-                    <div class="cover_rating" :class="`rating-${filmRatingBase(film.rating)}`">{{ filmRating(film.rating) }}</div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="section section_player" v-else-if="section === 3">
-
-        <div class="kinobox_player"></div>
-
+        
     </section>
 
 </main>
