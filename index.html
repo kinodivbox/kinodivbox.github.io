@@ -1,13 +1,13 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta name="hdvb" content="4456e5d1f1098f3d61fa09b6f5ca7da9:f48e8f3286859c863339d291431f0535" />
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-  <title>KinoDivBox - Поисковик фильмы сериалы мультфильмы аниме трейлер смотреть онлайн</title>	
-<meta name="keywords" content="KinoDivBox, KingPoisk, king, poisk, кинопоиск, hd720, full, 4k, 1080p, kinopoisk, Kingsearch, aggregator, player, torvdn, kodik, kinoglobus, Найди, Своё, Кино, Популярных Видеобалансеров, смотреть фильмы онлайн, фильмы онлайн в хорошем качестве, кино смотреть онлайн, смотреть сериалы онлайн, сериалы онлайн в хорошем качестве, смотреть фильмы бесплатно, онлайн-кинотеатр, Поиск">
-<meta name="description" content="Смотрите бесплатно на сайте KinoDivBox - фильмы, сериалы и телепередачи в хорошем качестве - Найди Своё Кино">
+  <title>KinoDivBox - ФИЛЬМЫ СЕРИАЛЫ МУЛЬТФИЛЬМЫ АНИМЕ ОНЛАЙН ТРЕЙЛЕРЫ</title>	
+<meta name="keywords" content="KinoDivBox, KingPoisk, Kingsearch, aggregator_player, torvdn.github.io, kodik.at.ua, kodik, kinoglobus.at.ua, kinoglobus, kinopoisk, Найди Своё Кино, Популярных Видеобалансеров, смотреть фильмы онлайн, фильмы онлайн в хорошем качестве, кино смотреть онлайн, смотреть сериалы онлайн, сериалы онлайн в хорошем качестве, смотреть фильмы бесплатно, онлайн-кинотеатр, Поиск">
+<meta name="description" content="Смотрите бесплатно на сайте KinoDivBox - фильмы, сериалы и телепередачи в хорошем качестве">
 	
   <meta property="og:image" content="/logo.png">
   <meta property="og:image:secure_url" content="/logo.png">
@@ -17,189 +17,253 @@
   <meta name="apple-mobile-web-app-title" content="kinodivbox">
   <meta name="application-name" content="kinodivbox">
 
- <link rel="apple-touch-icon" sizes="180x180" href="kinodivbox.github.io/apple-touch-icon.png">
- <link rel="icon" type="image/png" sizes="32x32" href="https://kinodivbox.github.io/favicon-32x32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="kinodivbox.github.io/favicon-16x16.png">
- <link rel="mask-icon" href="https://raw.githubusercontent.com/kinodivbox/kinodivbox.github.io/546a7fdd50b94bb9a3bd39fc163302f5454694b8/safari-pinned-tab.svg" color="#5bbad5">
- <link rel="stylesheet" href="/css_js/common.css?v=0.0.2">
- <script src="/css_js/main.min.js" async></script>
- <script src="/css_js/run.min.js" async></script>
- <script src="/css_js/yo.js"></script>
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            font-size: 16px;
+            color: #dddddd;
+            background: #202020;
+        }
+
+        a {
+           color: #666cff;
+        }
+
+        a:hover {
+            color: #666cff;
+        }
+
+        svg {
+            vertical-align: top;
+            fill: #dddddd;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .container {
+            padding:  16px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin: 16px 0 32px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        nav a {
+            color: #bbbbbb;
+            text-decoration: none;
+            border-bottom: solid 2px #303030;
+        }
+
+        .logo {
+            font-weight: 600;
+            color: #dddddd;
+        }
+
+        /* Search */
+        form {
+            position: relative;
+            display: flex;
+            margin-bottom: 32px;
+        }
+
+        .search__input {
+            flex: 1;
+            min-width: 200px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 18px;
+            color: #dddddd;
+            background: #303030;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px #111111;
+            padding: 12px 16px;
+        }
+
+        .search__input:focus {
+            background: #383838;
+            outline: none;
+        }
+
+        .search__button {
+            position: absolute;
+            right: 4px;
+            background: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 12px;
+        }
+
+        .search__button svg {
+            fill: #9e9e9e;
+        }
+
+        .search__button:hover svg {
+            fill: #dddddd;
+        }
+
+        .search__button:active {
+            top: 1px;
+        }
+
+        /* Placeholder */
+        .placeholder {
+            background: #282828;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px #111111;
+            padding: 16px;
+        }
+
+        .placeholder__title {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .placeholder__list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 0;
+        }
+
+        .placeholder__list li {
+            line-height: 1.5;
+            margin-left: 32px;
+        }
+
+        .placeholder__list span {
+            font: 16px 'Consolas', monospace;
+            color: #dddddd;
+            background: #383838;
+            border-radius: 4px;
+            padding: 2px 5px;
+        }
+
+        .placeholder__note {
+            margin-top: 16px;
+        }
+
+        /* Player */
+        .player {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            background: #282828;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px #111111;
+            margin-bottom: 32px;
+        }
+
+        .kinobox_player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #111111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffd100' style='animation: loader_spin 2s linear infinite;'%3E%3Cstyle%3E%0A@keyframes loader_spin %7Bfrom %7Btransform: rotate(0deg);%7D to %7Btransform: rotate(360deg);%7D%7D%0A%3C/style%3E%3Cpath d='M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z'%3E%3C/path%3E%3C/svg%3E") no-repeat center;
+            background-size: 64px;
+        }
+    </style>
 </head>
 <body>
-<main>
- <main>
- <section class="section-top">
- <div class="container">
- <header>
- <a href="/" class="logo">
- <span class="logo-title">KinoDivBox</span>
- <h1 class="logo-blockquote">Найди Своё Кино!</h1>
- </a>
- <nav class="nav" id="navbar">
- <a href="http://kinoglobus.at.ua/" class="nav-item">KINOGLOBUS</a>
- <a href="/contact" class="nav-item">Контакты</a>
- </nav>
- </header>
-<p>&nbsp;</p>
-<div>
-<center>
-	
-<div class="index-background"></div>
-
-<div class="search-line">
-    <div id="yohoho" data-player="collaps,bazon,videocdn,hdvb,alloha,kodik,trailer" data-collaps="0c54da2301073eafd15dcefc417e20e3:kinodivbox.github.io" data-videocdn="NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1" data-bazon="fd96dcfe0417aa1f2d99b595658afbf4" data-hdvb="8a22f8e7684404c3815e3ffa940f00a0:kinodivbox.github.io" data-kodik="a86ae0a2a3430b4daae6b1125acf29d3" data-button="bazon: Плеер {N}, videocdn: Плеер {N}, collaps: Плеер {N}, alloha: Плеер {N}, hdvb: Плеер {N}, kodik: Плеер {N}, trailer: Плеер {N}, torrent: Плеер {N}" data-tv="1" data-resize="1">
-        <div class="brand"></p>
-	<div id="kin-x" data-height="480" data-empty-player="https://raw.githubusercontent.com/kinodivbox/kinodivbox.github.io/master/L4qzjGiZkKI.jpg" data-kinopoisk="999999999999007654567"></div>
-</div>
-       <div class="form form-inline">
-            <input type="text" class="form-control" placeholder="Название фильма / ID kinopoisk.ru/film/666" id="search-title" name="title">
-            <input type="button" id="search" class="btn btn-primary" value="Найти">
+<div class="container">
+    <header>
+        <nav>
+            <a class="logo" href="/kinodivbox">Поиск</a>
+            <a href="https://kinodivbox.github.io" target="_blank">kinodivbox</a>
+        </nav>
+    </header>
+    <main>
+        <form method="get">
+            <input name="q" class="search__input" aria-label="search" placeholder="Поиск фильма">
+            <button class="search__button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
+                </svg>
+            </button>
+        </form>
+        <div class="placeholder hidden">
+            <div class="placeholder__title">Поиск доступен по следующим данным:</div>
+            <ul class="placeholder__list">
+                <li>Название фильма: <span>Интерстеллар</span></li>
+                <li>ID фильма на сайте Кинопоиск: <span>258687</span></li>
+                <li>ID фильма на сайте IMDb: <span>tt0816692</span></li>
+            </ul>
+            <p class="placeholder__note">⚡ Рекомендуется использовать ID или ссылку Кинопоиска для точного поиска.</p>
         </div>
-    </div>
+        <div class="player hidden">
+            <div class="kinobox_player"></div>
+        </div>
+    </main>
 </div>
-	
- <div class="index-seo">
- </div>
-	<p>&nbsp;</p>
-	<footer class="footer">
-    <div class="container">
-	    <div class="brand" style="text-align: center;"><span style="color:#ff0000;"><span style="font-size:18px;">Внимание!</span></span><span style="color:#ffff00;"><span style="font-size:18px;"> Выберите в настройках плеера качество </span></span><span style="color:#ff0000;"><span style="font-size:18px;">4К (2160p)</span></span><span style="color:#ffff00;"><span style="font-size:18px;"> Если не видно плеера отключите расширение </span></span><span style="color:#ff0000;"><span style="font-size:18px;">AdGuard</span></span></div>
-	    <p class="text-muted">Онлайн и торренты <span id="count">335 201</span> фильмов и сериалов.</p>
-    </div>
-</footer>
-	
-
+<script src="https://kinobox.tv/kinobox.min.js"></script>
 <script>
-    WebFont.load({
-        google: {
-            families: ['Neucha']
-        }
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var seo = document.querySelector('.index-seo').innerText;
-        var items = seo.split(' ');
+    const form = document.querySelector('form');
+    const input = document.querySelector('input[name="q"]');
 
-        (function flashWord() {
-            var i = 0;
-            function run(item) {
-                var t = setTimeout(function () {
-                    clearTimeout(t);
-                    document.querySelector('.index-seo').innerHTML = seo.replace(new RegExp(' ' + item + ' ', 'g'), ' <span style="color: #fff">' + item + '</span> ');
-                    if (items.length) {
-                        i = getRandom(0, items.length - 1);
-                        run(items[i].replace(/[^A-Za-zА-Яа-яёЁ0-9]/gim, ''));
-                    }
-                }, 100);
+    function getQuery() {
+        const params = new URLSearchParams(location.search);
+        if (params.has('q')) {
+            const value = params.get('q').trim();
+            if (value.includes('kinopoisk.ru') || value.includes('imdb.com')) {
+                const match = value.match(/\/(?:film|series|title)\/(?<id>(tt)*\d+)/);
+                return match.groups.id;
             }
-            function getRandom(min, max) {
-                min = Math.ceil(min);
-                max = Math.floor(max);
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-            run(items[i]);
-        })();
-
-        (function countMovies() {
-            var date = new Date();
-            var year = date.getUTCFullYear();
-            var month = date.getUTCMonth() + 1;
-            var day = date.getUTCDate();
-            var hours = date.getUTCHours();
-            var minutes = date.getUTCMinutes();
-            var seconds = date.getUTCSeconds();
-            var total = ((year - 2014) * 121680) + (month * 10140) + (day * 338) + (hours * 14) + minutes + seconds;
-            document.querySelector('#count').innerHTML = (total + '').replace(/([0-9]{3})([0-9]{3})/, '$1 $2');
-            setInterval(function () {
-                total += Math.floor(Math.random() * 3);
-                document.querySelector('#count').innerHTML = (total + '').replace(/([0-9]{3})([0-9]{3})/, '$1 $2');
-            }, 1000);
-        })();
-
-        var search = document.querySelector('#search');
-        var title = document.querySelector('#search-title');
-
-        if (window.location.hash) {
-            var hash = window.location.hash.substring(1);
-            if (title && hash) {
-                title.value = decodeURIComponent(hash);
-                parse();
-            }
+            return decodeURI(value);
         }
+        return '';
+    }
 
-        if (search) {
-            search.addEventListener('click', function () {
-                return parse();
-            });
+    function updateView() {
+        const placeholder = document.querySelector('.placeholder');
+        const player = document.querySelector('.player');
+        if (getQuery() === '') {
+            placeholder.classList.remove('hidden');
+            player.classList.add('hidden');
+        } else {
+            placeholder.classList.add('hidden');
+            player.classList.remove('hidden');
+            initPlayer();
         }
+    }
 
-        if (title) {
-            title.addEventListener('keyup', function (event) {
-                event.preventDefault();
-                if (event.keyCode === 13) {
-                    return parse();
+    function initPlayer() {
+        const query = getQuery();
+        if (['4624950'].includes(query)) {
+            document.querySelector('.player').innerHTML = '<h1 style="text-align: center; padding: 32px;">404. Not found</h1>';
+        } else {
+            new Kinobox('.kinobox_player', {
+                token: '0e883d3e7f1c4675a312862ef3655387',
+                search: {
+                    query: getQuery()
                 }
-            });
-        }
+	    }
+	    'players':{'Alloha':{'enable':true,'position':1,'token':'{token}'},'Bazon':{'enable':true,'position':3,'token':'fd96dcfe0417aa1f2d99b595658afbf4'},'Collaps':{'enable':true,'position':5,'token':'0c54da2301073eafd15dcefc417e20e3'},'Hdvb':{'enable':true,'position':6,'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Videocdn':{'enable':true,'position':9,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'}},
+    }).init();
+          }
+    }
 
-        function parse() {
-            var yohoho = document.querySelector('#yohoho');
-            if (title && title.value && yohoho) {
-                if (/kinopoisk\.ru/i.test(title.value)) {
-                    var exec = /(film\/|movie\/).*?([0-9]{3,7})\//gi.exec(title.value);
-                    if (exec && exec[2]) {
-                        yohoho.dataset.kinopoisk = exec[2];
-                        if (window.location.hostname === 'yohoho.cc') {
-                            window.location.href = 'https://kinodivbox.github.io/#' + yohoho.dataset.kinopoisk;
-                            return;
-                        }
-                        window.location.hash = '#' + yohoho.dataset.kinopoisk;
-                        document.title = 'КиноПоиск: ' + yohoho.dataset.kinopoisk;
-                    }
-                } else if (/^\d+$/.test(title.value)) {
-                    yohoho.dataset.kinopoisk = title.value;
-                    if (window.location.hostname === 'yohoho.cc') {
-                        window.location.href = 'https://kinodivbox.github.io/#' + yohoho.dataset.kinopoisk;
-                        return;
-                    }
-                    window.location.hash = '#' + yohoho.dataset.kinopoisk;
-                    document.title = 'КиноПоиск: ' + yohoho.dataset.kinopoisk;
-                } else {
-                    yohoho.dataset.title = encodeURIComponent(title.value);
-                    if (window.location.hostname === 'yohoho.cc') {
-                        window.location.href = 'https://kinodivbox.github.io/#' + yohoho.dataset.title;
-                        return;
-                    }
-                    window.location.hash = '#' + yohoho.dataset.title;
-                    document.title = title.value;
-                }
-                items = [];
-                return yo();
-            }
-        }
-    });
+    input.value = getQuery();
+    updateView();
 </script>
 	
-	
- <div class="nav nav-tabs">
-	          </div>
-   <div class="tab-list">
- <a href="https://www.kinopoisk.ru/lists/films/" target="_blank" class="btn btn-primary btn-lg"> 
-   Список Контента
- <a href="https://t.me/+7rdptT_SDxVlZjgy" target="_blank" class="btn btn-primary btn-lg"> 
-   TELEGRAM
- <a href="/kinodivbox.html" target="_blank" class="btn btn-primary btn-lg">
-   Модуль поиска 2
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-</main>
-		
- <script> 
+<script> 
  document.oncontextmenu = function() { 
  return false; 
  }; 
@@ -261,6 +325,6 @@ alt=""/></a><script>(function(d,s){d.getElementById("licnt4BAD").src=
 ";h"+escape(d.title.substring(0,150))+";"+Math.random()})
 (document,screen)</script><!--/LiveInternet-->
 </center>
- 
+	 
 </body>
 </html>
