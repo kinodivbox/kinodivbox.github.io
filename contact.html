@@ -20,7 +20,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
- <link rel="stylesheet" href="/css_js/Demo.css">
+ <link rel="stylesheet" href="/css_js/common.css?v=0.0.2">
+ <script src="/css_js/run.min.js" async></script>
 </head>
 <body>
 <main>
@@ -36,72 +37,23 @@
              <a href="/webmaster" class="nav-item">Вебмастеру</a>
           </nav>
         </header>
-            <main>
-        <form method="get">
-            <input name="q" class="search__input" aria-label="search" placeholder="Поиск фильма">
-            <button class="search__button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
-                </svg>
-            </button>
-        </form>
-        <div class="placeholder hidden">
-            <div class="placeholder__title">Поиск доступен по следующим данным:</div>
-            <ul class="placeholder__list">
-                <li>Название фильма: <span>Интерстеллар</span></li>
-                <li>ID фильма на сайте Кинопоиск: <span>258687</span></li>
-                <li>ID фильма на сайте IMDb: <span>tt0816692</span></li>
-            </ul>
-            <p class="placeholder__note">Рекомендуется использовать ID или ссылку Кинопоиска для точного поиска.</p>
+        <div class="home-player">
+          <div class="flex fd-column jc-center">
+            <p class="py-30">
+            </p>
+            <p>
+              Если Вы владелец авторских прав, просим Вас учесть, что все плееры на сайте из сторонних API источников. Пишите напрямую по контактным данным этих видео-хостингов, для соблюдения DMCA. В 99% случаев они удаляют спорный контент в течении 24 часов. Плееры недоступные на первоисточнике априори не будут отображаться на KinoDivBox.
+              По вопросам рекламы в плеерах, ошибок, авторского права и всего остального, пишите на контактные данные видео-хостингов!
+            </p>
+          </div>
+          <div>
+                <div id="kin-x" data-kinopoisk="986754123963" data-empty-player="/logo.png"></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="player hidden">
-            <div class="kinobox_player"></div>
-        </div>
-    </main>
-</div>
-<script src="https://kinobox.tv/kinobox.min.js"></script>
-	<script>
-    const form = document.querySelector('form');
-    const input = document.querySelector('input[name="q"]');
-
-    function getQuery() {
-        const params = new URLSearchParams(location.search);
-        if (params.has('q')) {
-            const value = params.get('q').trim();
-            if (value.includes('kinopoisk.ru') || value.includes('imdb.com')) {
-                const match = value.match(/\/(?:film|series|title)\/(?<id>(tt)*\d+)/);
-                return match.groups.id;
-            }
-            return decodeURI(value);
-        }
-        return '';
-    }
-
-    function updateView() {
-        const placeholder = document.querySelector('.placeholder');
-        const player = document.querySelector('.player');
-        if (getQuery() === '') {
-            placeholder.classList.remove('hidden');
-            player.classList.add('hidden');
-        } else {
-            placeholder.classList.add('hidden');
-            player.classList.remove('hidden');
-            initPlayer();
-        }
-    }
-
-    function initPlayer() {
-        new Kinobox('.kinobox_player', {
-        search: {
-		query: getQuery()
-        },
-        'players':{'Collaps':{'enable':true,'position':1,'token':'0c54da2301073eafd15dcefc417e20e3'},'Bazon':{'enable':true,'position':2,'token':'fd96dcfe0417aa1f2d99b595658afbf4'},'Hdvb':{'enable':true,'position':3,'token':'8a22f8e7684404c3815e3ffa940f00a0'},'Videocdn':{'enable':true,'position':4,'token':'NQTJzau1aumGng3v6Mx4IDjQI6IdrOo1'},'Alloha':{'enable':true,'position':5,'token':'{token}'},'Kodik':{'enable':true,'position':6,'token':'{token}'}},
-    }).init();
-    }
-
-    input.value = getQuery();
-    updateView();
-</script>
+      </div>
+    </div>
   </main>
   <footer>
     <div class="container">
