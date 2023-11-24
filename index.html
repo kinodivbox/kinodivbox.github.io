@@ -14,46 +14,7 @@
     <meta name="description" content="агрегатор плееров Alloha, Ashdi, Cdnmovies, Collaps, rewallin, Hdvb, Iframe, Kodik, Videocdn, Voidboost">
     <script src="/css_js/run.min.js" async></script>
     <script src="/css_js/kinobox.min.js"></script>
-	<script type="text/javascript" >
-var ads = "no-adb"
-var msg = '<div class="no-adb-1">Ваш текст пользователю, который отключил рекламу</div>';
-onload=function(){
-if (document.getElementsByClassName == undefined) {
-document.getElementsByClassName = function(className)
-{
-var hasClassName = new RegExp("(?:^|\s)" + className + "(?:$|\s)");
-var allElements = document.getElementsByTagName("*");
-var results = [];
-var element;
-for (var i = 0; (element = allElements[i]) != null; i++) {
-var elementClass = element.className;
-if (elementClass && elementClass.indexOf(className) != -1 && hasClassName.test(elementClass))
-results.push(element);
-}
-return results;
-}
-}
-blocked = 0;
-var ad_nodes = document.getElementsByClassName(ads);
-for(i in ad_nodes){
-if (ad_nodes[i].offsetHeight == 0){
-blocked = 1;
-ad_nodes[i].innerHTML = msg;  
-}
-}
-}</script>
-<style>
-.no-adb-1 {
-  padding: 5px;
-  background:#fff;
-  border: 1px dashed #ff0000;  
-  font-size: 115%; line-height: 1.5;  
-  text-align:center;
-  color:#555;
-}
-</style>
 </head>
-<div class="no-adb">
 <body>
 <div class="container">
             <center>
@@ -199,7 +160,5 @@ alt=""/></a><script>(function(d,s){d.getElementById("licnt4BAD").src=
 ";h"+escape(d.title.substring(0,150))+";"+Math.random()})
 (document,screen)</script><!--/LiveInternet-->
 </center>
-	
-</div>
 </body>
 </html>
