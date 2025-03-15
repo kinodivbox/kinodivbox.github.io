@@ -1,6 +1,8 @@
 // ==UserScript==
 // @name         KinoDivBox
 // @version      1.5
+// @author       KinoDivBox
+// @grant        none
 // @description  Открывай фильм на KinoDivBox прямо со страницы Кинопоиска!
 // @match        https://www.kinopoisk.ru/*
 // @icon         https://raw.githubusercontent.com/kinodivbox/kinodivbox.github.io/main/favicon-32x32.png
