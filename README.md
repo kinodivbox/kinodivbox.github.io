@@ -7,7 +7,7 @@
 ## Установка
 
 0. Установите Расширение Tampermonkey для браузера ([Google Chrome, Yandex.Browser, Chromium](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ru) | [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd) |[ Mozilla Firefox ](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/) | [Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) | [Safari](https://apps.apple.com/us/app/tampermonkey/id1482490089)), если у вас ещё не установлено
-1. Перейти по [ссылке](https://github.com/kinodivbox/kinodivbox.github.io/blob/main/KinoDivBox%20Tampermonkey.js)
+1. Перейти по [ссылке](https://kinodivbox.github.io/css_js/KinoDivBox-1.5.user.js)
 2. Нажать установить
 
 ## Важно
