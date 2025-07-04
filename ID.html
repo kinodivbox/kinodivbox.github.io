@@ -2,87 +2,175 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>KinoDivBox</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #eee;
       padding: 20px;
+      transition: background 0.5s ease;
     }
-    h1 {
+
+    p.logo {
       text-align: center;
-    }
-    .search-box {
-      max-width: 600px;
-      margin: 0 auto;
+      font-weight: 900;
+      font-size: 3rem;
+      color: #ff3d00;
+      cursor: default;
+      user-select: none;
       display: flex;
+      justify-content: center;
+      align-items: center;
       gap: 10px;
+      margin: 0 0 30px;
+      transition: color 0.3s ease;
+    }
+
+    p.logo:hover {
+      color: #ff7043;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { color: #ff3d00; }
+      50% { color: #ff7043; }
+    }
+
+    .search-box {
+      max-width: 650px;
+      margin: 0 auto 40px;
+      display: flex;
+      gap: 15px;
       flex-wrap: wrap;
       justify-content: center;
     }
+
     input, button {
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 4px;
+      padding: 12px 16px;
+      font-size: 18px;
+      border-radius: 8px;
       border: none;
+      outline-offset: 2px;
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
     }
+
     input {
       flex-grow: 1;
-      min-width: 250px;
+      min-width: 280px;
+      background: #222;
+      color: #eee;
+      box-shadow: inset 0 0 8px #000;
     }
+
+    input::placeholder {
+      color: #999;
+      font-style: italic;
+    }
+
+    input:focus {
+      box-shadow: 0 0 8px 2px #ff3d00;
+      background: #333;
+      color: #fff;
+    }
+
     button {
-      background-color: #1e90ff;
+      background-color: #ff3d00;
       color: white;
       cursor: pointer;
+      box-shadow: 0 3px 6px rgba(255, 61, 0, 0.6);
+      user-select: none;
     }
-    button:hover {
-      background-color: #0d6efd;
+
+    button:hover, button:focus {
+      background-color: #ff6f3a;
+      box-shadow: 0 6px 12px rgba(255, 111, 58, 0.8);
+      transform: translateY(-2px);
     }
+
     .player {
-      margin-top: 20px;
+      margin: 0 auto;
+      max-width: 900px;
     }
+
     .player-block {
-      margin-bottom: 30px;
+      margin-bottom: 40px;
+      background: rgba(255 61 0 / 0.15);
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(255 61 0 / 0.4);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
+    .player-block:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 24px rgba(255 61 0 / 0.7);
+    }
+
     .player-block h2 {
       text-align: center;
-      font-size: 20px;
-      margin-bottom: 10px;
+      font-size: 22px;
+      margin: 15px 0;
+      color: #ffb399;
+      user-select: none;
     }
+
     iframe {
       width: 100%;
-      height: 500px;
+      height: 60vh;
       border: none;
-      border-radius: 10px;
+      border-radius: 14px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      display: block;
+    }
+
+    iframe.loaded {
+      opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+      .player-block h2 {
+        font-size: 18px;
+      }
+      input {
+        font-size: 16px;
+      }
+      button {
+        font-size: 16px;
+      }
+      iframe {
+        height: 40vh;
+      }
     }
   </style>
 </head>
 <body>
 
-<p style="text-align: center;">
-  <span style="font-size:36px;">
-    <a href="https://kinoglobus.at.ua/baza/doramy.html">
-      <span style="color:#ff0000;"><strong>KinoDivBox</strong></span>
-    </a>
-  </span>
+<p class="logo" title="Перейти на главную страницу">
+  🎬 <a href="https://kinoglobus.at.ua/baza/doramy.html" style="color:inherit; text-decoration:none;">KinoDivBox</a>
 </p>
 
 <div class="search-box">
-  <input id="query" type="text" placeholder="Введите ID или ссылку КиноПоиска" onkeydown="if(event.key==='Enter') searchPlayer()" />
-  <button onclick="searchPlayer()">Поиск</button>
-  <button onclick="copyShareLink()">Поделиться</button>
+  <input
+    id="query"
+    type="text"
+    placeholder="Введите ID или ссылку КиноПоиска"
+    onkeydown="if(event.key==='Enter') searchPlayer()"
+    aria-label="Поиск по ID или ссылке КиноПоиска"
+  />
+  <button onclick="searchPlayer()" aria-label="Поиск">Поиск</button>
+  <button onclick="copyShareLink()" aria-label="Поделиться ссылкой">Поделиться</button>
 </div>
 
-<div class="player" id="playerContainer"></div>
+<div class="player" id="playerContainer" aria-live="polite" aria-atomic="true"></div>
 
 <script>
   const players = {
     Collaps: id => `https://api.loadbox.ws/embed/kp/${id}`,
     Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`
-    // Добавь другие плееры здесь при необходимости
   };
 
   function extractID(input) {
@@ -107,10 +195,19 @@
       const iframeSrc = getSrc(query);
       const block = document.createElement("div");
       block.className = "player-block";
-      block.innerHTML = `
-        <h2>${name}</h2>
-        <iframe src="${iframeSrc}" allowfullscreen loading="lazy"></iframe>
-      `;
+
+      const title = document.createElement('h2');
+      title.textContent = name;
+      block.appendChild(title);
+
+      const iframe = document.createElement('iframe');
+      iframe.src = iframeSrc;
+      iframe.allowFullscreen = true;
+      iframe.loading = 'lazy';
+      iframe.setAttribute('title', `Плеер ${name} для КиноПоиск ID ${query}`);
+      iframe.onload = () => iframe.classList.add('loaded');
+      block.appendChild(iframe);
+
       container.appendChild(block);
     }
 
@@ -129,6 +226,8 @@
     const url = `${window.location.origin}${window.location.pathname}?id=${query}`;
     navigator.clipboard.writeText(url).then(() => {
       alert("Ссылка скопирована!");
+    }).catch(() => {
+      alert("Ошибка при копировании ссылки.");
     });
   }
 
