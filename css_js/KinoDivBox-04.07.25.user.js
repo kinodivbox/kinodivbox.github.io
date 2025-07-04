@@ -17,7 +17,7 @@
       if (dupe) return;
       if (target) {
         let query =
-          "https://kinodivbox.github.io/?q=" + document.URL;
+          "https://kinodivbox.github.io/ID.html?id=" + document.URL;
         var newDiv = document.createElement("div");
         newDiv.classList.add(
           "kinoDivBox",
