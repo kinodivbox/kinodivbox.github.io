@@ -64,14 +64,14 @@
 
 <p style="text-align: center;">
   <span style="font-size:36px;">
-    <a href="/ID.html">
+    <a href="https://kinoglobus.at.ua/baza/doramy.html">
       <span style="color:#ff0000;"><strong>KinoDivBox</strong></span>
     </a>
   </span>
 </p>
 
 <div class="search-box">
-  <input id="query" type="text" placeholder="Введите ID КиноПоиска" onkeydown="if(event.key==='Enter') searchPlayer()" />
+  <input id="query" type="text" placeholder="Введите ID или ссылку КиноПоиска" onkeydown="if(event.key==='Enter') searchPlayer()" />
   <button onclick="searchPlayer()">Поиск</button>
   <button onclick="copyShareLink()">Поделиться</button>
 </div>
@@ -82,15 +82,22 @@
   const players = {
     Collaps: id => `https://api.loadbox.ws/embed/kp/${id}`,
     Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`
-    // сюда можно добавить больше плееров при необходимости
+    // Добавь другие плееры здесь при необходимости
   };
 
+  function extractID(input) {
+    const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
+    return match ? match[1] : input;
+  }
+
   function searchPlayer() {
-    const query = document.getElementById("query").value.trim();
+    let query = document.getElementById("query").value.trim();
+    query = extractID(query);
+
     const container = document.getElementById("playerContainer");
 
     if (!query || isNaN(query)) {
-      alert("Введите числовой ID КиноПоиска");
+      alert("Введите числовой ID КиноПоиска или корректную ссылку");
       return;
     }
 
@@ -111,14 +118,15 @@
   }
 
   function copyShareLink() {
-    const id = document.getElementById("query").value.trim();
+    let query = document.getElementById("query").value.trim();
+    query = extractID(query);
 
-    if (!id || isNaN(id)) {
-      alert("Введите корректный ID перед копированием ссылки");
+    if (!query || isNaN(query)) {
+      alert("Введите корректный ID или ссылку перед копированием");
       return;
     }
 
-    const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
+    const url = `${window.location.origin}${window.location.pathname}?id=${query}`;
     navigator.clipboard.writeText(url).then(() => {
       alert("Ссылка скопирована!");
     });
@@ -137,22 +145,5 @@
   window.onload = loadFromURL;
 </script>
 
-<script>
-  // Отключаем контекстное меню (ПКМ)
-  document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-  // Блокируем комбинации клавиш (DevTools и просмотр кода)
-  document.addEventListener('keydown', (e) => {
-    const blocked =
-      e.key === 'F12' ||
-      (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
-      (e.ctrlKey && e.key.toUpperCase() === 'U');
-
-    if (blocked) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  });
-</script>
 </body>
 </html>
