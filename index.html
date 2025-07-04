@@ -1,51 +1,23 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="index, follow">
-  <meta name="apple-mobile-web-app-title" content="KinoDivBox">
-  <meta name="application-name" content="KinoDivBox">
-  <meta name="description" content="KinoDivBox — агрегатор плееров: Alloha, Ashdi, Cdnmovies, Collaps, rewallin, Hdvb, Iframe, Kodik, Videocdn, Voidboost. Удобный способ смотреть фильмы онлайн в хорошем качестве.">
-  <meta name="keywords" content="kinodivbox, смотреть фильмы онлайн, агрегатор плееров, фильмы бесплатно, сериалы онлайн">
-  <meta property="og:title" content="KinoDivBox — агрегатор плееров">
-  <meta property="og:image" content="/css_js/cover.png">
-  <meta property="vk:image" content="/css_js/cover.png">
-  <meta name="theme-color" content="#111">
-  
-  <title>KinoDivBox — Смотреть фильмы онлайн</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-title" content="KinoDivBox" />
+  <meta name="application-name" content="KinoDivBox" />
 
-  <link rel="icon" href="/favicon.png" type="image/png">
+  <title>KinoDivBox — Смотреть фильмы онлайн</title>
   <link rel="icon" href="/css_js/favicon-dark.svg" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/css_js/favicon.svg" media="(prefers-color-scheme: dark)">
-  <link rel="stylesheet" href="/css_js/knopki.css">
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pnLe44Pv1YVb8cCdK3bQpJ+9x2Z7tL1qIm6kDj8DRNwhK59wEkCJnCHFlQaGo8m4BqU8xgIDRvNDRZ0Gst7a5Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="/css_js/knopki.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pnLe44Pv1YVb8cCdK3bQpJ+9x2Z7tL1qIm6kDj8DRNwhK59wEkCJnCHFlQaGo8m4BqU8xgIDRvNDRZ0Gst7a5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Schema.org markup -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "KinoDivBox",
-    "url": "https://kinodivbox.site/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://kinodivbox.site/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-
-  <!-- Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KINODIVBOX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-KINODIVBOX');
-  </script>
+  <meta name="description" content="KinoDivBox — агрегатор плееров: Alloha, Ashdi, Cdnmovies, Collaps, rewallin, Hdvb, Iframe, Kodik, Videocdn, Voidboost. Удобный способ смотреть фильмы онлайн в хорошем качестве." />
+  <meta name="keywords" content="kinodivbox, смотреть фильмы онлайн, агрегатор плееров, фильмы бесплатно, сериалы онлайн" />
+  <meta property="og:title" content="KinoDivBox — агрегатор плееров" />
+  <meta property="og:image" content="/css_js/cover.png" />
+  <meta property="vk:image" content="/css_js/cover.png" />
 
   <script src="/css_js/logo.js" async></script>
   <script src="/css_js/kinodivbox.js" defer></script>
@@ -58,12 +30,14 @@
       --button-bg: #222;
       --button-hover: #e50914;
     }
+
     [data-theme="light"] {
       --bg-color: #fff;
       --text-color: #000;
       --button-bg: #f0f0f0;
       --button-hover: #e50914;
     }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -71,13 +45,12 @@
       color: var(--text-color);
       transition: background 0.3s, color 0.3s;
     }
+
     header, main, footer {
       text-align: center;
       padding: 20px;
     }
-    h1 {
-      font-size: 1.5rem;
-    }
+
     .sliding-button {
       background: var(--button-bg);
       color: var(--text-color);
@@ -88,16 +61,19 @@
       display: inline-block;
       transition: background 0.3s ease, transform 0.3s ease;
     }
+
     .sliding-button:hover {
       background: var(--button-hover);
       transform: scale(1.05);
     }
+
     iframe {
       width: 100%;
       height: 720px;
       border: none;
       max-width: 100%;
     }
+
     nav {
       display: flex;
       justify-content: center;
@@ -105,6 +81,7 @@
       gap: 10px;
       padding: 10px;
     }
+
     .footer_body {
       display: flex;
       flex-wrap: wrap;
@@ -112,6 +89,7 @@
       gap: 10px;
       margin-top: 20px;
     }
+
     #themeToggle {
       position: fixed;
       top: 10px;
@@ -125,19 +103,7 @@
       z-index: 1001;
       font-size: 18px;
     }
-    #scrollTopBtn {
-      position: fixed;
-      bottom: 20px;
-      right: 10px;
-      display: none;
-      z-index: 1000;
-      padding: 10px;
-      border-radius: 50%;
-      background: var(--button-bg);
-      color: var(--text-color);
-      border: none;
-      font-size: 16px;
-    }
+
     #menuToggle {
       display: none;
       position: fixed;
@@ -151,6 +117,7 @@
       font-size: 20px;
       border-radius: 5px;
     }
+
     #overlay {
       position: fixed;
       top: 0;
@@ -161,9 +128,11 @@
       z-index: 998;
       display: none;
     }
+
     #overlay.active {
       display: block;
     }
+
     #mobileNav {
       display: none;
       flex-direction: column;
@@ -180,22 +149,20 @@
       transform: translateY(-10px);
       transition: all 0.3s ease-in-out;
     }
+
     #mobileNav.active {
       display: flex;
       opacity: 1;
       transform: translateY(0);
     }
+
     .logo {
       width: 60px;
       height: auto;
       vertical-align: middle;
       margin-right: 10px;
     }
-    .loader {
-      text-align: center;
-      font-size: 1rem;
-      padding: 2em;
-    }
+
     @media (max-width: 768px) {
       nav {
         display: none;
@@ -211,19 +178,17 @@
 </head>
 <body>
   <div id="overlay"></div>
-  <button id="themeToggle" type="button"><i class="fas fa-moon"></i></button>
+  <button id="themeToggle"><i class="fas fa-adjust"></i></button>
   <button id="menuToggle"><i class="fas fa-bars"></i></button>
-  <button id="scrollTopBtn" title="Наверх">⬆</button>
 
   <header>
     <a href="/">
-      <img src="/995424.jpg" alt="Логотип KinoDivBox — перейти на главную" class="logo">
+      <img src="/995424.jpg" alt="Логотип KinoDivBox" class="logo">
       <span class="sliding-button">KINODIVBOX</span>
     </a>
   </header>
 
-  <nav>...</nav> <!-- Ссылки оставлены без изменений -->
-  <div id="mobileNav">  <nav>
+  <nav>
     <a href="/baza.html" class="sliding-button" target="_blank" rel="noopener noreferrer">FILMIX PRO/PRO+</a>
     <a href="/zona.html" class="sliding-button" target="_blank" rel="noopener noreferrer">ZONA</a>
     <a href="/contact" class="sliding-button" target="_blank" rel="noopener noreferrer">КОНТАКТЫ</a>
@@ -237,12 +202,10 @@
     <a href="/contact" class="sliding-button" target="_blank" rel="noopener noreferrer">КОНТАКТЫ</a>
     <a href="https://t.me/+7rdptT_SDxVlZjgy" class="sliding-button" target="_blank" rel="noopener noreferrer">TELEGRAM</a>
     <a href="https://www.tiktok.com/@kinodivbox_official" class="sliding-button" target="_blank" rel="noopener noreferrer">TikTok</a>
-  </div></div> <!-- Тоже -->
+  </div>
 
   <main>
-    <h1>KinoDivBox — Смотреть фильмы онлайн</h1>
-    <div class="loader" id="loader">Загрузка плеера...</div>
-    <iframe src="https://kinohost.web.app" loading="lazy" allowfullscreen title="KinoDivBox iframe" referrerpolicy="no-referrer" onload="document.getElementById('loader').style.display='none'"></iframe>
+    <iframe src="https://kinohost.web.app" loading="lazy" allowfullscreen title="KinoDivBox iframe"></iframe>
   </main>
 
   <footer>
@@ -264,44 +227,46 @@
     });
 
     const themeToggle = document.getElementById('themeToggle');
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
     const currentTheme = localStorage.getItem('theme');
     if (currentTheme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light');
-      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-    } else {
-      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
     }
-
     themeToggle.addEventListener('click', () => {
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      const newTheme = isLight ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      themeToggle.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-      localStorage.setItem('theme', newTheme);
+      const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
     });
 
     const menuToggle = document.getElementById('menuToggle');
     const mobileNav = document.getElementById('mobileNav');
     const overlay = document.getElementById('overlay');
+
     const toggleMobileMenu = () => {
       const isActive = mobileNav.classList.toggle('active');
       overlay.classList.toggle('active', isActive);
       localStorage.setItem('menuOpen', isActive ? '1' : '0');
     };
+
     menuToggle.addEventListener('click', toggleMobileMenu);
     overlay.addEventListener('click', toggleMobileMenu);
+
+    // Сохраняем состояние меню между перезагрузками
     if (localStorage.getItem('menuOpen') === '1') {
       mobileNav.classList.add('active');
       overlay.classList.add('active');
     }
-
-    window.addEventListener('scroll', () => {
-      scrollTopBtn.style.display = window.scrollY > 200 ? 'block' : 'none';
-    });
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
   </script>
+  <center> 
+<!--LiveInternet counter--><a href="https://www.liveinternet.ru/click"
+target="_blank"><img id="licnt4BAD" width="88" height="15" style="border:0" 
+title="LiveInternet: показано число посетителей за сегодня"
+src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+alt=""/></a><script>(function(d,s){d.getElementById("licnt4BAD").src=
+"https://counter.yadro.ru/hit?t23.6;r"+escape(d.referrer)+
+((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+(s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+";h"+escape(d.title.substring(0,150))+";"+Math.random()})
+(document,screen)</script><!--/LiveInternet-->
+</center>
 </body>
 </html>
