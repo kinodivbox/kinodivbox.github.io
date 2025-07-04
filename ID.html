@@ -176,7 +176,7 @@
 <body>
 
 <p class="logo" title="Перейти на главную страницу">
-  🎬 <a href="https://kinoglobus.at.ua/baza/doramy.html" style="color:inherit; text-decoration:none;">KinoDivBox</a>
+  🎬 <a href="https://kinodivbox.github.io/ID.html" style="color:inherit; text-decoration:none;">KinoDivBox</a>
 </p>
 
 <div class="search-box">
@@ -295,5 +295,31 @@
   window.onload = loadFromURL;
 </script>
 
+<script>
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  document.addEventListener('keydown', e => {
+    // Блокируем F12
+    if (e.key === 'F12') {
+      e.preventDefault();
+      return false;
+    }
+
+    // Блокируем Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
+    if (e.ctrlKey) {
+      if (e.shiftKey) {
+        if (['I', 'J', 'C'].includes(e.key.toUpperCase())) {
+          e.preventDefault();
+          return false;
+        }
+      }
+      if (e.key.toUpperCase() === 'U') {
+        e.preventDefault();
+        return false;
+      }
+    }
+  });
+</script>
+  
 </body>
 </html>
