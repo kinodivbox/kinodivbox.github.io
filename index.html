@@ -8,7 +8,8 @@
   <meta name="application-name" content="KinoDivBox" />
 
   <title>KinoDivBox — Смотреть фильмы онлайн</title>
-  <link rel="shortcut icon" href="/css_js/favicon.svg" />
+  <link rel="icon" href="/css_js/favicon-dark.svg" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="/css_js/favicon.svg" media="(prefers-color-scheme: dark)">
   <link rel="stylesheet" href="/css_js/knopki.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pnLe44Pv1YVb8cCdK3bQpJ+9x2Z7tL1qIm6kDj8DRNwhK59wEkCJnCHFlQaGo8m4BqU8xgIDRvNDRZ0Gst7a5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -20,31 +21,6 @@
 
   <script src="/css_js/logo.js" async></script>
   <script src="/css_js/kinodivbox.js" defer></script>
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX');
-  </script>
-
-  <!-- Yandex.Metrika -->
-  <script type="text/javascript" >
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-    ym(12345678, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-    });
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/12345678" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
   <style>
     :root {
@@ -124,7 +100,7 @@
       background: var(--button-bg);
       color: var(--text-color);
       border: none;
-      z-index: 1000;
+      z-index: 1001;
       font-size: 18px;
     }
 
@@ -142,6 +118,21 @@
       border-radius: 5px;
     }
 
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 998;
+      display: none;
+    }
+
+    #overlay.active {
+      display: block;
+    }
+
     #mobileNav {
       display: none;
       flex-direction: column;
@@ -154,10 +145,22 @@
       z-index: 999;
       border-radius: 10px;
       padding: 10px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease-in-out;
     }
 
     #mobileNav.active {
       display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .logo {
+      width: 60px;
+      height: auto;
+      vertical-align: middle;
+      margin-right: 10px;
     }
 
     @media (max-width: 768px) {
@@ -174,11 +177,15 @@
   </style>
 </head>
 <body>
+  <div id="overlay"></div>
   <button id="themeToggle"><i class="fas fa-adjust"></i></button>
   <button id="menuToggle"><i class="fas fa-bars"></i></button>
 
   <header>
-    <a href="/" class="sliding-button">KINODIVBOX</a>
+    <a href="/">
+      <img src="/css_js/logo.svg" alt="Логотип KinoDivBox" class="logo">
+      <span class="sliding-button">KINODIVBOX</span>
+    </a>
   </header>
 
   <nav>
@@ -208,7 +215,6 @@
   </footer>
 
   <script>
-    // Блокировка доступа к коду
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', function (e) {
       if (
@@ -220,7 +226,6 @@
       }
     });
 
-    // Переключение темы
     const themeToggle = document.getElementById('themeToggle');
     const currentTheme = localStorage.getItem('theme');
     if (currentTheme === 'light') {
@@ -232,12 +237,24 @@
       localStorage.setItem('theme', theme);
     });
 
-    // Выпадающее мобильное меню
     const menuToggle = document.getElementById('menuToggle');
     const mobileNav = document.getElementById('mobileNav');
-    menuToggle.addEventListener('click', () => {
-      mobileNav.classList.toggle('active');
-    });
+    const overlay = document.getElementById('overlay');
+
+    const toggleMobileMenu = () => {
+      const isActive = mobileNav.classList.toggle('active');
+      overlay.classList.toggle('active', isActive);
+      localStorage.setItem('menuOpen', isActive ? '1' : '0');
+    };
+
+    menuToggle.addEventListener('click', toggleMobileMenu);
+    overlay.addEventListener('click', toggleMobileMenu);
+
+    // Сохраняем состояние меню между перезагрузками
+    if (localStorage.getItem('menuOpen') === '1') {
+      mobileNav.classList.add('active');
+      overlay.classList.add('active');
+    }
   </script>
 </body>
 </html>
