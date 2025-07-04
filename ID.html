@@ -41,7 +41,7 @@
 
     .search-box {
       max-width: 650px;
-      margin: 0 auto 40px;
+      margin: 0 auto 20px;
       display: flex;
       gap: 15px;
       flex-wrap: wrap;
@@ -90,12 +90,37 @@
       transform: translateY(-2px);
     }
 
+    /* Контейнер переключателя плееров */
+    #playerSwitcher {
+      max-width: 900px;
+      margin: 0 auto 20px;
+      text-align: center;
+    }
+    #playerSwitcher button {
+      background-color: #444;
+      color: #eee;
+      margin: 0 10px;
+      padding: 8px 18px;
+      border-radius: 6px;
+      box-shadow: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #playerSwitcher button.active,
+    #playerSwitcher button:hover {
+      background-color: #ff3d00;
+      color: white;
+      box-shadow: 0 3px 8px rgba(255, 61, 0, 0.7);
+    }
+
     .player {
       margin: 0 auto;
       max-width: 900px;
     }
 
     .player-block {
+      display: none;
       margin-bottom: 40px;
       background: rgba(255 61 0 / 0.15);
       border-radius: 14px;
@@ -104,8 +129,9 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .player-block:hover {
-      transform: translateY(-8px);
+    .player-block.active {
+      display: block;
+      transform: translateY(0);
       box-shadow: 0 8px 24px rgba(255 61 0 / 0.7);
     }
 
@@ -165,6 +191,8 @@
   <button onclick="copyShareLink()" aria-label="Поделиться ссылкой">Поделиться</button>
 </div>
 
+<div id="playerSwitcher" aria-label="Выбор плеера" role="tablist" hidden></div>
+
 <div class="player" id="playerContainer" aria-live="polite" aria-atomic="true"></div>
 
 <script>
@@ -183,18 +211,22 @@
     query = extractID(query);
 
     const container = document.getElementById("playerContainer");
+    const switcher = document.getElementById("playerSwitcher");
+    switcher.innerHTML = '';
+    container.innerHTML = '';
+    switcher.hidden = true;
 
     if (!query || isNaN(query)) {
       alert("Введите числовой ID КиноПоиска или корректную ссылку");
       return;
     }
 
-    container.innerHTML = '';
-
+    let index = 0;
     for (const [name, getSrc] of Object.entries(players)) {
       const iframeSrc = getSrc(query);
       const block = document.createElement("div");
       block.className = "player-block";
+      if(index === 0) block.classList.add("active");
 
       const title = document.createElement('h2');
       title.textContent = name;
@@ -209,6 +241,25 @@
       block.appendChild(iframe);
 
       container.appendChild(block);
+
+      // Кнопки переключения
+      const btn = document.createElement('button');
+      btn.textContent = `Плеер ${index + 1}`;
+      btn.setAttribute('role', 'tab');
+      if(index === 0) btn.classList.add('active');
+      btn.onclick = () => {
+        // Убираем активность у всех кнопок и блоков
+        [...switcher.children].forEach(b => b.classList.remove('active'));
+        [...container.children].forEach(p => p.classList.remove('active'));
+        // Активируем выбранные
+        btn.classList.add('active');
+        block.classList.add('active');
+      };
+      switcher.appendChild(btn);
+      index++;
+    }
+    if(index > 1) {
+      switcher.hidden = false;
     }
 
     history.replaceState(null, '', `?id=${query}`);
