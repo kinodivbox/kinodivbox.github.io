@@ -1,81 +1,110 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="apple-mobile-web-app-title" content="KinoDivBox">
-    <meta name="application-name" content="KinoDivBox">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-title" content="KinoDivBox" />
+  <meta name="application-name" content="KinoDivBox" />
 
-    <title>KinoDivBox</title>
-    <link rel="shortcut icon" href="/css_js/favicon.svg">
-    <link rel="stylesheet" href="666">
-    <link rel="stylesheet" href="/css_js/knopki.css">
-	
-    <meta name="description" content="агрегатор плееров Alloha, Ashdi, Cdnmovies, Collaps, rewallin, Hdvb, Iframe, Kodik, Videocdn, Voidboost">
-    <meta name="keywords" content="kinodivbox, поиск, поисковик плееров для просмотра кино, смотреть фильмы онлайн, фильмы онлайн в хорошем качестве, кино смотреть онлайн, смотреть сериалы онлайн, сериалы онлайн в хорошем качестве, смотреть фильмы бесплатно, онлайн-кинотеатр">
-    <meta property="og:title" content="KinoDivBox, агрегатор плееров Alloha, Ashdi, Cdnmovies, Collaps, rewallin, Hdvb, Iframe, Kodik, Videocdn, Voidboost"/>
-    <meta property="og:image" content="/css_js/cover.png"/>
-    <meta property="vk:image" content="/css_js/cover.png"/>
+  <title>KinoDivBox</title>
+  <link rel="shortcut icon" href="/css_js/favicon.svg" />
+  <link rel="stylesheet" href="/css_js/knopki.css" />
 
-    <script src="/css_js/logo.js" async></script>
-    <script src="/css_js/kinodivbox.js"></script>
+  <meta name="description" content="Агрегатор плееров Alloha, Ashdi, Cdnmovies, Collaps, rewallin, Hdvb, Iframe, Kodik, Videocdn, Voidboost" />
+  <meta name="keywords" content="kinodivbox, поиск плееров, смотреть фильмы онлайн, кино бесплатно, онлайн-кинотеатр" />
+  <meta property="og:title" content="KinoDivBox — агрегатор плееров" />
+  <meta property="og:image" content="/css_js/cover.png" />
+  <meta property="vk:image" content="/css_js/cover.png" />
+
+  <script src="/css_js/logo.js" async></script>
+  <script src="/css_js/kinodivbox.js" defer></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+    }
+    header, main, footer {
+      text-align: center;
+      padding: 20px;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 720px;
+      max-width: 100%;
+    }
+    .footer_body {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    @media (max-width: 768px) {
+      iframe {
+        height: 480px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-            <center>
-            <a href="/" class="sliding-button">KINODIVBOX</a>
-            </center>
-    <main>
-        <div class="placeholder">
-        <iframe src="https://kinohost.web.app" width="100%" height="720" frameborder="0" allowfullscreen></iframe>
-<center>	
-<footer>
-    <div class="footer_body">
-	<a href="/baza.html" class="sliding-button" target="_blank">FILMIX PRO/PRO+</a>
-	<a href="/zona.html" class="sliding-button" target="_blank">ZONA</a>
-	<a href="/contact" class="sliding-button" target="_blank">КОНТАКТЫ</a>
-	<a href="https://t.me/+7rdptT_SDxVlZjgy" class="sliding-button" target="_blank">TELEGRAM</a>
-        <a href="https://www.tiktok.com/@kinodivbox_official" class="sliding-button" target="_blank">TikTok</a>
+
+  <header>
+    <a href="/" class="sliding-button">KINODIVBOX</a>
+  </header>
+
+  <main>
+    <div class="placeholder">
+      <iframe src="https://kinohost.web.app" allowfullscreen></iframe>
     </div>
-</footer>
-</center>
-	
-<script> 
- document.oncontextmenu = function() { 
- return false; 
- }; 
- document.onkeydown = function(e) { 
- if (e.keyCode == 123) { 
- return false; 
- } 
- if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { 
- return false; 
- } 
- if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { 
- return false; 
- } 
- if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { 
- return false; 
- } 
+  </main>
 
- if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { 
- return false; 
- } 
- } 
-</script>
+  <footer>
+    <div class="footer_body">
+      <a href="/baza.html" class="sliding-button" target="_blank" rel="noopener noreferrer">FILMIX PRO/PRO+</a>
+      <a href="/zona.html" class="sliding-button" target="_blank" rel="noopener noreferrer">ZONA</a>
+      <a href="/contact" class="sliding-button" target="_blank" rel="noopener noreferrer">КОНТАКТЫ</a>
+      <a href="https://t.me/+7rdptT_SDxVlZjgy" class="sliding-button" target="_blank" rel="noopener noreferrer">TELEGRAM</a>
+      <a href="https://www.tiktok.com/@kinodivbox_official" class="sliding-button" target="_blank" rel="noopener noreferrer">TikTok</a>
+    </div>
 
-<center>
-<!--LiveInternet counter--><a href="https://www.liveinternet.ru/click"
-target="_blank"><img id="licnt4BAD" width="88" height="15" style="border:0" 
-title="LiveInternet: показано число посетителей за сегодня"
-src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
-alt=""/></a><script>(function(d,s){d.getElementById("licnt4BAD").src=
-"https://counter.yadro.ru/hit?t23.6;r"+escape(d.referrer)+
-((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
-(s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
-";h"+escape(d.title.substring(0,150))+";"+Math.random()})
-(document,screen)</script><!--/LiveInternet-->
-</center>
+    <div style="margin-top: 20px;">
+      <!--LiveInternet counter-->
+      <a href="https://www.liveinternet.ru/click" target="_blank" rel="noopener noreferrer">
+        <img id="licnt4BAD" width="88" height="15" style="border:0"
+          title="LiveInternet: показано число посетителей за сегодня"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+          alt="Счётчик LiveInternet" />
+      </a>
+      <script>
+        (function (d, s) {
+          d.getElementById("licnt4BAD").src =
+            "https://counter.yadro.ru/hit?t23.6;r" + escape(d.referrer) +
+            ((typeof (s) == "undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
+              (s.colorDepth ? s.colorDepth : s.pixelDepth)) + ";u" + escape(d.URL) +
+            ";h" + escape(d.title.substring(0, 150)) + ";" + Math.random();
+        })(document, screen);
+      </script>
+      <!--/LiveInternet-->
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', function (e) {
+      if (
+        e.keyCode === 123 ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+        (e.ctrlKey && e.key.toUpperCase() === 'U')
+      ) {
+        e.preventDefault();
+      }
+    });
+  </script>
+
 </body>
 </html>
