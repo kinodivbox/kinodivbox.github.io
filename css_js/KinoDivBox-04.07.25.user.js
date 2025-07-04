@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         KinoDivBox
-// @version      2.0
+// @version      2.3
 // @author       KinoDivBox
 // @grant        none
 // @description  Открывай фильм на KinoDivBox прямо со страницы Кинопоиска!
@@ -10,45 +10,53 @@
 
 (function () {
   "use strict";
-  function content() {
-    setTimeout(() => {
-      let target = document.querySelector("[class*=styles_buttonsContainer]");
-      let dupe = document.querySelector("[class*=kinoDivBox]");
-      if (dupe) return;
-      if (target) {
-        let query =
-          "https://kinodivbox.github.io/ID.html?id=" + document.URL;
-        var newDiv = document.createElement("div");
-        newDiv.classList.add(
-          "kinoDivBox",
-          "styles_button__tQYKG",
-          "style_button__PNtXT",
-          "style_buttonSize52__b5OBe",
-          "style_buttonAccent__vKDGa"
-        );
-        newDiv.innerHTML = "Смотреть на KinoDivBox";
-        newDiv.addEventListener(
-          "click",
-          function () {
-            window.open(query);
-          },
-          false
-        );
-        target.prepend(newDiv);
-      }
-    }, 500);
+
+  // Функция для извлечения ID из URL
+  function extractId(url) {
+    // Пример URL: https://www.kinopoisk.ru/film/258687/
+    // Ищем цифры после /film/ или /series/
+    const match = url.match(/\/(film|series)\/(\d+)/);
+    return match ? match[2] : null;
   }
 
-  window.onload = content();
-  let url = location.href;
-  document.body.addEventListener(
-    "click",
-    () => {
-      requestAnimationFrame(() => {
-        url !== location.href && content();
-        url = location.href;
-      });
-    },
-    true
-  );
+  const createButton = () => {
+    const target = document.querySelector("[class*=styles_buttonsContainer]");
+    if (!target) return;
+
+    if (document.querySelector(".kinoDivBox")) return;
+
+    const id = extractId(location.href);
+    if (!id) return; // если ID не нашли — не добавляем кнопку
+
+    const url = `https://kinodivbox.github.io/ID.html?id=${id}`;
+
+    const btn = document.createElement("div");
+    btn.classList.add(
+      "kinoDivBox",
+      "styles_button__tQYKG",
+      "style_button__PNtXT",
+      "style_buttonSize52__b5OBe",
+      "style_buttonAccent__vKDGa"
+    );
+    btn.textContent = "Смотреть на KinoDivBox";
+    btn.style.cursor = "pointer";
+
+    btn.addEventListener("click", () => {
+      window.open(url, "_blank");
+    });
+
+    target.prepend(btn);
+  };
+
+  window.addEventListener("load", () => {
+    createButton();
+
+    let lastUrl = location.href;
+    new MutationObserver(() => {
+      if (location.href !== lastUrl) {
+        lastUrl = location.href;
+        createButton();
+      }
+    }).observe(document, { subtree: true, childList: true });
+  });
 })();
