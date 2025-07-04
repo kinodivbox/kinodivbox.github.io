@@ -21,46 +21,44 @@
   <script src="/css_js/kinodivbox.js" defer></script>
   <style>
     /* ... стили без изменений ... */
-    #historyContainer h3 {
-      margin-top: 40px;
-      margin-bottom: 10px;
-    }
-    #clearHistoryBtn {
-      margin-top: 10px;
-      margin-bottom: 20px;
-      padding: 8px 16px;
-      background: var(--button-bg);
-      color: var(--text-color);
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    #clearHistoryBtn:hover {
-      background: var(--button-hover);
-    }
   </style>
 </head>
 <body>
-  <!-- ... меню, iframe и прочее ... -->
+  <!-- ... элементы меню и iframe ... -->
   <main>
     <iframe id="mainIframe" src="https://kinohost.web.app" loading="lazy" allowfullscreen title="KinoDivBox iframe"></iframe>
     <div id="historyContainer" style="margin-top:20px; text-align:center;"></div>
   </main>
 
-  <!-- ... футер ... -->
+  <!-- ... footer и прочее ... -->
 
   <script>
-    // История просмотров: теперь с точными URL и кнопкой очистки
+    // Блокировка контекста и клавиш (без изменений)
+
+    // Тема (без изменений)
+
+    // Мобильное меню (без изменений)
+
+    // === История просмотров ===
     const iframe = document.getElementById('mainIframe');
     const historyContainer = document.getElementById('historyContainer');
 
-    function saveToHistory(url) {
-      const history = JSON.parse(localStorage.getItem('iframeHistory') || '[]');
-      const exists = history.find(item => item.url === url);
+    function getDomainFromURL(url) {
+      try {
+        const { hostname } = new URL(url);
+        return hostname;
+      } catch {
+        return null;
+      }
+    }
 
-      if (!exists) {
-        history.unshift({ url: url, timestamp: Date.now() });
+    function saveToHistory(url) {
+      const domain = getDomainFromURL(url);
+      if (!domain) return;
+
+      const history = JSON.parse(localStorage.getItem('iframeHistory') || '[]');
+      if (!history.includes(domain)) {
+        history.unshift(domain);
         if (history.length > 10) history.pop();
         localStorage.setItem('iframeHistory', JSON.stringify(history));
       }
@@ -68,32 +66,23 @@
 
     function renderHistory() {
       const history = JSON.parse(localStorage.getItem('iframeHistory') || '[]');
-      historyContainer.innerHTML = '';
-
       if (history.length === 0) return;
 
       const title = document.createElement('h3');
       title.textContent = 'История просмотров:';
+      title.style.marginBottom = '10px';
+      historyContainer.innerHTML = '';
       historyContainer.appendChild(title);
 
-      history.forEach(item => {
+      history.forEach(domain => {
         const link = document.createElement('a');
-        link.href = item.url;
+        link.href = `https://${domain}`;
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
-        link.textContent = new URL(item.url).hostname;
+        link.textContent = domain;
         link.className = 'sliding-button';
         historyContainer.appendChild(link);
       });
-
-      const clearBtn = document.createElement('button');
-      clearBtn.id = 'clearHistoryBtn';
-      clearBtn.textContent = 'Очистить историю';
-      clearBtn.addEventListener('click', () => {
-        localStorage.removeItem('iframeHistory');
-        renderHistory();
-      });
-      historyContainer.appendChild(clearBtn);
     }
 
     iframe.addEventListener('load', () => {
