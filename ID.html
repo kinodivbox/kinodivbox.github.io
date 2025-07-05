@@ -90,12 +90,12 @@
       transform: translateY(-2px);
     }
 
-    /* Контейнер переключателя плееров */
     #playerSwitcher {
       max-width: 900px;
       margin: 0 auto 20px;
       text-align: center;
     }
+
     #playerSwitcher button {
       background-color: #444;
       color: #eee;
@@ -107,6 +107,7 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     #playerSwitcher button.active,
     #playerSwitcher button:hover {
       background-color: #ff3d00;
@@ -148,13 +149,8 @@
       height: 60vh;
       border: none;
       border-radius: 14px;
-      opacity: 0;
-      transition: opacity 0.8s ease;
       display: block;
-    }
-
-    iframe.loaded {
-      opacity: 1;
+      opacity: 1 !important;
     }
 
     @media (max-width: 600px) {
@@ -217,7 +213,7 @@
     container.innerHTML = '';
     switcher.hidden = true;
 
-    if (!query || isNaN(query)) {
+    if (!/^\d+$/.test(query)) {
       alert("Введите числовой ID КиноПоиска или корректную ссылку");
       return;
     }
@@ -239,20 +235,18 @@
       iframe.loading = 'lazy';
       iframe.setAttribute('title', `Плеер ${name} для КиноПоиск ID ${query}`);
       iframe.onload = () => iframe.classList.add('loaded');
+      setTimeout(() => iframe.classList.add('loaded'), 2000);
       block.appendChild(iframe);
 
       container.appendChild(block);
 
-      // Кнопки переключения
       const btn = document.createElement('button');
       btn.textContent = `Плеер ${index + 1}`;
       btn.setAttribute('role', 'tab');
       if(index === 0) btn.classList.add('active');
       btn.onclick = () => {
-        // Убираем активность у всех кнопок и блоков
         [...switcher.children].forEach(b => b.classList.remove('active'));
         [...container.children].forEach(p => p.classList.remove('active'));
-        // Активируем выбранные
         btn.classList.add('active');
         block.classList.add('active');
       };
@@ -270,7 +264,7 @@
     let query = document.getElementById("query").value.trim();
     query = extractID(query);
 
-    if (!query || isNaN(query)) {
+    if (!/^\d+$/.test(query)) {
       alert("Введите корректный ID или ссылку перед копированием");
       return;
     }
@@ -287,7 +281,7 @@
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
-    if (id && !isNaN(id)) {
+    if (id && /^\d+$/.test(id)) {
       document.getElementById("query").value = id;
       searchPlayer();
     }
@@ -295,6 +289,29 @@
 
   window.onload = loadFromURL;
 </script>
-  
+
+  <script> 
+ document.oncontextmenu = function() { 
+ return false; 
+ }; 
+ document.onkeydown = function(e) { 
+ if (e.keyCode == 123) { 
+ return false; 
+ } 
+ if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { 
+ return false; 
+ } 
+ if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { 
+ return false; 
+ } 
+ if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { 
+ return false; 
+ } 
+
+ if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { 
+ return false; 
+ } 
+ } 
+</script>
 </body>
 </html>
