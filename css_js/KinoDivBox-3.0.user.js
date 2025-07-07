@@ -1,62 +1,76 @@
 // ==UserScript==
-// @name         KinoDivBox
-// @version      3.0
+// @name         KinoDivBox (устойчивая версия)
+// @version      3.1
 // @author       KinoDivBox
 // @grant        none
+// @run-at       document-idle
 // @description  Открывай фильм на KinoDivBox прямо со страницы Кинопоиска!
 // @match        https://www.kinopoisk.ru/*
 // @icon         https://raw.githubusercontent.com/kinodivbox/kinodivbox.github.io/main/favicon-32x32.png
 // ==/UserScript==
 
 (function () {
-  "use strict";
+  'use strict';
 
-  // Функция для извлечения ID из URL
+  // Получить ID фильма/сериала из URL
   function extractId(url) {
-    // Пример URL: https://www.kinopoisk.ru/film/258687/
-    // Ищем цифры после /film/ или /series/
     const match = url.match(/\/(film|series)\/(\d+)/);
     return match ? match[2] : null;
   }
 
-  const createButton = () => {
-    const target = document.querySelector("[class*=styles_buttonsContainer]");
-    if (!target) return;
-
-    if (document.querySelector(".kinoDivBox")) return;
-
-    const id = extractId(location.href);
-    if (!id) return; // если ID не нашли — не добавляем кнопку
+  // Создать кнопку
+  function createButton(id) {
+    const existing = document.querySelector('.kinoDivBox');
+    if (existing) return;
 
     const url = `https://kinodivbox.github.io/ID.html?id=${id}`;
 
-    const btn = document.createElement("div");
-    btn.classList.add(
-      "kinoDivBox",
-      "styles_button__tQYKG",
-      "style_button__PNtXT",
-      "style_buttonSize52__b5OBe",
-      "style_buttonAccent__vKDGa"
-    );
-    btn.textContent = "Смотреть на KinoDivBox";
-    btn.style.cursor = "pointer";
+    const btn = document.createElement('button');
+    btn.textContent = 'Смотреть на KinoDivBox';
+    btn.className = 'kinoDivBox';
+    btn.style.cssText = `
+      margin-top: 8px;
+      padding: 10px 15px;
+      background-color: #ff6c00;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    `;
 
-    btn.addEventListener("click", () => {
-      window.open(url, "_blank");
+    btn.addEventListener('click', () => {
+      window.open(url, '_blank');
     });
 
-    target.prepend(btn);
-  };
+    return btn;
+  }
 
-  window.addEventListener("load", () => {
-    createButton();
+  // Попытка найти место вставки
+  function insertButton() {
+    const id = extractId(location.href);
+    if (!id) return;
 
-    let lastUrl = location.href;
-    new MutationObserver(() => {
-      if (location.href !== lastUrl) {
-        lastUrl = location.href;
-        createButton();
-      }
-    }).observe(document, { subtree: true, childList: true });
-  });
+    // Попробовать найти блок с кнопками (например, "Буду смотреть")
+    const container = document.querySelector('[data-tid="bbf5d5a"]') ||
+                      document.querySelector('[class*="buttonContainer"]') ||
+                      document.querySelector('[class*="styles_buttons"]');
+
+    if (container && !document.querySelector('.kinoDivBox')) {
+      const btn = createButton(id);
+      if (btn) container.appendChild(btn);
+    }
+  }
+
+  // Следим за изменением URL (SPA-переходы)
+  let lastUrl = '';
+  setInterval(() => {
+    if (location.href !== lastUrl) {
+      lastUrl = location.href;
+      setTimeout(insertButton, 1000); // Подождать чуть дольше — для стабильности
+    }
+  }, 500);
+
+  // Первая попытка вставить кнопку
+  setTimeout(insertButton, 1500);
 })();
