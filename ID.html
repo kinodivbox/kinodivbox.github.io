@@ -173,7 +173,7 @@
 <body>
 
 <p class="logo" title="Перейти на главную страницу">
-  🎬 <a href="https://kinodivbox.github.io/ID.html" style="color:inherit; text-decoration:none;">KinoDivBox</a>
+  🎬 <a href="/ID.html" style="color:inherit; text-decoration:none;">KinoDivBox</a>
 </p>
 
 <div class="search-box">
@@ -195,7 +195,9 @@
 <script>
   const players = {
     Collaps: id => `https://api.atomics.ws/embed/kp/${id}`,
-    Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`
+    Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
+    VideoCDN: id => `//kg.svetacdn.in/j3mqebEPqCLB?kp_id=${id}?domain=kinoglobus.at.ua`,
+    Трейлер: id => `https://api1638386515.synchroncode.com/embed/trailer-kp/${id}`,
   };
 
   function extractID(input) {
@@ -207,55 +209,51 @@
     let query = document.getElementById("query").value.trim();
     query = extractID(query);
 
-    const container = document.getElementById("playerContainer");
-    const switcher = document.getElementById("playerSwitcher");
-    switcher.innerHTML = '';
-    container.innerHTML = '';
-    switcher.hidden = true;
-
     if (!/^\d+$/.test(query)) {
       alert("Введите числовой ID КиноПоиска или корректную ссылку");
       return;
     }
+
+    const container = document.getElementById("playerContainer");
+    const switcher = document.getElementById("playerSwitcher");
+    container.innerHTML = '';
+    switcher.innerHTML = '';
+    switcher.hidden = true;
 
     let index = 0;
     for (const [name, getSrc] of Object.entries(players)) {
       const iframeSrc = getSrc(query);
       const block = document.createElement("div");
       block.className = "player-block";
-      if(index === 0) block.classList.add("active");
+      if (index === 0) block.classList.add("active");
 
-      const title = document.createElement('h2');
+      const title = document.createElement("h2");
       title.textContent = name;
       block.appendChild(title);
 
-      const iframe = document.createElement('iframe');
+      const iframe = document.createElement("iframe");
       iframe.src = iframeSrc;
       iframe.allowFullscreen = true;
-      iframe.loading = 'lazy';
-      iframe.setAttribute('title', `Плеер ${name} для КиноПоиск ID ${query}`);
-      iframe.onload = () => iframe.classList.add('loaded');
-      setTimeout(() => iframe.classList.add('loaded'), 2000);
+      iframe.loading = "lazy";
+      iframe.title = `Плеер ${name} для КиноПоиск ID ${query}`;
       block.appendChild(iframe);
 
       container.appendChild(block);
 
-      const btn = document.createElement('button');
+      const btn = document.createElement("button");
       btn.textContent = `Плеер ${index + 1}`;
-      btn.setAttribute('role', 'tab');
-      if(index === 0) btn.classList.add('active');
+      if (index === 0) btn.classList.add("active");
       btn.onclick = () => {
-        [...switcher.children].forEach(b => b.classList.remove('active'));
-        [...container.children].forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        block.classList.add('active');
+        [...switcher.children].forEach(b => b.classList.remove("active"));
+        [...container.children].forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        block.classList.add("active");
       };
       switcher.appendChild(btn);
       index++;
     }
-    if(index > 1) {
-      switcher.hidden = false;
-    }
+
+    if (index > 1) switcher.hidden = false;
 
     history.replaceState(null, '', `?id=${query}`);
   }
@@ -270,17 +268,14 @@
     }
 
     const url = `${window.location.origin}${window.location.pathname}?id=${query}`;
-    navigator.clipboard.writeText(url).then(() => {
-      alert("Ссылка скопирована!");
-    }).catch(() => {
-      alert("Ошибка при копировании ссылки.");
-    });
+    navigator.clipboard.writeText(url)
+      .then(() => alert("Ссылка скопирована!"))
+      .catch(() => alert("Ошибка при копировании ссылки."));
   }
 
   function loadFromURL() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
-
     if (id && /^\d+$/.test(id)) {
       document.getElementById("query").value = id;
       searchPlayer();
@@ -289,6 +284,47 @@
 
   window.onload = loadFromURL;
 </script>
+  
+
+
+<h2 style="text-align: center;">KinoDivBox – Tampermonkey</h2>
+
+<p style="text-align: center;">
+  С этим скриптом на странице каждого фильма или сериала на КиноПоиске будет кнопка, открывающая сразу нужную страницу на KinoDivBox.
+</p>
+
+<h3 style="text-align: center;">Установка</h3>
+
+<p style="text-align: center;"><strong>1.</strong> Установите расширение Tampermonkey для браузера, если у вас ещё не установлено.</p>
+
+<p style="text-align: center;">
+  <strong>
+    <span style="color:#ff0000;">[</span>
+    <a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ru" target="_blank" style="color:#ff0000;">Google Chrome, Yandex.Browser, Chromium</a>
+    <span style="color:#ff0000;">] | [</span>
+    <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" target="_blank" style="color:#ff0000;">Microsoft Edge</a>
+    <span style="color:#ff0000;">] | [</span>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/" target="_blank" style="color:#ff0000;">Mozilla Firefox</a>
+    <span style="color:#ff0000;">] | [</span>
+    <a href="https://addons.opera.com/en/extensions/details/tampermonkey-beta/" target="_blank" style="color:#ff0000;">Opera</a>
+    <span style="color:#ff0000;">] | [</span>
+    <a href="https://apps.apple.com/us/app/tampermonkey/id1482490089" target="_blank" style="color:#ff0000;">Safari</a>
+    <span style="color:#ff0000;">]</span>
+  </strong>
+</p>
+
+<p style="text-align: center;"><strong>2.</strong> Включите в настройках дополнений: <u>Режим разработчика</u>. <strong>(Обязательно!)</strong></p>
+
+<p style="text-align: center;">
+  <strong>3.</strong> Перейдите по 
+  [<strong><a href="https://kinodivbox.github.io/css_js/KinoDivBox-04.07.25.user.js" target="_blank" style="color:#ff0000;">Ссылке</a></strong>] 
+  для установки плагина <strong>KinoDivBox</strong>.
+</p>
+
+<p style="text-align: center;"><strong>4.</strong> Нажмите «Установить»</p>
+
+<h3 style="text-align: center;">Готово!</h3>
+
 
   <script> 
  document.oncontextmenu = function() { 
