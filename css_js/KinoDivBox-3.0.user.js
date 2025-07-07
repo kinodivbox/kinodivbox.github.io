@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         KinoDivBox
-// @version      2.3
+// @version      3.0
 // @author       KinoDivBox
 // @grant        none
 // @description  Открывай фильм на KinoDivBox прямо со страницы Кинопоиска!
