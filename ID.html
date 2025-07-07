@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/css_js/favicon.svg" media="(prefers-color-scheme: dark)">
   <title>KinoDivBox</title>
   <style>
     body {
@@ -173,7 +174,7 @@
 <body>
 
 <p class="logo" title="Перейти на главную страницу">
-  🎬 <a href="/" style="color:inherit; text-decoration:none;">KinoDivBox</a>
+  🎬 <a href="/ID.html" style="color:inherit; text-decoration:none;">KinoDivBox</a>
 </p>
 
 <div class="search-box">
@@ -196,7 +197,8 @@
   const players = {
     Collaps: id => `https://api.atomics.ws/embed/kp/${id}`,
     Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
-    VideoCDN: id => `//kg.svetacdn.in/j3mqebEPqCLB?kp_id=${id}?domain=kinoglobus.at.ua`,
+    VideoCDN: id => `https://p.lumex.cloud/j3mqebEPqCLB?kp_id=${id}?domain=kinodivbox.github.io`,
+    kodik: id => `https:////kodik.cc/find-player?kinopoiskID=${id}`,
     Трейлер: id => `https://api1638386515.synchroncode.com/embed/trailer-kp/${id}`,
   };
 
