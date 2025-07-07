@@ -12,7 +12,7 @@
 
 <p style="text-align: center;"><strong>2.</strong> Включите в настройках Дополнений: Режим разработчика.<strong> (Обязательна!!!)</strong></p>
 
-<p style="text-align: center;"><strong>3.</strong> Перейдите&nbsp;по [<strong><a href="https://kinodivbox.github.io/css_js/KinoDivBox-04.07.25.user.js"><span style="color:#ff0000;">Ссылке</span></a></strong>] для установки плагина <strong>KinoDivBox</strong>.<br />
+<p style="text-align: center;"><strong>3.</strong> Перейдите&nbsp;по [<strong><a href="https://kinodivbox.github.io/css_js/KinoDivBox-3.0.user.js"><span style="color:#ff0000;">Ссылке</span></a></strong>] для установки плагина <strong>KinoDivBox</strong>.<br />
 <strong>4.</strong> Нажать установить</p>
 
 <p style="text-align: center;"><strong>Готово.</strong></p>
