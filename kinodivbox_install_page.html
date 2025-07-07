@@ -69,5 +69,79 @@
     <h3>Пример:</h3>
     <img src="/css_js/kinlogo.png" alt="Скриншот кнопки KinoDivBox">
   </div>
+
+<h2 style="text-align: center;">KinoDivBox – Tampermonkey</h2>
+
+<p style="text-align: center;">
+  С этим скриптом на странице каждого фильма или сериала на КиноПоиске будет кнопка, открывающая сразу нужную страницу на KinoDivBox.
+</p>
+
+<h3 style="text-align: center;">Установка</h3>
+
+<p style="text-align: center;"><strong>1.</strong> Установите расширение Tampermonkey для браузера, если у вас ещё не установлено:</p>
+
+<!-- Блок с кнопками на магазины -->
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px;">
+  <a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ru" target="_blank" class="store-button">Chrome / Yandex / Chromium</a>
+  <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" target="_blank" class="store-button">Microsoft Edge</a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/" target="_blank" class="store-button">Mozilla Firefox</a>
+  <a href="https://addons.opera.com/en/extensions/details/tampermonkey-beta/" target="_blank" class="store-button">Opera</a>
+  <a href="https://apps.apple.com/us/app/tampermonkey/id1482490089" target="_blank" class="store-button">Safari</a>
+</div>
+
+<p style="text-align: center;"><strong>2.</strong> Включите в настройках дополнений: <u>Режим разработчика</u>. <strong>(Обязательно!)</strong></p>
+
+<p style="text-align: center;"><strong>3.</strong> Перейдите по кнопке ниже для установки скрипта:</p>
+
+<div style="text-align: center; margin-bottom: 20px;">
+  <a href="https://kinodivbox.github.io/css_js/KinoDivBox-3.0.user.js" target="_blank" class="action-button">
+    Установить скрипт KinoDivBox
+  </a>
+</div>
+
+<p style="text-align: center;"><strong>4.</strong> Нажмите «Установить» в открывшемся окне Tampermonkey.</p>
+
+<h3 style="text-align: center; margin-top: 40px;">Готово!</h3>
+
+<!-- Стили кнопок -->
+<style>
+  .store-button, .action-button {
+    display: inline-block;
+    padding: 10px 18px;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+  }
+
+  .store-button {
+    background-color: #dc3545;
+  }
+
+  .store-button:hover {
+    background-color: #bb2d3b;
+  }
+
+  .action-button {
+    background-color: #28a745;
+  }
+
+  .action-button:hover {
+    background-color: #218838;
+  }
+
+  @media (max-width: 600px) {
+    .store-button, .action-button {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+</style>
+  
 </body>
 </html>
