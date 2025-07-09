@@ -2,271 +2,431 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="apple-mobile-web-app-title" content="KinoDivBox" />
-  <meta name="application-name" content="KinoDivBox" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>KinoDivBox — Смотреть фильмы онлайн</title>
-  <link rel="icon" href="/css_js/favicon-dark.svg" media="(prefers-color-scheme: light)">
-  <link rel="icon" href="/css_js/favicon.svg" media="(prefers-color-scheme: dark)">
-  <link rel="stylesheet" href="/css_js/knopki.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pnLe44Pv1YVb8cCdK3bQpJ+9x2Z7tL1qIm6kDj8DRNwhK59wEkCJnCHFlQaGo8m4BqU8xgIDRvNDRZ0Gst7a5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Основные мета-теги -->
+  <title>KinoDivBox — Смотреть фильмы и сериалы онлайн в хорошем качестве</title>
+  <meta name="description" content="KinoDivBox — бесплатный онлайн-кинотеатр. Смотрите фильмы, сериалы, мультфильмы и аниме в хорошем качестве без регистрации и рекламы." />
+  <meta name="keywords" content="смотреть фильмы онлайн, сериалы, онлайн кинотеатр, kino, KinoDivBox, HD фильмы, аниме, новинки кино, кино бесплатно" />
+  <meta name="author" content="KinoDivBox" />
+  <meta name="robots" content="index, follow" />
 
-  <meta name="description" content="KinoDivBox — агрегатор плееров: Alloha, Ashdi, Cdnmovies, Collaps, rewallin, Hdvb, Iframe, Kodik, Videocdn, Voidboost. Удобный способ смотреть фильмы онлайн в хорошем качестве." />
-  <meta name="keywords" content="kinodivbox, смотреть фильмы онлайн, агрегатор плееров, фильмы бесплатно, сериалы онлайн" />
-  <meta property="og:title" content="KinoDivBox — агрегатор плееров" />
-  <meta property="og:image" content="/css_js/cover.png" />
-  <meta property="vk:image" content="/css_js/cover.png" />
+  <!-- Open Graph для соцсетей (Facebook, Telegram, ВКонтакте) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="KinoDivBox — Онлайн-кинотеатр" />
+  <meta property="og:description" content="Смотрите лучшие фильмы и сериалы онлайн бесплатно и без регистрации." />
+  <meta property="og:image" content="/319529_O.png" /> <!-- Подставь свою картинку -->
+  <meta property="og:url" content="https://kinodivbox.github.io/" />
 
-  <script src="/css_js/logo.js" async></script>
-  <script src="/css_js/kinodivbox.js" defer></script>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="KinoDivBox — Смотреть онлайн бесплатно" />
+  <meta name="twitter:description" content="Фильмы, сериалы и мультфильмы онлайн в HD. Без регистрации." />
+  <meta name="twitter:image" content="/319529_O.png" />
+
+  <!-- Иконка сайта -->
+  <link rel="icon" href="/css_js/favicon.svg" type="image/x-icon" />
 
   <style>
-    :root {
-      --primary-color: #e50914;
-      --bg-color: #111;
-      --text-color: #fff;
-      --button-bg: #222;
-      --button-hover: #e50914;
-    }
-
-    [data-theme="light"] {
-      --bg-color: #fff;
-      --text-color: #000;
-      --button-bg: #f0f0f0;
-      --button-hover: #e50914;
-    }
-
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      transition: background 0.3s, color 0.3s;
-    }
-
-    header, main, footer {
-      text-align: center;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #eee;
       padding: 20px;
+      transition: background 0.5s ease;
     }
 
-    .sliding-button {
-      background: var(--button-bg);
-      color: var(--text-color);
-      padding: 10px 20px;
-      margin: 5px;
-      text-decoration: none;
-      border-radius: 5px;
-      display: inline-block;
-      transition: background 0.3s ease, transform 0.3s ease;
+    p.logo {
+      text-align: center;
+      font-weight: 900;
+      font-size: 3rem;
+      color: #ff3d00;
+      cursor: default;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 30px;
+      transition: color 0.3s ease;
     }
 
-    .sliding-button:hover {
-      background: var(--button-hover);
-      transform: scale(1.05);
+    p.logo:hover {
+      color: #ff7043;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { color: #ff3d00; }
+      50% { color: #ff7043; }
+    }
+
+    .search-box {
+      max-width: 650px;
+      margin: 0 auto 20px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    input, button {
+      padding: 12px 16px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      outline-offset: 2px;
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+    input {
+      flex-grow: 1;
+      min-width: 280px;
+      background: #222;
+      color: #eee;
+      box-shadow: inset 0 0 8px #000;
+    }
+
+    input::placeholder {
+      color: #999;
+      font-style: italic;
+    }
+
+    input:focus {
+      box-shadow: 0 0 8px 2px #ff3d00;
+      background: #333;
+      color: #fff;
+    }
+
+    button {
+      background-color: #ff3d00;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(255, 61, 0, 0.6);
+      user-select: none;
+    }
+
+    button:hover, button:focus {
+      background-color: #ff6f3a;
+      box-shadow: 0 6px 12px rgba(255, 111, 58, 0.8);
+      transform: translateY(-2px);
+    }
+
+    #playerSwitcher {
+      max-width: 900px;
+      margin: 0 auto 20px;
+      text-align: center;
+    }
+
+    #playerSwitcher button {
+      background-color: #444;
+      color: #eee;
+      margin: 0 10px;
+      padding: 8px 18px;
+      border-radius: 6px;
+      box-shadow: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #playerSwitcher button.active,
+    #playerSwitcher button:hover {
+      background-color: #ff3d00;
+      color: white;
+      box-shadow: 0 3px 8px rgba(255, 61, 0, 0.7);
+    }
+
+    .player {
+      margin: 0 auto;
+      max-width: 900px;
+    }
+
+    .player-block {
+      display: none;
+      margin-bottom: 40px;
+      background: rgba(255 61 0 / 0.15);
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(255 61 0 / 0.4);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .player-block.active {
+      display: block;
+      transform: translateY(0);
+      box-shadow: 0 8px 24px rgba(255 61 0 / 0.7);
+    }
+
+    .player-block h2 {
+      text-align: center;
+      font-size: 22px;
+      margin: 15px 0;
+      color: #ffb399;
+      user-select: none;
     }
 
     iframe {
       width: 100%;
-      height: 720px;
+      height: 60vh;
       border: none;
-      max-width: 100%;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 10px;
-    }
-
-    .footer_body {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    #themeToggle {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 50%;
-      background: var(--button-bg);
-      color: var(--text-color);
-      border: none;
-      z-index: 1001;
-      font-size: 18px;
-    }
-
-    #menuToggle {
-      display: none;
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 1001;
-      background: var(--button-bg);
-      border: none;
-      color: var(--text-color);
-      padding: 10px;
-      font-size: 20px;
-      border-radius: 5px;
-    }
-
-    #overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 998;
-      display: none;
-    }
-
-    #overlay.active {
+      border-radius: 14px;
       display: block;
+      opacity: 1 !important;
     }
 
-    #mobileNav {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      background: var(--bg-color);
-      position: fixed;
-      top: 60px;
-      left: 10px;
-      right: 10px;
-      z-index: 999;
-      border-radius: 10px;
-      padding: 10px;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease-in-out;
-    }
-
-    #mobileNav.active {
-      display: flex;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .logo {
-      width: 60px;
-      height: auto;
-      vertical-align: middle;
-      margin-right: 10px;
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        display: none;
+    @media (max-width: 600px) {
+      .player-block h2 {
+        font-size: 18px;
       }
-      #menuToggle {
-        display: block;
+      input {
+        font-size: 16px;
+      }
+      button {
+        font-size: 16px;
       }
       iframe {
-        height: 480px;
+        height: 40vh;
       }
+    }
+
+    /* Стили для рекламного баннера */
+    .ad-banner {
+      background: linear-gradient(45deg, #ff3d00, #ff6f3a);
+      color: #fff;
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      margin: 20px auto;
+      max-width: 700px;
+      box-shadow: 0 4px 12px rgba(255, 61, 0, 0.4);
+      animation: fadeIn 0.8s ease-in-out;
+      transition: opacity 0.5s ease;
+    }
+
+    .ad-banner.hidden {
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      overflow: hidden;
+      padding: 0;
+      margin: 0 auto;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
+  <script src="https://kodir2.github.io/actualize.js" async></script>
 </head>
 <body>
-  <div id="overlay"></div>
-  <button id="themeToggle"><i class="fas fa-adjust"></i>🌓</button>
-  <button id="menuToggle"><i class="fas fa-bars"></i>🎬</button>
 
-  <header>
-    <a href="/">
-      <img src="/319529_O.png" alt="Логотип KinoDivBox" class="logo">
-      <span class="sliding-button">KINODIVBOX</span>
-    </a>
-  </header>
+<p class="logo" title="Перейти на главную страницу">
+  🎬 <a href="/" style="color:inherit; text-decoration:none;">KinoDivBox</a>
+</p>
 
-  <nav>
-    <a href="/ID.html" class="sliding-button" target="_blank" rel="noopener noreferrer">ID</a>
-    <a href="/zona.html" class="sliding-button" target="_blank" rel="noopener noreferrer">ZONA</a>
-    <a href="/contact" class="sliding-button" target="_blank" rel="noopener noreferrer">КОНТАКТЫ</a>
-    <a href="https://t.me/+7rdptT_SDxVlZjgy" class="sliding-button" target="_blank" rel="noopener noreferrer">TELEGRAM</a>
-    <a href="https://www.tiktok.com/@kinodivbox_official" class="sliding-button" target="_blank" rel="noopener noreferrer">TikTok</a>
-  </nav>
+<div class="search-box">
+  <input
+    id="query"
+    type="text"
+    placeholder="Введите ID или ссылку КиноПоиска"
+    onkeydown="if(event.key==='Enter') searchPlayer()"
+    aria-label="Поиск по ID или ссылке КиноПоиска"
+  />
+  <button onclick="searchPlayer()" aria-label="Поиск">Поиск</button>
+  <button onclick="copyShareLink()" aria-label="Поделиться ссылкой">Поделиться</button>
+</div>
 
-  <div id="mobileNav">
-    <a href="/ID.html" class="sliding-button" target="_blank" rel="noopener noreferrer">ID</a>
-    <a href="/zona.html" class="sliding-button" target="_blank" rel="noopener noreferrer">ZONA</a>
-    <a href="/contact" class="sliding-button" target="_blank" rel="noopener noreferrer">КОНТАКТЫ</a>
-    <a href="https://t.me/+7rdptT_SDxVlZjgy" class="sliding-button" target="_blank" rel="noopener noreferrer">TELEGRAM</a>
-    <a href="https://www.tiktok.com/@kinodivbox_official" class="sliding-button" target="_blank" rel="noopener noreferrer">TikTok</a>
-  </div>
+<!-- Рекламный баннер -->
+<div id="adBanner" class="ad-banner">
 
-  <main>
-    <iframe src="https://kinohost.web.app" loading="lazy" allowfullscreen title="KinoDivBox iframe"></iframe>
-  </main>
+  <p style="text-align: center;"><img alt="" class="" src="https://kinodivbox.github.io/319529_O.png" style="width: 100%; height: auto;" /></p>
 
-  <footer>
-    <div class="footer_body">
-      <p>&copy; KinoDivBox. Все права защищены.</p>
-    </div>
-  </footer>
-
-  <script>
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', function (e) {
-      if (
-        e.keyCode === 123 ||
-        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
-        (e.ctrlKey && e.key.toUpperCase() === 'U')
-      ) {
-        e.preventDefault();
-      }
-    });
-
-    const themeToggle = document.getElementById('themeToggle');
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
-    themeToggle.addEventListener('click', () => {
-      const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-    });
-
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileNav = document.getElementById('mobileNav');
-    const overlay = document.getElementById('overlay');
-
-    const toggleMobileMenu = () => {
-      const isActive = mobileNav.classList.toggle('active');
-      overlay.classList.toggle('active', isActive);
-      localStorage.setItem('menuOpen', isActive ? '1' : '0');
-    };
-
-    menuToggle.addEventListener('click', toggleMobileMenu);
-    overlay.addEventListener('click', toggleMobileMenu);
-
-    // Сохраняем состояние меню между перезагрузками
-    if (localStorage.getItem('menuOpen') === '1') {
-      mobileNav.classList.add('active');
-      overlay.classList.add('active');
-    }
-  </script>
-  <center> 
-<!--LiveInternet counter--><a href="https://www.liveinternet.ru/click"
-target="_blank"><img id="licnt4BAD" width="88" height="15" style="border:0" 
+<center>
+  <!--LiveInternet counter--><a href="https://www.liveinternet.ru/click"
+target="_blank"><img id="licnt3652" width="88" height="15" style="border:0" 
 title="LiveInternet: показано число посетителей за сегодня"
 src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
-alt=""/></a><script>(function(d,s){d.getElementById("licnt4BAD").src=
-"https://counter.yadro.ru/hit?t23.6;r"+escape(d.referrer)+
+alt=""/></a><script>(function(d,s){d.getElementById("licnt3652").src=
+"https://counter.yadro.ru/hit?t26.6;r"+escape(d.referrer)+
 ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
 (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
 ";h"+escape(d.title.substring(0,150))+";"+Math.random()})
 (document,screen)</script><!--/LiveInternet-->
+
+<!-- hit.ua -->
+<a href='http://hit.ua/?x=39011' target='_blank'>
+<script language="javascript" type="text/javascript"><!--
+Cd=document;Cr="&"+Math.random();Cp="&s=1";
+Cd.cookie="b=b";if(Cd.cookie)Cp+="&c=1";
+Cp+="&t="+(new Date()).getTimezoneOffset();
+if(self!=top)Cp+="&f=1";
+//--></script>
+<script language="javascript1.1" type="text/javascript"><!--
+if(navigator.javaEnabled())Cp+="&j=1";
+//--></script>
+<script language="javascript1.2" type="text/javascript"><!--
+if(typeof(screen)!='undefined')Cp+="&w="+screen.width+"&h="+
+screen.height+"&d="+(screen.colorDepth?screen.colorDepth:screen.pixelDepth);
+//--></script>
+<script language="javascript" type="text/javascript"><!--
+Cd.write("<img src='//c.hit.ua/hit?i=39011&g=0&x=4"+Cp+Cr+
+"&r="+escape(Cd.referrer)+"&u="+escape(window.location.href)+
+"' border='0' width='88' height='15' "+
+"alt='hit.ua: посетителей за сегодня' title='hit.ua: посетителей за сегодня'/>");
+//--></script>
+<noscript>
+<img src='//c.hit.ua/hit?i=39011&amp;g=0&amp;x=4' border='0' width='88' height='15' alt='hit.ua: посетителей за сегодня' title='hit.ua: посетителей за сегодня'/>
+</noscript></a>
+<!-- / hit.ua -->
 </center>
+  
+</div>
+
+<div id="playerSwitcher" aria-label="Выбор плеера" role="tablist" hidden></div>
+
+<div class="player" id="playerContainer" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+  const players = {
+    Collaps: id => `https://api.atomics.ws/embed/kp/${id}`,
+    Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
+    VideoCDN: id => `https://p.lumex.cloud/j3mqebEPqCLB?kp_id=${id}`,
+    Kodik: id => `https:////kodik.cc/find-player?kinopoiskID=${id}`,
+    Трейлер: id => `https://api.atomics.ws/embed/trailer-kp/${id}`,
+  };
+
+  function extractID(input) {
+    const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
+    return match ? match[1] : input;
+  }
+
+  function searchPlayer() {
+    let query = document.getElementById("query").value.trim();
+    query = extractID(query);
+
+    if (!/^\d+$/.test(query)) {
+      alert("Введите числовой ID КиноПоиска или корректную ссылку");
+      return;
+    }
+
+    const container = document.getElementById("playerContainer");
+    const switcher = document.getElementById("playerSwitcher");
+    container.innerHTML = '';
+    switcher.innerHTML = '';
+    switcher.hidden = true;
+
+    // Скрытие баннера при запуске плеера
+    document.getElementById("adBanner")?.classList.add("hidden");
+
+    let index = 0;
+    for (const [name, getSrc] of Object.entries(players)) {
+      const iframeSrc = getSrc(query);
+      const block = document.createElement("div");
+      block.className = "player-block";
+      if (index === 0) block.classList.add("active");
+
+      const title = document.createElement("h2");
+      title.textContent = name;
+      block.appendChild(title);
+
+      const iframe = document.createElement("iframe");
+      iframe.src = iframeSrc;
+      iframe.allowFullscreen = true;
+      iframe.loading = "lazy";
+      iframe.title = `Плеер ${name} для КиноПоиск ID ${query}`;
+      block.appendChild(iframe);
+
+      container.appendChild(block);
+
+      const btn = document.createElement("button");
+      btn.textContent = `Плеер ${index + 1}`;
+      if (index === 0) btn.classList.add("active");
+      btn.onclick = () => {
+        [...switcher.children].forEach(b => b.classList.remove("active"));
+        [...container.children].forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        block.classList.add("active");
+      };
+      switcher.appendChild(btn);
+      index++;
+    }
+
+    if (index > 1) switcher.hidden = false;
+
+    history.replaceState(null, '', `?id=${query}`);
+  }
+
+  function copyShareLink() {
+    let query = document.getElementById("query").value.trim();
+    query = extractID(query);
+
+    if (!/^\d+$/.test(query)) {
+      alert("Введите корректный ID или ссылку перед копированием");
+      return;
+    }
+
+    const url = `${window.location.origin}${window.location.pathname}?id=${query}`;
+    navigator.clipboard.writeText(url)
+      .then(() => alert("Ссылка скопирована!"))
+      .catch(() => alert("Ошибка при копировании ссылки."));
+  }
+
+  function loadFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    if (id && /^\d+$/.test(id)) {
+      document.getElementById("query").value = id;
+      searchPlayer();
+    }
+  }
+
+  window.onload = loadFromURL;
+</script>
+
+<!-- Кнопка перехода на сайт -->
+<div style="text-align: center; margin-top: 30px;">
+    <button onclick="window.open('https://www.kinopoisk.ru/lists/categories/movies/', '_blank')" 
+          aria-label="КиноПоиск Список ID"
+          class="action-button">
+    КиноПоиск Список ID
+  </button>
+     <button onclick="window.open('https://kinodivbox.github.io/contact', '_blank')" 
+          aria-label="КОНТАКТЫ"
+          class="action-button">
+    КОНТАКТЫ
+  </button>
+    <button onclick="window.open('https://t.me/kinodivbox_Official', '_blank')" 
+          aria-label="TELEGRAM"
+          class="action-button">
+    TELEGRAM
+  </button>
+    <button onclick="window.open('https://www.tiktok.com/@kinodivbox_official', '_blank')" 
+          aria-label="TikTok"
+          class="action-button">
+    TikTok
+  </button>
+    <button onclick="window.open('https://kinodivbox.github.io/kinodivbox_officialinstallhelper.html', '_blank')" 
+          aria-label="KinoDivBox — Установка расширения official install helper"
+          class="action-button">
+    Official install helper
+  </button>
+</div>
+
+<script> 
+  document.oncontextmenu = function() { return false; };
+  document.onkeydown = function(e) {
+    if (e.keyCode == 123) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+  };
+</script>
+
 </body>
 </html>
