@@ -5,11 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KinoDivBox — Информация</title>
   <style>
+    :root {
+      --primary-color: #00bcd4;
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
+      --button-color: #0088cc;
+      --button-hover: #0074b3;
+      --footer-bg: #1e1e1e;
+      --footer-text: #aaa;
+    }
+
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
-      background-color: #121212;
-      color: #f0f0f0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
@@ -21,27 +31,31 @@
     }
 
     header h1 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       margin: 0;
-      color: #00bcd4;
+      color: var(--primary-color);
     }
 
     main {
       flex: 1;
-      padding: 1rem 2rem;
-      max-width: 800px;
+      padding: 1rem 1.5rem;
+      max-width: 900px;
       margin: 0 auto;
       line-height: 1.7;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
     .button-container {
       text-align: center;
       margin: 2rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
     }
 
-    .telegram-button {
-      background-color: #0088cc;
+    .button {
+      background-color: var(--button-color);
       color: white;
       padding: 0.8rem 1.5rem;
       border: none;
@@ -53,16 +67,33 @@
       display: inline-block;
     }
 
-    .telegram-button:hover {
-      background-color: #0074b3;
+    .button:hover {
+      background-color: var(--button-hover);
     }
 
     footer {
-      background-color: #1e1e1e;
+      background-color: var(--footer-bg);
       text-align: center;
       padding: 1rem;
       font-size: 0.9rem;
-      color: #aaa;
+      color: var(--footer-text);
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      main {
+        font-size: 0.95rem;
+        padding: 1rem;
+      }
+
+      .button {
+        width: 100%;
+        max-width: 280px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -86,9 +117,8 @@
     </p>
 
     <div class="button-container">
-      <a class="telegram-button" href="https://t.me/yourchannel" target="_blank">
-        Перейти в Telegram
-      </a>
+      <a class="button" href="https://t.me/kinodivbox_Official" target="_blank">Перейти в Telegram</a>
+      <button class="button" onclick="history.back()">← Назад</button>
     </div>
   </main>
 
