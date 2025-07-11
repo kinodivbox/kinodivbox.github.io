@@ -14,16 +14,16 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="KinoDivBox — Онлайн-кинотеатр" />
   <meta property="og:description" content="Смотрите лучшие фильмы и сериалы онлайн бесплатно и без регистрации." />
-  <meta property="og:image" content="https://kinodivbox.github.io/319529_O.png" />
+  <meta property="og:image" content="/319529_O.png" />
   <meta property="og:url" content="https://kinodivbox.github.io/" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="KinoDivBox — Смотреть онлайн бесплатно" />
   <meta name="twitter:description" content="Фильмы, сериалы и мультфильмы онлайн в HD. Без регистрации." />
-  <meta name="twitter:image" content="https://kinodivbox.github.io/319529_O.png" />
+  <meta name="twitter:image" content="/319529_O.png" />
 
-  <link rel="icon" href="https://kinodivbox.github.io/css_js/favicon.svg" type="image/x-icon" />
+  <link rel="icon" href="/css_js/favicon.svg" type="image/x-icon" />
 
   <style>
     body {
@@ -248,7 +248,7 @@
   <script src="https://kodir2.github.io/actualize.js" async></script>
 </head>
 <body>
-
+  
 <p class="logo" title="Перейти на главную страницу">
   🎬 <a href="/" style="color:inherit; text-decoration:none;">KinoDivBox</a>
 </p>
@@ -458,6 +458,133 @@
     Official install helper
   </button>
 </div>
+
+  
+  
+  
+<!-- Иконка "?" -->
+<div id="help-icon" title="Как пользоваться сайтом" 
+     style="
+       position: fixed;
+       bottom: 20px;
+       right: 20px;
+       width: 48px;
+       height: 48px;
+       background-color: #007bff;
+       color: white;
+       font-weight: bold;
+       font-size: 28px;
+       line-height: 48px;
+       text-align: center;
+       border-radius: 50%;
+       cursor: pointer;
+       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+       user-select: none;
+       z-index: 10000;
+       ">
+  ?
+</div>
+
+<!-- Всплывающее окно с инструкцией -->
+<div id="help-popup" 
+     style="
+       display: none;
+       position: fixed;
+       bottom: 80px;
+       right: 20px;
+       width: 320px;
+       max-height: 400px;
+       overflow-y: auto;
+       background: var(--bg-color, #f9f9f9);
+       color: var(--text-color, #222);
+       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+       border-radius: 12px;
+       padding: 1rem 1.2rem;
+       font-family: sans-serif;
+       font-size: 0.9rem;
+       line-height: 1.4;
+       z-index: 10000;
+       ">
+  <h3 style="margin-top: 0; font-size: 1.2rem; text-align:center;">📘 Как пользоваться сайтом</h3>
+
+  <p><strong>🔎 Найдите ID КиноПоиска:</strong><br>
+  Перейдите на <a href="https://www.kinopoisk.ru" target="_blank" rel="noopener" style="color:#007bff;">КиноПоиск</a>, выберите фильм или сериал, и скопируйте цифры из ссылки:<br>
+
+<p>📌 Пример: Если вы открыли страницу фильма:</p>
+  <code>https://www.kinopoisk.ru/film/<mark>535341</mark>/</code> → ID = <strong>535341</strong></p>
+  
+<p>🎬 Пример с сериалом:</p>
+  <code>https://www.kinopoisk.ru/series/<mark>1234567</mark>/</code> → ID = <strong>1234567</strong></p>
+
+  <p><strong>🎬 Как смотреть фильм:</strong></p>
+  <ol>
+    <li>Вставьте ID в наш поиск «Введите ID или ссылку КиноПоиска» на сайте</li>
+    <li>Нажмите кнопку «Поиск»</li>
+    <li>Выберите плеер для просмотра</li>
+  </ol>
+  
+    <p><strong>💡 Советы:</strong><br>
+  — Если плеер не загружается — попробуйте другой (Кнопки: 1 2 3 4 5)<br>
+  — Для браузеров на ПК рекомендуется установить расширения, повышающие безопасность, конфиденциальность и удобство использования.<a href="/kinodivbox_officialinstallhelper.html" target="_blank" rel="noopener" style="color:#007bff;">official install helper</a>:<br></p>
+
+  <p><strong>❓ Часто задаваемые вопросы:</strong><br>
+  — 🟢 Можно вставить ссылку целиком?
+Да, можно — сайт сам автоматически извлечёт ID из ссылки.<br>
+  — 🟠 А если вставлю не тот ID?
+Вы увидите пустой плеер или ошибку. Просто вставьте правильный ID ещё раз.</p>
+
+  <p style="text-align:center; margin-top:1rem;">
+    <button id="help-close" style="
+      background:#007bff; color:#fff; border:none; border-radius:6px; padding: 6px 12px; cursor:pointer;
+      font-size: 0.9rem;
+    ">Закрыть</button>
+  </p>
+</div>
+
+<script>
+  const helpIcon = document.getElementById('help-icon');
+  const helpPopup = document.getElementById('help-popup');
+  const helpClose = document.getElementById('help-close');
+
+  helpIcon.addEventListener('click', () => {
+    helpPopup.style.display = helpPopup.style.display === 'block' ? 'none' : 'block';
+  });
+
+  helpClose.addEventListener('click', () => {
+    helpPopup.style.display = 'none';
+  });
+
+  // Закрывать по клику вне окна
+  document.addEventListener('click', (e) => {
+    if (!helpPopup.contains(e.target) && !helpIcon.contains(e.target)) {
+      helpPopup.style.display = 'none';
+    }
+  });
+</script>
+
+<style>
+  /* Поддержка тёмной темы */
+  body.dark #help-popup {
+    --bg-color: #222;
+    --text-color: #eee;
+  }
+
+  /* Подсветка ID в коде */
+  #help-popup mark {
+    background-color: #fffb91;
+    color: #444;
+    padding: 0 4px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  #help-popup a {
+    text-decoration: none;
+  }
+  #help-popup a:hover {
+    text-decoration: underline;
+  }
+</style>
 
 </body>
 </html>
