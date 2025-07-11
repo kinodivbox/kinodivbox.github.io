@@ -117,6 +117,37 @@
       }
     }
   </style>
+
+      /* Стили для рекламного баннера */
+    .ad-banner {
+      background: linear-gradient(45deg, #ff3d00, #ff6f3a);
+      color: #fff;
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      margin: 20px auto;
+      max-width: 700px;
+      box-shadow: 0 4px 12px rgba(255, 61, 0, 0.4);
+      animation: fadeIn 0.8s ease-in-out;
+      transition: opacity 0.5s ease;
+    }
+
+    .ad-banner.hidden {
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      overflow: hidden;
+      padding: 0;
+      margin: 0 auto;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
 
@@ -124,9 +155,57 @@
     <h1>KinoDivBox</h1>
   </header>
   
+<!-- Рекламный баннер -->
+<div id="adBanner" class="ad-banner">
   <p style="text-align: center;">
     <img alt="" src="https://kinodivbox.github.io/319529_O.png" style="width: 100%; height: auto;" />
   </p>
+  <!-- счетчики ... оставляем без изменений -->
+  <center>
+    <!--LiveInternet counter-->
+    <a href="https://www.liveinternet.ru/click" target="_blank">
+      <img id="licnt3652" width="88" height="15" style="border:0"
+           title="LiveInternet: показано число посетителей за сегодня"
+           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+           alt="" />
+    </a>
+    <script>(function(d,s){
+      d.getElementById("licnt3652").src =
+        "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
+        ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
+        (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
+        ";u" + escape(d.URL) +
+        ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
+    })(document,screen)</script>
+    <!--/LiveInternet-->
+
+    <!-- hit.ua -->
+    <a href='http://hit.ua/?x=39011' target='_blank'>
+      <script language="javascript" type="text/javascript">
+        Cd=document;Cr="&"+Math.random();Cp="&s=1";
+        Cd.cookie="b=b";if(Cd.cookie)Cp+="&c=1";
+        Cp+="&t="+(new Date()).getTimezoneOffset();
+        if(self!=top)Cp+="&f=1";
+      </script>
+      <script language="javascript1.1" type="text/javascript">
+        if(navigator.javaEnabled())Cp+="&j=1";
+      </script>
+      <script language="javascript1.2" type="text/javascript">
+        if(typeof(screen)!='undefined')Cp+="&w="+screen.width+"&h="+
+        screen.height+"&d="+(screen.colorDepth?screen.colorDepth:screen.pixelDepth);
+      </script>
+      <script language="javascript" type="text/javascript">
+        Cd.write("<img src='//c.hit.ua/hit?i=39011&g=0&x=4"+Cp+Cr+
+          "&r="+escape(Cd.referrer)+"&u="+escape(window.location.href)+
+          "' border='0' width='88' height='15' "+
+          "alt='hit.ua: посетителей за сегодня' title='hit.ua: посетителей за сегодня'/>");
+      </script>
+      <noscript>
+        <img src='//c.hit.ua/hit?i=39011&amp;g=0&amp;x=4' border='0' width='88' height='15' alt='hit.ua: посетителей за сегодня' title='hit.ua: посетителей за сегодня'/>
+      </noscript>
+    </a>
+  </center>
+</div>
   
   <main>
     <p>
