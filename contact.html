@@ -2,67 +2,99 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KinoDivBox</title>
-  
-  <link rel="icon" href="/css_js/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css_js/Demo.css">
-  <link rel="stylesheet" href="/css_js/knopki.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KinoDivBox — Информация</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-  <meta name="description" content="Агрегатор плееров Alloha, Ashdi, Collaps и других. Смотреть фильмы и сериалы онлайн.">
-  <meta name="keywords" content="kinodivbox, фильмы онлайн, сериалы онлайн, смотреть бесплатно">
-  <meta name="robots" content="index, follow">
-  <meta property="og:title" content="KinoDivBox — агрегатор плееров" />
-  <meta property="og:image" content="/css_js/cover.png"/>
+    header {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+    }
 
-  <script src="/css_js/logo.js" async></script>
+    header h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      color: #00bcd4;
+    }
+
+    main {
+      flex: 1;
+      padding: 1rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+
+    .button-container {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .telegram-button {
+      background-color: #0088cc;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .telegram-button:hover {
+      background-color: #0074b3;
+    }
+
+    footer {
+      background-color: #1e1e1e;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <a href="/" class="sliding-button center">KINODIVBOX</a>
-    </header>
 
-    <main>
-      <div id="kin-x" data-kinopoisk="986754123963" data-empty-player="/319529_O.png"></div>
+  <header>
+    <h1>KinoDivBox</h1>
+  </header>
 
-      <div class="notice">
-        <p>Если Вы владелец авторских прав — помните, что все плееры размещаются через сторонние API. Обращайтесь напрямую в соответствующие хостинги.</p>
-        <p>Вопросы по рекламе, ошибкам, авторским правам — к видео-хостингам напрямую.</p>
-      </div>
-    </main>
-  </div>
+  <main>
+    <p>
+      Если Вы владелец авторских прав, просим Вас учесть, что все плееры на сайте из сторонних API источников.
+      Пишите напрямую по контактным данным этих видео-хостингов, для соблюдения DMCA.
+      В 99% случаев они удаляют спорный контент в течение 24 часов. Плееры, недоступные на первоисточнике,
+      априори не будут отображаться на KinoDivBox.
+    </p>
 
-  <footer class="footer_body">
-    <a href="https://t.me/kinodivbox_Official" class="sliding-button" target="_blank">TELEGRAM</a>
+    <p>
+      По вопросам рекламы в плеерах, ошибок, авторского права и всего остального,
+      пишите на контактные данные видео-хостингов!
+    </p>
+
+    <div class="button-container">
+      <a class="telegram-button" href="https://t.me/yourchannel" target="_blank">
+        Перейти в Telegram
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 KinoDivBox. Вся информация предоставлена только в ознакомительных целях.
   </footer>
 
-  <script>
-    document.oncontextmenu = () => false;
-    document.onkeydown = (e) => {
-      if (
-        e.keyCode === 123 ||
-        (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) ||
-        (e.ctrlKey && e.key.toUpperCase() === 'U')
-      ) {
-        return false;
-      }
-    };
-  </script>
-
-  <!-- Счётчики -->
-  <div class="counters">
-    <!-- hit.ua -->
-    <a href="http://hit.ua/?x=39011" target="_blank">
-      <img src="//c.hit.ua/hit?i=39011&g=0&x=4" width="88" height="15" alt="hit.ua">
-    </a>
-
-    <!-- LiveInternet -->
-    <a href="https://www.liveinternet.ru/click" target="_blank">
-      <img width="88" height="15" style="border:0" 
-           title="LiveInternet: посетителей за сегодня"
-           src="https://counter.yadro.ru/hit?t23.6;r;u;h;0" alt=""/>
-    </a>
-  </div>
 </body>
 </html>
