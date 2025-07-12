@@ -246,6 +246,7 @@
     }
   </style>
   <script src="https://kodir2.github.io/actualize.js" async></script>
+  <script src="https://hdvb-player.github.io/actualize.js" async></script>
 </head>
 <body>
   
@@ -324,74 +325,90 @@
 </div>
 
 <script>
-  const players = {
-    Collaps: id => `https://api.atomics.ws/embed/kp/${id}`,
-    Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
-    VideoCDN: id => `https://p.lumex.cloud/j3mqebEPqCLB?kp_id=${id}`,
-    Kodik: id => `https:////kodik.cc/find-player?kinopoiskID=${id}`,
-    Трейлер: id => `https://api.atomics.ws/embed/trailer-kp/${id}`,
-  };
+const players = {
+  Collaps: id => `https://api.atomics.ws/embed/kp/${id}`,
+  Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
+  VideoCDN: id => `https://p.lumex.cloud/j3mqebEPqCLB?kp_id=${id}`,
+  HDVB: async (id) => {
+  const token = '8a22f8e7684404c3815e3ffa940f00a0';
+  const url = `https://apivb.com/api/videos.json?id_kp=${id}&token=${token}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0 && data[0].iframe_url) {
+      return data[0].iframe_url; // Берём первый iframe
+    }
+  } catch (e) {
+    console.error('HDVB error:', e);
+  }
+  return null;
+},
+  Kodik: id => `https:////kodik.cc/find-player?kinopoiskID=${id}`,
+  Трейлер: id => `https://api.atomics.ws/embed/trailer-kp/${id}`,
+};
 
   function extractID(input) {
     const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
     return match ? match[1] : input;
   }
 
-  function searchPlayer() {
-    let query = document.getElementById("query").value.trim();
-    query = extractID(query);
+ async function searchPlayer() {
+  let query = document.getElementById("query").value.trim();
+  query = extractID(query);
 
-    if (!/^\d+$/.test(query)) {
-      alert("Введите числовой ID КиноПоиска или корректную ссылку");
-      return;
-    }
-
-    const container = document.getElementById("playerContainer");
-    const switcher = document.getElementById("playerSwitcher");
-    container.innerHTML = '';
-    switcher.innerHTML = '';
-    switcher.hidden = true;
-
-    document.getElementById("adBanner")?.classList.add("hidden");
-
-    let index = 0;
-    for (const [name, getSrc] of Object.entries(players)) {
-      const iframeSrc = getSrc(query);
-      const block = document.createElement("div");
-      block.className = "player-block";
-      if (index === 0) block.classList.add("active");
-
-      const title = document.createElement("h2");
-      title.textContent = name;
-      block.appendChild(title);
-
-      const iframe = document.createElement("iframe");
-      iframe.src = iframeSrc;
-      iframe.allowFullscreen = true;
-      iframe.loading = "lazy";
-      iframe.title = `Плеер ${name} для КиноПоиск ID ${query}`;
-      block.appendChild(iframe);
-
-      container.appendChild(block);
-
-      const btn = document.createElement("button");
-      btn.textContent = index + 1;
-      btn.title = name;
-      if (index === 0) btn.classList.add("active");
-      btn.onclick = () => {
-        [...switcher.children].forEach(b => b.classList.remove("active"));
-        [...container.children].forEach(p => p.classList.remove("active"));
-        btn.classList.add("active");
-        block.classList.add("active");
-      };
-      switcher.appendChild(btn);
-      index++;
-    }
-
-    if (index > 1) switcher.hidden = false;
-
-    history.replaceState(null, '', `?id=${query}`);
+  if (!/^\d+$/.test(query)) {
+    alert("Введите числовой ID КиноПоиска или корректную ссылку");
+    return;
   }
+
+  const container = document.getElementById("playerContainer");
+  const switcher = document.getElementById("playerSwitcher");
+  container.innerHTML = '';
+  switcher.innerHTML = '';
+  switcher.hidden = true;
+
+  document.getElementById("adBanner")?.classList.add("hidden");
+
+  let index = 0;
+  for (const [name, getSrc] of Object.entries(players)) {
+    let iframeSrc = typeof getSrc === 'function' ? await getSrc(query) : null;
+    if (!iframeSrc) continue;
+
+    const block = document.createElement("div");
+    block.className = "player-block";
+    if (index === 0) block.classList.add("active");
+
+    const title = document.createElement("h2");
+    title.textContent = name;
+    block.appendChild(title);
+
+    const iframe = document.createElement("iframe");
+    iframe.src = iframeSrc;
+    iframe.allowFullscreen = true;
+    iframe.loading = "lazy";
+    iframe.title = `Плеер ${name} для КиноПоиск ID ${query}`;
+    block.appendChild(iframe);
+
+    container.appendChild(block);
+
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    btn.title = name;
+    if (index === 0) btn.classList.add("active");
+    btn.onclick = () => {
+      [...switcher.children].forEach(b => b.classList.remove("active"));
+      [...container.children].forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      block.classList.add("active");
+    };
+    switcher.appendChild(btn);
+    index++;
+  }
+
+  if (index > 1) switcher.hidden = false;
+
+  history.replaceState(null, '', `?id=${query}`);
+}
 
   function copyShareLink() {
     let query = document.getElementById("query").value.trim();
