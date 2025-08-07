@@ -320,6 +320,8 @@ const players = {
   Collaps: id => `https://api.atomics.ws/embed/kp/${id}`,
   Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
   VideoCDN: id => `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`,
+  Vibix: id => `https://675812196.videoframe2.com/embed-kp/${id}`,
+  Kodik id => `https://kodik.cc/find-player?kinopoiskID=${id}`,
   HDVB: async (id) => {
   const token = '8a22f8e7684404c3815e3ffa940f00a0';
   const url = `https://apivb.com/api/videos.json?id_kp=${id}&token=${token}`;
@@ -334,8 +336,7 @@ const players = {
   }
   return null;
 },
-  Kodik: id => `https://kodik.cc/find-player?kinopoiskID=${id}`,
-  Трейлер: id => `https://675812196.videoframe2.com/embed-kp/${id}`,
+  Трейлер: id => `https://api.atomics.ws/embed/trailer-kp/${id}`,
 };
 
   function extractID(input) {
