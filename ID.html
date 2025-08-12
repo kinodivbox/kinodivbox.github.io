@@ -265,16 +265,6 @@
   <script src="https://lmx-pl.github.io/lmx-f.github.io/act.js" async></script>
 </head>
 <body>
-
-<div id="player-container">
-    <div class="player-buttons" id="playerButtons"></div>
-    <iframe id="playerFrame" allowfullscreen></iframe>
-
-    <div class="copy-container">
-        <span>Вставить на сайт:</span>
-        <button id="copyBtn">Скопировать</button>
-    </div>
-</div>
   
 <p class="logo" title="Перейти на главную страницу">
   🎬 <a href="/" style="color:inherit; text-decoration:none;">KinoDivBox</a>
@@ -315,7 +305,6 @@
         ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
     })(document,screen)</script>
     <!--/LiveInternet-->
-    </a>
   </center>
 </div>
 
@@ -447,14 +436,6 @@ const players = {
     if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
     if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
   };
-
-      // Копирование кода
-    document.getElementById("copyBtn").onclick = () => {
-        const embedCode = `<iframe src="${location.origin}${location.pathname}?id=${id}&player=${defaultPlayer}" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
-        navigator.clipboard.writeText(embedCode).then(() => {
-            alert("Код скопирован!");
-        });
-    };
 </script>
   
 <center>
@@ -487,7 +468,7 @@ const players = {
   <button onclick="window.open('/install_helper', '_blank')" 
           aria-label="Установка расширения"
           class="action-button">
-    Install_helper
+    InstallHelper
   </button>
 </div>
 
@@ -560,7 +541,7 @@ const players = {
 3. Если проблема не решается, воспользуйтесь VPN &mdash; возможно, ваш провайдер блокирует доступ.<br />
 4.&nbsp;Рекомендуем для ПК:<br />
 Установите расширения для браузера, повышающие безопасность, конфиденциальность и удобство.<br />
-Смотрите раздел &laquo;<a href="/kinodivbox_officialinstallhelper.html">Official install helper</a>&raquo;.</p>
+Смотрите раздел &laquo;<a href="/install_helper">InstallHelper</a>&raquo;.</p>
 
   <p><strong>❓ Часто задаваемые вопросы:</strong><br>
   — 🟢 Можно вставить ссылку целиком?
