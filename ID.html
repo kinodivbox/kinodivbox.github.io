@@ -265,6 +265,11 @@
   <script src="https://lmx-pl.github.io/lmx-f.github.io/act.js" async></script>
 </head>
 <body>
+
+    <div class="copy-container">
+        <span>Вставить на сайт:</span>
+        <button id="copyBtn">Скопировать</button>
+    </div>
   
 <p class="logo" title="Перейти на главную страницу">
   🎬 <a href="/" style="color:inherit; text-decoration:none;">KinoDivBox</a>
@@ -437,6 +442,14 @@ const players = {
     if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
     if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
   };
+
+      // Копирование кода
+    document.getElementById("copyBtn").onclick = () => {
+        const embedCode = `<iframe src="${location.origin}${location.pathname}?id=${id}&player=${defaultPlayer}" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
+        navigator.clipboard.writeText(embedCode).then(() => {
+            alert("Код скопирован!");
+        });
+    };
 </script>
   
 <center>
