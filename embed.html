@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kino Div Box Embed</title>
+<style>
+body { margin:0; background:#000; color:#fff; font-family:sans-serif; }
+#buttons { padding:10px; text-align:center; background:#111; }
+button { margin:5px; padding:10px; border:none; border-radius:5px; background:#444; color:#fff; cursor:pointer; }
+button:hover { background:#666; }
+iframe { width:100%; height:80vh; border:none; }
+</style>
+</head>
+<body>
+<div id="buttons"></div>
+<iframe id="player" src=""></iframe>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
+if (!id) {
+    document.body.innerHTML = '<h2>Не указан ID</h2>';
+} else {
+    fetch('api.php?id=' + id)
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                document.body.innerHTML = '<h2>' + data.error + '</h2>';
+                return;
+            }
+            const buttons = document.getElementById('buttons');
+            const player = document.getElementById('player');
+            Object.keys(data).forEach(name => {
+                const btn = document.createElement('button');
+                btn.textContent = name;
+                btn.onclick = () => { player.src = data[name]; };
+                buttons.appendChild(btn);
+            });
+            player.src = Object.values(data)[0];
+        });
+}
+</script>
+</body>
+</html>
