@@ -60,55 +60,7 @@
       margin-top: 10px;
     }
   </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Установка расширения <span style="color:#ff6c00">KinoDivBox</span></h1>
-
-    <p>Это расширение добавляет кнопку «Смотреть на KinoDivBox» прямо на страницы фильмов на <strong>КиноПоиске</strong>.</p>
-
-    <a class="download-btn" href="/css_js/KinoDivBox Assistant v1.1.zip" download>📦 Скачать расширение (ZIP)</a>
-
-    <h2>Как установить:</h2>
-    <ol>
-      <li>Скачайте ZIP-файл по кнопке выше</li>
-      <li>Распакуйте его в любую папку</li>
-      <li>Откройте браузер <strong>Chrome / Edge / Opera / Brave / Vivaldi / Firefox</strong></li>
-      <li>Перейдите на страницу <code>chrome://extensions</code></li>
-      <li>Включите «Режим разработчика» в правом верхнем углу</li>
-      <li>Нажмите кнопку <strong>«Загрузить распакованное расширение»</strong></li>
-      <li>Выберите распакованную папку</li>
-      <li>В Firefox:</li>
-      <li>Открой about:debugging#/runtime/this-firefox</li>
-      <li>Нажми «Загрузить временное дополнение»</li>
-      <li>Выбери manifest.json</li>
-    </ol>
-
-    <p>После установки откройте <strong>любой фильм на КиноПоиске</strong> — и вы увидите кнопку KinoDivBox прямо под названием.</p>
-
-    <h3>Пример:</h3>
-    <img src="/css_js/primer_knopki.png" alt="Скриншот кнопки KinoDivBox">
-
-<h3 style="text-align: center; margin-top: 40px;">Готово!</h3>
-
-<p style="text-align: center;"><!--LiveInternet counter-->
-    <a href="https://www.liveinternet.ru/click" target="_blank">
-      <img id="licnt3652" width="88" height="15" style="border:0"
-           title="LiveInternet: показано число посетителей за сегодня"
-           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
-           alt="" />
-    </a>
-    <script>(function(d,s){
-      d.getElementById("licnt3652").src =
-        "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
-        ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
-        (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
-        ";u" + escape(d.URL) +
-        ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
-    })(document,screen)</script>
-    <!--/LiveInternet--></p>
-    
-<!-- Стили кнопок -->
+  <!-- Стили кнопок -->
 <style>
   .store-button, .action-button {
     display: inline-block;
@@ -147,6 +99,153 @@
     }
   }
 </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Установка расширения <span style="color:#ff6c00">KinoDivBox</span></h1>
+
+    <p>Это расширение добавляет кнопку «Смотреть на KinoDivBox» прямо на страницы фильмов на <strong>КиноПоиске</strong>.</p>
+
+    <a class="download-btn" href="/css_js/KinoDivBox Assistant v1.1.zip" download>📦 Скачать расширение (ZIP)</a>
+
+    <h2>Как установить:</h2>
+    <ol>
+      <li>Скачайте ZIP-файл по кнопке выше</li>
+      <li>Распакуйте его в любую папку</li>
+      <li>Откройте браузер <strong>Chrome / Edge / Opera / Brave / Vivaldi / Firefox</strong></li>
+      <li>Перейдите на страницу <code>chrome://extensions</code></li>
+      <li>Включите «Режим разработчика» в правом верхнем углу</li>
+      <li>Нажмите кнопку <strong>«Загрузить распакованное расширение»</strong></li>
+      <li>Выберите распакованную папку</li>
+      <li><strong>В Firefox:</strong></li>
+      <li>Открой about:debugging#/runtime/this-firefox</li>
+      <li>Нажми «Загрузить временное дополнение»</li>
+      <li>Выбери manifest.json</li>
+    </ol>
+
+    <p>После установки откройте <strong>любой фильм на КиноПоиске</strong> — и вы увидите кнопку KinoDivBox прямо под названием.</p>
+
+    <h3>Пример:</h3>
+    <img src="/css_js/primer_knopki.png" alt="Скриншот кнопки KinoDivBox">
+
+<h3 style="text-align: center; margin-top: 40px;">Готово!</h3>
+
+    <h1>KinoDivBox Embed Player</h1>
+<p>KinoDivBox Embed Player — это встроенный видеоплеер, который можно разместить на своём сайте для просмотра фильмов и сериалов из популярных онлайн-источников.</p>
+
+<h2>Как вставить плеер</h2>
+<p>Добавьте этот код на вашу страницу:</p>
+<pre><code>&lt;iframe src="https://kinodivbox.com/embed.html?id=535341&amp;player=collaps" 
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        allowfullscreen 
+        loading="lazy"&gt;
+&lt;/iframe&gt;</code></pre>
+
+<h2>Параметры настройки</h2>
+<table>
+<tr>
+    <th>Параметр</th>
+    <th>Пример</th>
+    <th>Описание</th>
+</tr>
+<tr>
+    <td><code>id</code></td>
+    <td><code>id=535341</code></td>
+    <td>ID фильма или сериала с КиноПоиска</td>
+</tr>
+<tr>
+    <td><code>player</code></td>
+    <td><code>player=collaps</code></td>
+    <td>Выбор плеера: <code>Collaps</code>, <code>Alloha</code>, <code>Lumex</code>, <code>Vibix</code>, <code>Kodik</code></td>
+</tr>
+<tr>
+    <td><code>height</code></td>
+    <td><code>height=600</code></td>
+    <td>Высота плеера в пикселях</td>
+</tr>
+</table>
+
+<h2>Примеры</h2>
+<div class="example">
+<h3>Collaps Player</h3>
+<pre><code>&lt;iframe src="https://kinodivbox.com/embed.html?id=535341&amp;player=Collaps"
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        allowfullscreen 
+        loading="lazy"&gt;
+&lt;/iframe&gt;</code></pre>
+</div>
+
+<div class="example">
+<h3>Alloha Player</h3>
+<pre><code>&lt;iframe src="https://kinodivbox.com/embed.html?id=535341&amp;player=alloha"
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        allowfullscreen 
+        loading="lazy"&gt;
+&lt;/iframe&gt;</code></pre>
+</div>    
+
+<div class="example">
+<h3>VideoCDN Player</h3>
+<pre><code>&lt;iframe src="https://kinodivbox.com/embed.html?id=535341&amp;player=VideoCDN"
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        allowfullscreen 
+        loading="lazy"&gt;
+&lt;/iframe&gt;</code></pre>
+</div>    
+
+<div class="example">
+<h3>Vibix Player</h3>
+<pre><code>&lt;iframe src="https://kinodivbox.com/embed.html?id=535341&amp;player=Vibix"
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        allowfullscreen 
+        loading="lazy"&gt;
+&lt;/iframe&gt;</code></pre>
+</div> 
+
+<div class="example">
+<h3>Kodik Player</h3>
+<pre><code>&lt;iframe src="https://kinodivbox.com/embed.html?id=535341&amp;player=Kodik"
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        allowfullscreen 
+        loading="lazy"&gt;
+&lt;/iframe&gt;</code></pre>
+</div>     
+    
+<div class="footer">
+    <p>⚠ Если Вы владелец авторских прав, просим Вас учесть, что все плееры на сайте из сторонних API источников. Пишите напрямую по контактным данным этих видео-хостингов, для соблюдения DMCA. В 99% случаев они удаляют спорный контент в течение 24 часов. Плееры, недоступные на первоисточнике, априори не будут отображаться на KinoDivBox.
+По вопросам рекламы в плеерах, ошибок, авторского права и всего остального, пишите на контактные данные видео-хостингов!</p>
+</div>
+
+<p style="text-align: center;"><!--LiveInternet counter-->
+    <a href="https://www.liveinternet.ru/click" target="_blank">
+      <img id="licnt3652" width="88" height="15" style="border:0"
+           title="LiveInternet: показано число посетителей за сегодня"
+           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+           alt="" />
+    </a>
+    <script>(function(d,s){
+      d.getElementById("licnt3652").src =
+        "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
+        ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
+        (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
+        ";u" + escape(d.URL) +
+        ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
+    })(document,screen)</script>
+    <!--/LiveInternet--></p>
+    
+
   </div>  
 </body>
 </html>
