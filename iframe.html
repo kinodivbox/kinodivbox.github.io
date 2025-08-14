@@ -88,14 +88,14 @@
         document.body.innerHTML = "<h2 style='text-align:center;margin-top:20%;color:#fff;'>Ошибка: не указан ID КиноПоиска</h2>";
         return;
     }
-    const defaultPlayer = params.get("player") || "1";
+    const defaultPlayer = params.get("player") || "Collaps";
 
     const players = {
-        1: `https://api.atomics.ws/embed/kp/${id}`,
-        2: `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
-        3: `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`,
-        4: `https://675812196.videoframe2.com/embed-kp/${id}`,
-        5: `https://kodik.cc/find-player?kinopoiskID=${id}`,
+        Collaps: `https://api.atomics.ws/embed/kp/${id}`,
+        Alloha: `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
+        Lumex: `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`,
+        Vibix: `https://675812196.videoframe2.com/embed-kp/${id}`,
+        Kodik: `https://kodik.cc/find-player?kinopoiskID=${id}`,
     };
 
     const playerFrame = document.getElementById("playerFrame");
