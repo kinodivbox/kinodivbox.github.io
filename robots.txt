@@ -1,6 +1,8 @@
 User-agent: *
 Disallow: /ID
 Disallow: /ID.html
-
+Disallow: /iframe
+Disallow: /iframe.html
 
 Sitemap: https://kinodivbox.github.io/sitemap.xml
+
