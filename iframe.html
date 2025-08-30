@@ -116,7 +116,7 @@
     const defaultPlayer = params.get("player") || "1";
 
     const players = {
-        1: { url: `https://api.namy.ws/embed/kp/${id}`, name: "Atomics" },
+        1: { url: `https://api.atomics.ws/embed/kp/${id}`, name: "Atomics" },
         2: { url: `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`, name: "Alloha" },
         3: { url: `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`, name: "Collaps" },
         4: { url: `https://675812196.videoframe2.com/embed-kp/${id}`, name: "Videocdn" },
@@ -125,42 +125,48 @@
 
     const playerFrame = document.getElementById("playerFrame");
     const playerButtons = document.getElementById("playerButtons");
+
     let fallbackTimer = null;
+    let manualSwitch = false; // флаг ручного переключения
 
-    function loadPlayer(key) {
-        if (players[key]) {
-            playerFrame.src = players[key].url;
+    function loadPlayer(key, isManual = false) {
+        if (!players[key]) return;
 
-            // подсветка кнопки
-            document.querySelectorAll(".player-btn").forEach(btn => btn.classList.remove("active"));
-            const activeBtn = document.querySelector(`.player-btn[data-player="${key}"]`);
-            if (activeBtn) activeBtn.classList.add("active");
+        playerFrame.src = players[key].url;
 
-            // запуск таймера fallback
+        // подсветка кнопки
+        document.querySelectorAll(".player-btn").forEach(btn => btn.classList.remove("active"));
+        const activeBtn = document.querySelector(`.player-btn[data-player="${key}"]`);
+        if (activeBtn) activeBtn.classList.add("active");
+
+        // если включили вручную → отключаем автопереключение
+        if (isManual) {
+            manualSwitch = true;
             clearTimeout(fallbackTimer);
-            fallbackTimer = setTimeout(() => {
+            return;
+        }
+
+        // авто fallback (только если не было ручного переключения)
+        clearTimeout(fallbackTimer);
+        fallbackTimer = setTimeout(() => {
+            if (!manualSwitch) {
                 const next = parseInt(key) + 1;
                 if (players[next]) {
-                    console.warn(`Плеер ${players[key].name} не загрузился → переключаем на ${players[next].name}`);
+                    console.warn(`Автопереключение: ${players[key].name} → ${players[next].name}`);
                     loadPlayer(next);
                 }
-            }, 5000); // 5 секунд ожидания
-        }
+            }
+        }, 10000); // ждём 10 секунд перед переключением
     }
-
-    // Обнуляем fallback если плеер загрузился
-    playerFrame.onload = () => {
-        clearTimeout(fallbackTimer);
-    };
 
     // Создаём кнопки
     for (const key in players) {
         const btn = document.createElement("div");
         btn.className = "player-btn";
         btn.dataset.player = key;
-        btn.textContent = key; // номер
+        btn.textContent = key;
         btn.title = players[key].name;
-        btn.onclick = () => loadPlayer(key);
+        btn.onclick = () => loadPlayer(key, true); // ручное включение
         playerButtons.appendChild(btn);
     }
 
