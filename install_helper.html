@@ -3,110 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <link rel="icon" href="/css_js/favicon.svg" type="image/x-icon" />
-  
-    <!-- Основные мета-теги -->
-  <title>KinoDivBox — Установка расширения official install helper</title>
-  <meta name="description" content="KinoDivBox — бесплатный онлайн-кинотеатр. Это расширение добавляет кнопку «Смотреть на KinoDivBox» прямо на страницы фильмов на КиноПоиске." />
-  <meta name="keywords" content="Как установить кнопку на страницы фильмов на КиноПоиске, office install helper, install, helper, KinoDivBox, КиноПоиске, установить кнопку, официальный помощник по установке" />
-  <meta name="author" content="KinoDivBox" />
-  <meta name="robots" content="index, follow" />
 
-   <!-- Open Graph для соцсетей (Facebook, Telegram, ВКонтакте) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="KinoDivBox — Установка расширения" />
-  <meta property="og:description" content="Это расширение добавляет кнопку «Смотреть на KinoDivBox» прямо на страницы фильмов на КиноПоиске." />
-  <meta property="og:image" content="/319529_O.png" /> <!-- Подставь свою картинку -->
-  <meta property="og:url" content="https://kinodivbox.github.io" />
+  <title>KinoDivBox — Установка расширения и Embed Player</title>
+  <meta name="description" content="Установите расширение KinoDivBox для КиноПоиска и используйте встроенный Embed Player для вашего сайта.">
+  <meta name="author" content="KinoDivBox">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="KinoDivBox — Установка расширения">
+  <meta property="og:description" content="Кнопка «Смотреть на KinoDivBox» прямо на страницах фильмов КиноПоиска.">
+  <meta property="og:image" content="/319529_O.png">
+  <meta property="og:url" content="https://kinodivbox.github.io">
+
+  <link rel="icon" href="/css_js/favicon.svg" type="image/svg+xml">
 
   <style>
     body {
       font-family: system-ui, sans-serif;
-      background-color: #f9f9f9;
+      background: #f9f9f9;
       color: #222;
       margin: 0;
       padding: 20px;
       line-height: 1.6;
     }
-    .container {
-      max-width: 700px;
+    main {
+      max-width: 800px;
       margin: auto;
       background: white;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
-    h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
+    h1, h2, h3 {
+      margin-top: 1.4em;
+      margin-bottom: 0.6em;
     }
-    a.download-btn {
+    .btn {
       display: inline-block;
-      background-color: #ff6c00;
-      color: white;
-      text-decoration: none;
       padding: 12px 20px;
-      font-size: 18px;
+      font-size: 16px;
       border-radius: 8px;
-      margin: 20px 0;
+      text-decoration: none;
+      color: #fff;
+      background: #ff6c00;
+      transition: 0.3s;
     }
-    ol {
-      padding-left: 20px;
+    .btn:hover {
+      background: #e55f00;
     }
-    img {
-      max-width: 100%;
+    pre {
+      background: #f4f4f4;
+      padding: 12px;
       border-radius: 8px;
-      margin-top: 10px;
+      overflow-x: auto;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    table th {
+      background: #fafafa;
+      text-align: left;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #666;
+      text-align: center;
     }
   </style>
-  <!-- Стили кнопок -->
-<style>
-  .store-button, .action-button {
-    display: inline-block;
-    padding: 10px 18px;
-    font-size: 14px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 8px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    color: white;
-  }
-
-  .store-button {
-    background-color: #dc3545;
-  }
-
-  .store-button:hover {
-    background-color: #bb2d3b;
-  }
-
-  .action-button {
-    background-color: #28a745;
-  }
-
-  .action-button:hover {
-    background-color: #218838;
-  }
-
-  @media (max-width: 600px) {
-    .store-button, .action-button {
-      width: 100%;
-      box-sizing: border-box;
-    }
-  }
-</style>
 </head>
 <body>
-  <div class="container">
+  <main>
     <h1>Установка расширения <span style="color:#ff6c00">KinoDivBox</span></h1>
+    <p>Расширение добавляет кнопку «Смотреть на KinoDivBox» прямо на страницы фильмов на <strong>КиноПоиске</strong>.</p>
 
-    <p>Это расширение добавляет кнопку «Смотреть на KinoDivBox» прямо на страницы фильмов на <strong>КиноПоиске</strong>.</p>
-
-    <a class="download-btn" href="/css_js/KinoDivBox Assistant v1.1.zip" download>📦 Скачать расширение (ZIP)</a>
+    <a class="btn" href="/css_js/KinoDivBox Assistant v1.1.zip" download>📦 Скачать расширение (ZIP)</a>
 
     <h2>Как установить:</h2>
     <ol>
@@ -123,129 +101,27 @@
       <li>Выбери manifest.json</li>
     </ol>
 
-    <p>После установки откройте <strong>любой фильм на КиноПоиске</strong> — и вы увидите кнопку KinoDivBox прямо под названием.</p>
+    <h3>Пример кнопки:</h3>
+    <img src="/css_js/primer_knopki.png" alt="Кнопка KinoDivBox на КиноПоиске">
 
-    <h3>Пример:</h3>
-    <img src="/css_js/primer_knopki.png" alt="Скриншот кнопки KinoDivBox">
+    <h2>KinoDivBox Embed Player</h2>
+    <p>Это встроенный видеоплеер, который можно разместить на своём сайте.</p>
 
-<h3 style="text-align: center; margin-top: 40px;">Готово!</h3>
+    <h3>Пример кода</h3>
+    <pre><code>&lt;iframe src="https://kinodivbox.github.io/iframe?id=535341"
+        width="100%" height="600" frameborder="0" allowfullscreen loading="lazy"&gt;&lt;/iframe&gt;</code></pre>
 
-    <h1>KinoDivBox Embed Player</h1>
-<p>KinoDivBox Embed Player — это встроенный видеоплеер, который можно разместить на своём сайте для просмотра фильмов и сериалов из популярных онлайн-источников.</p>
+    <h3>Параметры</h3>
+    <table>
+      <tr><th>Параметр</th><th>Пример</th><th>Описание</th></tr>
+      <tr><td><code>id</code></td><td><code>535341</code></td><td>ID фильма с КиноПоиска</td></tr>
+      <tr><td><code>iframe?id=535341&player=Collaps</code></td><td><code>collaps Alloha, Lumex, Vibix, Kodik</code></td><td>Выбор плеера</td></tr>
+      <tr><td><code>height</code></td><td><code>600</code></td><td>Высота плеера</td></tr>
+    </table>
 
-<h2>Как вставить плеер</h2>
-<p>Добавьте этот код на вашу страницу:</p>
-<pre><code>&lt;iframe src="https://kinodivbox.github.io/iframe?id=535341" 
-        width="100%" 
-        height="600" 
-        frameborder="0" 
-        allowfullscreen 
-        loading="lazy"&gt;
-&lt;/iframe&gt;</code></pre>
-
-<h2>Параметры настройки</h2>
-<table>
-<tr>
-    <th>Параметр</th>
-    <th>Пример</th>
-    <th>Описание</th>
-</tr>
-<tr>
-    <td><code>id</code></td>
-    <td><code>id=535341</code></td>
-    <td>ID фильма или сериала с КиноПоиска</td>
-</tr>
-<tr>
-    <td><code>player</code></td>
-    <td><code>player=collaps</code></td>
-    <td>Выбор плеера: <code>Collaps</code>, <code>Alloha</code>, <code>Lumex</code>, <code>Vibix</code>, <code>Kodik</code></td>
-</tr>
-<tr>
-    <td><code>height</code></td>
-    <td><code>height=600</code></td>
-    <td>Высота плеера в пикселях</td>
-</tr>
-</table>
-
-<h2>Примеры</h2>
-<div class="example">
-<h3>Collaps Player</h3>
-<pre><code>&lt;iframe src="https://kinodivbox.github.io/iframe?id=535341&amp;player=Collaps"
-        width="100%" 
-        height="600" 
-        frameborder="0" 
-        allowfullscreen 
-        loading="lazy"&gt;
-&lt;/iframe&gt;</code></pre>
-</div>
-
-<div class="example">
-<h3>Alloha Player</h3>
-<pre><code>&lt;iframe src="https://kinodivbox.github.io/iframe?id=535341&amp;player=alloha"
-        width="100%" 
-        height="600" 
-        frameborder="0" 
-        allowfullscreen 
-        loading="lazy"&gt;
-&lt;/iframe&gt;</code></pre>
-</div>    
-
-<div class="example">
-<h3>Lumex Player</h3>
-<pre><code>&lt;iframe src="https://kinodivbox.github.io/iframe?id=535341&amp;player=Lumex"
-        width="100%" 
-        height="600" 
-        frameborder="0" 
-        allowfullscreen 
-        loading="lazy"&gt;
-&lt;/iframe&gt;</code></pre>
-</div>    
-
-<div class="example">
-<h3>Vibix Player</h3>
-<pre><code>&lt;iframe src="https://kinodivbox.github.io/iframe?id=535341&amp;player=Vibix"
-        width="100%" 
-        height="600" 
-        frameborder="0" 
-        allowfullscreen 
-        loading="lazy"&gt;
-&lt;/iframe&gt;</code></pre>
-</div> 
-
-<div class="example">
-<h3>Kodik Player</h3>
-<pre><code>&lt;iframe src="https://kinodivbox.github.io/iframe?id=535341&amp;player=Kodik"
-        width="100%" 
-        height="600" 
-        frameborder="0" 
-        allowfullscreen 
-        loading="lazy"&gt;
-&lt;/iframe&gt;</code></pre>
-</div>     
-    
-<div class="footer">
-    <p>⚠ Если Вы владелец авторских прав, просим Вас учесть, что все плееры на сайте из сторонних API источников. Пишите напрямую по контактным данным этих видео-хостингов, для соблюдения DMCA. В 99% случаев они удаляют спорный контент в течение 24 часов. Плееры, недоступные на первоисточнике, априори не будут отображаться на KinoDivBox.
-По вопросам рекламы в плеерах, ошибок, авторского права и всего остального, пишите на контактные данные видео-хостингов!</p>
-</div>
-
-<p style="text-align: center;"><!--LiveInternet counter-->
-    <a href="https://www.liveinternet.ru/click" target="_blank">
-      <img id="licnt3652" width="88" height="15" style="border:0"
-           title="LiveInternet: показано число посетителей за сегодня"
-           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
-           alt="" />
-    </a>
-    <script>(function(d,s){
-      d.getElementById("licnt3652").src =
-        "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
-        ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
-        (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
-        ";u" + escape(d.URL) +
-        ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
-    })(document,screen)</script>
-    <!--/LiveInternet--></p>
-    
-
-  </div>  
+    <footer>
+      ⚠ Плееры подключаются со сторонних API. Все вопросы по авторскому праву направляйте на контактные данные соответствующих хостингов.
+    </footer>
+  </main>
 </body>
 </html>
