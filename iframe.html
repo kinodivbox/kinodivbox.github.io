@@ -116,7 +116,7 @@
     const defaultPlayer = params.get("player") || "1";
 
     const players = {
-        1: { url: `https://api.atomics.ws/embed/kp/${id}`, name: "Atomics" },
+        1: { url: `https://api.namy.ws/embed/kp/${id}`, name: "Atomics" },
         2: { url: `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`, name: "Alloha" },
         3: { url: `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`, name: "Collaps" },
         4: { url: `https://675812196.videoframe2.com/embed-kp/${id}`, name: "Videocdn" },
@@ -127,12 +127,13 @@
     const playerButtons = document.getElementById("playerButtons");
 
     let fallbackTimer = null;
-    let manualSwitch = false; // флаг ручного переключения
+    let manualSwitch = false; // ручной выбор
 
     function loadPlayer(key, isManual = false) {
         if (!players[key]) return;
 
-        playerFrame.src = players[key].url;
+        // добавляем "хвостик", чтобы iframe реально перезагружался
+        playerFrame.src = players[key].url + "&t=" + Date.now();
 
         // подсветка кнопки
         document.querySelectorAll(".player-btn").forEach(btn => btn.classList.remove("active"));
@@ -146,7 +147,7 @@
             return;
         }
 
-        // авто fallback (только если не было ручного переключения)
+        // авто fallback
         clearTimeout(fallbackTimer);
         fallbackTimer = setTimeout(() => {
             if (!manualSwitch) {
@@ -156,7 +157,7 @@
                     loadPlayer(next);
                 }
             }
-        }, 10000); // ждём 10 секунд перед переключением
+        }, 10000); // 10 секунд
     }
 
     // Создаём кнопки
@@ -182,11 +183,8 @@
   frameborder="0" 
   allowfullscreen>
 </iframe>`;
-
         navigator.clipboard.writeText(embedCode).then(() => {
-            const status = document.getElementById("copyStatus");
-            status.classList.remove("hidden");
-            setTimeout(() => status.classList.add("hidden"), 2000);
+            alert("Код скопирован!");
         });
     };
 
