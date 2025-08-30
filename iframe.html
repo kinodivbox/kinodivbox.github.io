@@ -66,19 +66,6 @@
         cursor: pointer;
         border-radius: 5px;
     }
-    /* стиль счётчика */
-    .liveinternet-counter {
-        position: fixed;
-        bottom: 50px;
-        right: 5px;
-        z-index: 9999;
-        opacity: 0.6;
-    }
-    .liveinternet-counter img {
-        width: 60px;
-        height: 15px;
-        border: 0;
-    }
 </style>
 </head>
 <body>
@@ -92,27 +79,7 @@
         <button id="copyBtn">Скопировать</button>
     </div>
 </div>
-<center>
-<!--LiveInternet counter-->
-<div class="liveinternet-counter">
-  <a href="https://www.liveinternet.ru/click" target="_blank">
-    <img id="licnt3652"
-         title="LiveInternet: показано число посетителей за сегодня"
-         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
-         alt="" />
-  </a>
-</div>
-<script>(function(d,s){
-  d.getElementById("licnt3652").src =
-    "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
-    ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
-    (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
-    ";u" + escape(d.URL) +
-    ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
-})(document,screen)</script>
-<!--/LiveInternet-->
-</center>
-    
+
 <script>
 (function(){
     const params = new URLSearchParams(location.search);
@@ -121,14 +88,14 @@
         document.body.innerHTML = "<h2 style='text-align:center;margin-top:20%;color:#fff;'>Ошибка: не указан ID КиноПоиска</h2>";
         return;
     }
-    const defaultPlayer = params.get("player") || "Collaps";
+    const defaultPlayer = params.get("player") || "1";
 
     const players = {
-        Collaps: `https://api.atomics.ws/embed/kp/${id}`,
-        Alloha: `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
-        Lumex: `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`,
-        Vibix: `https://675812196.videoframe2.com/embed-kp/${id}`,
-        Kodik: `https://kodik.cc/find-player?kinopoiskID=${id}`,
+        1: `https://api.atomics.ws/embed/kp/${id}`,
+        2:  `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
+        3: `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`,
+        4: `https://675812196.videoframe2.com/embed-kp/${id}`,
+        5: `https:////kodik.cc/find-player?kinopoiskID=${id}`,
     };
 
     const playerFrame = document.getElementById("playerFrame");
