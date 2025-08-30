@@ -66,26 +66,20 @@
         cursor: pointer;
         border-radius: 5px;
     }
+    /* стиль счётчика */
+    .liveinternet-counter {
+        position: fixed;
+        bottom: 5px;
+        right: 5px;
+        z-index: 9999;
+        opacity: 0.6;
+    }
+    .liveinternet-counter img {
+        width: 60px;
+        height: 15px;
+        border: 0;
+    }
 </style>
-          <!-- счетчики ... оставляем без изменений -->
-  <center>
-    <!--LiveInternet counter-->
-    <a href="https://www.liveinternet.ru/click" target="_blank">
-      <img id="licnt3652" width="88" height="15" style="border:0"
-           title="LiveInternet: показано число посетителей за сегодня"
-           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
-           alt="" />
-    </a>
-    <script>(function(d,s){
-      d.getElementById("licnt3652").src =
-        "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
-        ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
-        (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
-        ";u" + escape(d.URL) +
-        ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
-    })(document,screen)</script>
-    <!--/LiveInternet-->
-  </center>
 </head>
 <body>
 
@@ -98,6 +92,25 @@
         <button id="copyBtn">Скопировать</button>
     </div>
 </div>
+
+<!--LiveInternet counter-->
+<div class="liveinternet-counter">
+  <a href="https://www.liveinternet.ru/click" target="_blank">
+    <img id="licnt3652"
+         title="LiveInternet: показано число посетителей за сегодня"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+         alt="" />
+  </a>
+</div>
+<script>(function(d,s){
+  d.getElementById("licnt3652").src =
+    "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
+    ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
+    (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
+    ";u" + escape(d.URL) +
+    ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
+})(document,screen)</script>
+<!--/LiveInternet-->
 
 <script>
 (function(){
