@@ -29,12 +29,12 @@
         right: 15px;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 10px;
         z-index: 10;
     }
     .player-btn {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
         background: rgba(255,255,255,0.15);
         border: 1px solid rgba(255,255,255,0.3);
@@ -44,10 +44,16 @@
         justify-content: center;
         cursor: pointer;
         transition: 0.3s;
-        font-size: 12px;
+        font-size: 14px;
+        font-weight: bold;
     }
     .player-btn:hover {
         background: rgba(255,255,255,0.3);
+    }
+    .player-btn.active {
+        background: #ff5722;
+        border-color: #ff784e;
+        box-shadow: 0 0 8px rgba(255,87,34,0.7);
     }
     .copy-container {
         position: absolute;
@@ -82,6 +88,9 @@
         display: none;
     }
 </style>
+  <script src="https://kodir2.github.io/actualize.js" async></script>
+  <script src="https://hdvb-player.github.io/actualize.js" async></script>
+  <script src="https://lmx-pl.github.io/lmx-f.github.io/act.js" async></script>
 </head>
 <body>
 
@@ -107,29 +116,51 @@
     const defaultPlayer = params.get("player") || "1";
 
     const players = {
-        1: `https://api.atomics.ws/embed/kp/${id}`,
-        2: `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
-        3: `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`,
-        4: `https://675812196.videoframe2.com/embed-kp/${id}`,
-        5: `https://kodik.cc/find-player?kinopoiskID=${id}`,
+        1: { url: `https://api.namy.ws/embed/kp/${id}`, name: "Atomics" },
+        2: { url: `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`, name: "Alloha" },
+        3: { url: `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`, name: "Collaps" },
+        4: { url: `https://675812196.videoframe2.com/embed-kp/${id}`, name: "Videocdn" },
+        5: { url: `https://kodik.cc/find-player?kinopoiskID=${id}`, name: "Kodik" },
     };
 
     const playerFrame = document.getElementById("playerFrame");
     const playerButtons = document.getElementById("playerButtons");
+    let fallbackTimer = null;
 
-    function loadPlayer(name) {
-        if (players[name]) {
-            playerFrame.src = players[name];
+    function loadPlayer(key) {
+        if (players[key]) {
+            playerFrame.src = players[key].url;
+
+            // подсветка кнопки
+            document.querySelectorAll(".player-btn").forEach(btn => btn.classList.remove("active"));
+            const activeBtn = document.querySelector(`.player-btn[data-player="${key}"]`);
+            if (activeBtn) activeBtn.classList.add("active");
+
+            // запуск таймера fallback
+            clearTimeout(fallbackTimer);
+            fallbackTimer = setTimeout(() => {
+                const next = parseInt(key) + 1;
+                if (players[next]) {
+                    console.warn(`Плеер ${players[key].name} не загрузился → переключаем на ${players[next].name}`);
+                    loadPlayer(next);
+                }
+            }, 5000); // 5 секунд ожидания
         }
     }
 
+    // Обнуляем fallback если плеер загрузился
+    playerFrame.onload = () => {
+        clearTimeout(fallbackTimer);
+    };
+
     // Создаём кнопки
-    for (const name in players) {
+    for (const key in players) {
         const btn = document.createElement("div");
         btn.className = "player-btn";
-        btn.textContent = name[0].toUpperCase();
-        btn.title = "Плеер " + name;
-        btn.onclick = () => loadPlayer(name);
+        btn.dataset.player = key;
+        btn.textContent = key; // номер
+        btn.title = players[key].name;
+        btn.onclick = () => loadPlayer(key);
         playerButtons.appendChild(btn);
     }
 
