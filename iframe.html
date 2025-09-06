@@ -1,202 +1,124 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KinoDivBox Embed Player</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KinoDivBox — Агрегатор плееров</title>
 <style>
-    body {
-        margin: 0;
-        background: #000;
-        color: #fff;
-        font-family: Arial, sans-serif;
-    }
-    #player-container {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-    }
-    iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-        display: block;
-    }
-    .player-buttons {
-        position: absolute;
-        top: 100px;
-        right: 15px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        z-index: 10;
-    }
-    .player-btn {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.15);
-        border: 1px solid rgba(255,255,255,0.3);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: 0.3s;
-        font-size: 14px;
-        font-weight: bold;
-    }
-    .player-btn:hover {
-        background: rgba(255,255,255,0.3);
-    }
-    .player-btn.active {
-        background: #ff5722;
-        border-color: #ff784e;
-        box-shadow: 0 0 8px rgba(255,87,34,0.7);
-    }
-    .copy-container {
-        position: absolute;
-        bottom: 60px;
-        right: 10px;
-        background: rgba(0,0,0,0.6);
-        padding: 10px 14px;
-        border-radius: 12px;
-        font-size: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .copy-container button {
-        background: #ff5722;
-        color: #fff;
-        border: none;
-        padding: 8px 14px;
-        cursor: pointer;
-        border-radius: 6px;
-        font-size: 14px;
-        transition: 0.3s;
-    }
-    .copy-container button:hover {
-        background: #e64a19;
-    }
-    .copy-status {
-        font-size: 13px;
-        color: #4caf50;
-    }
-    .hidden {
-        display: none;
-    }
+  html, body {
+    margin:0; padding:0; height:100%; width:100%;
+    display:flex; justify-content:center; align-items:flex-start;
+    background:#0b1020; color:#fff; font-family:Inter,Segoe UI,Arial,sans-serif;
+  }
+  .wrap {
+    width:100%; max-width:100%; padding:0;
+    display:flex; flex-direction:column; height:100%;
+  }
+  .player-wrap {
+    width:100%; flex:1; display:flex; flex-direction:column;
+  }
+  .player-switch {
+    display:flex; gap:8px; flex-wrap:wrap; padding:10px;
+    background:rgba(0,0,0,0.3); width:100%; justify-content:center;
+  }
+  .switch-btn {
+    background:transparent; border:1px solid rgba(255,255,255,0.3);
+    border-radius:8px; padding:6px 12px; cursor:pointer; color:#fff;
+  }
+  .switch-btn[aria-pressed="true"]{
+    background:#ff4b1f; color:#fff; border-color:transparent;
+  }
+  #playerFrame {
+    width:100%; flex:1; display:grid; place-items:center;
+    background:rgba(255,255,255,0.02);
+  }
+  iframe { width:100%; height:100%; border:0; }
+  .hidden { display:none; }
 </style>
-  <script src="https://kodir2.github.io/actualize.js" async></script>
-  <script src="https://hdvb-player.github.io/actualize.js" async></script>
-  <script src="https://lmx-pl.github.io/lmx-f.github.io/act.js" async></script>
 </head>
 <body>
-
-<div id="player-container">
-    <div class="player-buttons" id="playerButtons"></div>
-    <iframe id="playerFrame" allowfullscreen></iframe>
-
-    <div class="copy-container">
-        <span>Вставить на сайт:</span>
-        <button id="copyBtn">📋 Скопировать</button>
-        <span id="copyStatus" class="copy-status hidden">Скопировано!</span>
+<div class="wrap">
+  <section class="player-wrap" aria-live="polite">
+    <div class="player-switch" role="tablist" aria-label="Выбор плеера" id="playerSwitcher"></div>
+    <div id="playerFrame" class="player-frame">
+      <div id="empty" style="text-align:center;color:rgba(255,255,255,0.45);padding:12px">
+        🎬 Введите ID КиноПоиска и нажмите «Поиск»
+      </div>
     </div>
+  </section>
 </div>
 
 <script>
+const players = {
+  "Collaps": id=>`https://api.namy.ws/embed/kp/${id}`,
+  "Alloha": id=>`https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
+  "VideoCDN": id=>`https://p.lumex.space/j3mqebEPqCLB?domain=${location.hostname}&kp_id=${id}`,
+  "Vibix": id=>`https://675812196.videoframe2.com/embed-kp/${id}`,
+  "HDVB": async id=>{
+    try{
+      const token='8a22f8e7684404c3815e3ffa940f00a0';
+      const url=`https://apivb.com/api/videos.json?id_kp=${id}&token=${token}`;
+      const res = await fetch(url);
+      if(!res.ok) return null;
+      const data = await res.json();
+      if(Array.isArray(data)&&data.length>0&&data[0].iframe_url) return data[0].iframe_url;
+    }catch(e){console.warn('HDVB fetch failed',e);}
+    return null;
+  },
+  "Kodik": id=>`https://kodik.cc/find-player?kinopoiskID=${id}`,
+  "Трейлер": id=>`https://api.atomics.ws/embed/trailer-kp/${id}`
+};
+
+function extractKP(input){
+  if(!input) return '';
+  input=input.trim();
+  const m = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/i);
+  if(m) return m[1];
+  const digits = input.match(/\d{1,10}/);
+  return digits ? digits[0] : '';
+}
+
+// Создание плееров
+async function buildPlayers(id){
+  const switcher = document.getElementById('playerSwitcher');
+  const frame = document.getElementById('playerFrame');
+  switcher.innerHTML=''; frame.innerHTML='<div>Загрузка...</div>';
+
+  let created=0;
+  for(const [name, fn] of Object.entries(players)){
+    try{
+      const src = typeof fn==='function'?await fn(id):null;
+      if(!src) continue;
+      const btn = document.createElement('button');
+      btn.className='switch-btn'; btn.type='button'; btn.textContent=name;
+      btn.setAttribute('role','tab'); btn.setAttribute('aria-pressed','false');
+      btn.addEventListener('click', ()=>{
+        [...switcher.children].forEach(b=>b.setAttribute('aria-pressed','false'));
+        btn.setAttribute('aria-pressed','true'); showPlayer(src,name);
+      });
+      switcher.appendChild(btn);
+      created++;
+    }catch(e){console.warn('player build error',name,e);}
+  }
+  if(created===0){ frame.innerHTML='❌ Плееры не найдены'; return; }
+  switcher.querySelector('button')?.click();
+}
+
+// Показ выбранного плеера
+function showPlayer(src,name){
+  const frame = document.getElementById('playerFrame');
+  const iframe=document.createElement('iframe');
+  iframe.src=src; iframe.loading='lazy';
+  iframe.title=name; iframe.allowFullscreen=''; iframe.setAttribute('allow','autoplay; fullscreen; picture-in-picture');
+  frame.innerHTML=''; frame.appendChild(iframe);
+}
+
+// Загрузка из URL
 (function(){
-    const params = new URLSearchParams(location.search);
-    const id = params.get("id");
-    if (!id) {
-        document.body.innerHTML = "<h2 style='text-align:center;margin-top:20%;color:#fff;'>Ошибка: не указан ID КиноПоиска</h2>";
-        return;
-    }
-    const defaultPlayer = params.get("player") || "1";
-
-    const players = {
-        1: { url: `https://api.namy.ws/embed/kp/${id}`, name: "Atomics" },
-        2: { url: `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`, name: "Alloha" },
-        3: { url: `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`, name: "Collaps" },
-        4: { url: `https://675812196.videoframe2.com/embed-kp/${id}`, name: "Videocdn" },
-        5: { url: `https://kodik.cc/find-player?kinopoiskID=${id}`, name: "Kodik" },
-    };
-
-    const playerFrame = document.getElementById("playerFrame");
-    const playerButtons = document.getElementById("playerButtons");
-
-    let fallbackTimer = null;
-    let manualSwitch = false; // ручной выбор
-
-    function loadPlayer(key, isManual = false) {
-        if (!players[key]) return;
-
-        // добавляем "хвостик", чтобы iframe реально перезагружался
-        playerFrame.src = players[key].url + "&t=" + Date.now();
-
-        // подсветка кнопки
-        document.querySelectorAll(".player-btn").forEach(btn => btn.classList.remove("active"));
-        const activeBtn = document.querySelector(`.player-btn[data-player="${key}"]`);
-        if (activeBtn) activeBtn.classList.add("active");
-
-        // если включили вручную → отключаем автопереключение
-        if (isManual) {
-            manualSwitch = true;
-            clearTimeout(fallbackTimer);
-            return;
-        }
-
-        // авто fallback
-        clearTimeout(fallbackTimer);
-        fallbackTimer = setTimeout(() => {
-            if (!manualSwitch) {
-                const next = parseInt(key) + 1;
-                if (players[next]) {
-                    console.warn(`Автопереключение: ${players[key].name} → ${players[next].name}`);
-                    loadPlayer(next);
-                }
-            }
-        }, 10000); // 10 секунд
-    }
-
-    // Создаём кнопки
-    for (const key in players) {
-        const btn = document.createElement("div");
-        btn.className = "player-btn";
-        btn.dataset.player = key;
-        btn.textContent = key;
-        btn.title = players[key].name;
-        btn.onclick = () => loadPlayer(key, true); // ручное включение
-        playerButtons.appendChild(btn);
-    }
-
-    // Загружаем стартовый плеер
-    loadPlayer(defaultPlayer);
-
-    // Копирование кода
-    document.getElementById("copyBtn").onclick = () => {
-        const embedCode = `<iframe 
-  src="${location.origin}${location.pathname}?id=${id}&player=${defaultPlayer}" 
-  width="800" 
-  height="450" 
-  frameborder="0" 
-  allowfullscreen>
-</iframe>`;
-        navigator.clipboard.writeText(embedCode).then(() => {
-            alert("Код скопирован!");
-        });
-    };
-
-    // Лёгкая защита
-    document.addEventListener("contextmenu", e => e.preventDefault());
-    document.onkeydown = function(e) {
-        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && ["I","C","J"].includes(e.key))) {
-            return false;
-        }
-    };
+  const params=new URLSearchParams(location.search);
+  const id=params.get('id');
+  if(id) buildPlayers(id);
 })();
 </script>
-
 </body>
 </html>
