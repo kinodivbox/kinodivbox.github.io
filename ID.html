@@ -384,7 +384,7 @@ const players = {
 
   if (index > 1) switcher.hidden = false;
 
-  history.replaceState(null, '', `?iframe=${query}`);
+  history.replaceState(null, '', `?id=${query}`);
 }
 
   function copyShareLink() {
@@ -396,7 +396,7 @@ const players = {
       return;
     }
 
-    const url = `${window.location.origin}${window.location.pathname}?iframe=${query}`;
+    const url = `${window.location.origin}${window.location.pathname}?id=${query}`;
     navigator.clipboard.writeText(url)
       .then(() => alert("Ссылка скопирована!"))
       .catch(() => alert("Ошибка при копировании ссылки."));
@@ -404,7 +404,7 @@ const players = {
 
   function loadFromURL() {
     const params = new URLSearchParams(window.location.search);
-    const id = params.get("iframe");
+    const id = params.get("id");
     if (id && /^\d+$/.test(id)) {
       document.getElementById("query").value = id;
       searchPlayer();
