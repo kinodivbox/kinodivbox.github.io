@@ -2,14 +2,16 @@
     const plugin = {
         name: 'kinodivbox_details',
         init() {
+            // Отслеживаем открытие карточки фильма/сериала
             Lampa.Listener.follow('full', (event) => {
-                // Событие "full" приходит после открытия карточки
                 if (!event.body || event.type !== 'complite') return;
 
                 const body = event.body;
+                const actionsBlock = body.querySelector('.full-actions');
+                if (!actionsBlock) return;
 
-                // Проверяем, есть ли уже кнопка
-                if (!body.querySelector('.kinodivbox-btn')) {
+                // Если кнопки ещё нет — создаём
+                if (!actionsBlock.querySelector('.kinodivbox-btn')) {
                     const btn = document.createElement('div');
                     btn.className = 'kinodivbox-btn selector';
                     btn.textContent = 'KinoDivBox';
@@ -24,6 +26,7 @@
                         cursor: pointer;
                         transition: background 0.2s;
                     `;
+
                     btn.addEventListener('mouseenter', () => btn.style.background = '#ff1a1a');
                     btn.addEventListener('mouseleave', () => btn.style.background = '#ff3b3b');
 
@@ -39,6 +42,7 @@
                         if (kpid) {
                             const url = `https://kinodivbox.github.io/iframe?id=${kpid}`;
                             try {
+                                // Открываем через Lampa Activity
                                 Lampa.Activity.push({ url, title: 'KinoDivBox' });
                             } catch {
                                 window.open(url, '_blank');
@@ -48,15 +52,13 @@
                         }
                     });
 
-                    // Вставляем кнопку внутрь блока с кнопками карточки
-                    const actionsBlock = body.querySelector('.full-actions');
-                    if (actionsBlock) actionsBlock.appendChild(btn);
+                    actionsBlock.appendChild(btn);
                 }
             });
         }
     };
 
-    // регистрация плагина
+    // Регистрируем плагин в Lampa
     (function register() {
         if (window.Lampa && Lampa.Plugin && typeof Lampa.Plugin.register === 'function') {
             Lampa.Plugin.register(plugin.name, plugin);
