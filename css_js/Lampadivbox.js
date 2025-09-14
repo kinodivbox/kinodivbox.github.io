@@ -1,33 +1,39 @@
 (function(){
     function KinoDivBox(){
         this.movie = function(object, callback){
-            let results = [];
+            var results = [];
 
-            // Проверяем наличие КиноПоиск ID
-            if(object.id && object.id.kp){
-                let kp_id = object.id.kp;
+            try {
+                var kp_id = null;
 
-                results.push({
-                    title: 'KinoDivBox',
-                    url: 'https://kinodivbox.github.io/iframe?id=' + kp_id,
-                    quality: '1080p',
-                    timeline: false,
-                    info: {
-                        title: 'Открыть в KinoDivBox',
-                        year: object.year || '',
-                        quality: 'HD'
-                    }
-                });
+                if(object.id){
+                    if(object.id.kp) kp_id = object.id.kp;
+                    else if(object.id.kinopoisk) kp_id = object.id.kinopoisk;
+                }
+
+                if(kp_id){
+                    results.push({
+                        title: 'KinoDivBox',
+                        url: 'https://kinodivbox.github.io/iframe?id=' + kp_id,
+                        quality: '1080p',
+                        timeline: false,
+                        info: {
+                            title: 'Открыть в KinoDivBox',
+                            year: object.year ? object.year : '',
+                            quality: 'HD'
+                        }
+                    });
+                }
+            } catch(e){
+                console.log('KinoDivBox error:', e.message);
             }
 
             callback(results);
         };
     }
 
-    // Регистрируем источник
     Lampa.Player.regSource('kinodivbox', KinoDivBox);
 
-    // Добавляем плагин в список
     Lampa.Plugin.add({
         title: 'KinoDivBox',
         version: '1.0',
