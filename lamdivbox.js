@@ -2,11 +2,14 @@
     const plugin = {
         name: 'kinodivbox_details',
         init() {
-            const addButton = () => {
-                const buttonsBlock = document.querySelector('.full-actions');
-                if (!buttonsBlock) return false;
+            Lampa.Listener.follow('full', (event) => {
+                // Событие "full" приходит после открытия карточки
+                if (!event.body || event.type !== 'complite') return;
 
-                if (!buttonsBlock.querySelector('.kinodivbox-btn')) {
+                const body = event.body;
+
+                // Проверяем, есть ли уже кнопка
+                if (!body.querySelector('.kinodivbox-btn')) {
                     const btn = document.createElement('div');
                     btn.className = 'kinodivbox-btn selector';
                     btn.textContent = 'KinoDivBox';
@@ -26,44 +29,34 @@
 
                     btn.addEventListener('click', () => {
                         let input = prompt('Введите ID или ссылку КиноПоиска:');
-                        if (input) {
-                            let kpid = null;
-                            const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
-                            if (match) kpid = match[1];
-                            if (!kpid && /^\d+$/.test(input.trim())) kpid = input.trim();
+                        if (!input) return;
 
-                            if (kpid) {
-                                const url = `https://kinodivbox.github.io/iframe?id=${kpid}`;
-                                try {
-                                    Lampa.Activity.push({ url, title: 'KinoDivBox' });
-                                } catch {
-                                    window.open(url, '_blank');
-                                }
-                            } else {
-                                Lampa.Noty.show('Некорректный ID или ссылка');
+                        let kpid = null;
+                        const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
+                        if (match) kpid = match[1];
+                        if (!kpid && /^\d+$/.test(input.trim())) kpid = input.trim();
+
+                        if (kpid) {
+                            const url = `https://kinodivbox.github.io/iframe?id=${kpid}`;
+                            try {
+                                Lampa.Activity.push({ url, title: 'KinoDivBox' });
+                            } catch {
+                                window.open(url, '_blank');
                             }
+                        } else {
+                            Lampa.Noty.show('Некорректный ID или ссылка');
                         }
                     });
 
-                    buttonsBlock.appendChild(btn);
+                    // Вставляем кнопку внутрь блока с кнопками карточки
+                    const actionsBlock = body.querySelector('.full-actions');
+                    if (actionsBlock) actionsBlock.appendChild(btn);
                 }
-
-                return true;
-            };
-
-            // Добавляем кнопку сразу, если блок уже есть
-            addButton();
-
-            // Отслеживаем изменения на странице (динамическая подгрузка)
-            const observer = new MutationObserver(() => {
-                addButton();
             });
-
-            observer.observe(document.body, { childList: true, subtree: true });
         }
     };
 
-    // Регистрация плагина
+    // регистрация плагина
     (function register() {
         if (window.Lampa && Lampa.Plugin && typeof Lampa.Plugin.register === 'function') {
             Lampa.Plugin.register(plugin.name, plugin);
