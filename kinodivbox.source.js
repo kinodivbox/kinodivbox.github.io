@@ -1,43 +1,77 @@
-(function(){
-    function KinoDivBox(){
-        this.movie = function(object, callback){
-            var results = [];
+export default {
+    name: 'KinoDivBox KP Auto',
+    version: '1.1',
 
-            try {
-                var kp_id = null;
+    search: function(query, page) {
+        // Поиск по названию пока не реализован
+        return Promise.resolve([]);
+    },
 
-                if(object.id){
-                    if(object.id.kp) kp_id = object.id.kp;
-                    else if(object.id.kinopoisk) kp_id = object.id.kinopoisk;
-                }
+    load: function(kp_id) {
+        const url = `https://kinodivbox.github.io/iframe?id={kp_id}`;
 
-                if(kp_id){
-                    results.push({
-                        title: 'KinoDivBox',
-                        url: 'https://kinodivbox.github.io/iframe?id=' + kp_id,
-                        quality: '1080p',
-                        timeline: false,
-                        info: {
-                            title: 'Открыть в KinoDivBox',
-                            year: object.year ? object.year : '',
-                            quality: 'HD'
-                        }
+        return fetch(url)
+            .then(res => res.text())
+            .then(html => {
+                // Создаем временный DOM для парсинга
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Название фильма
+                const titleEl = doc.querySelector('h1');
+                const title = titleEl ? titleEl.textContent.trim() : `Фильм KP ${kp_id}`;
+
+                // Постер
+                const posterEl = doc.querySelector('.poster img');
+                const poster = posterEl ? posterEl.src : `https://st.kp.yandex.net/images/film_iphone/iphone360_${kp_id}.jpg`;
+
+                // Описание
+                const descEl = doc.querySelector('.description') || doc.querySelector('meta[name="description"]');
+                const description = descEl ? descEl.textContent.trim() || descEl.getAttribute('content') : '';
+
+                // Плееры (ищем все кнопки или ссылки с data-player)
+                const playerEls = doc.querySelectorAll('[data-player]');
+                const players = [];
+                playerEls.forEach(p => {
+                    const name = p.textContent.trim();
+                    const player_url = `${url}&player=${p.getAttribute('data-player')}`;
+                    players.push({
+                        name: `KinoDivBox ${name}`,
+                        type: 'iframe',
+                        url: player_url
+                    });
+                });
+
+                // Если плееров не найдено — добавим один по умолчанию
+                if(players.length === 0) {
+                    players.push({
+                        name: 'KinoDivBox Default',
+                        type: 'iframe',
+                        url: url
                     });
                 }
-            } catch(e){
-                console.log('KinoDivBox error:', e.message);
-            }
 
-            callback(results);
-        };
+                return {
+                    title: title,
+                    kp_id: kp_id,
+                    poster: poster,
+                    description: description,
+                    player: players
+                };
+            })
+            .catch(err => {
+                console.error('Ошибка загрузки KinoDivBox:', err);
+                return {
+                    title: `Фильм KP ${kp_id}`,
+                    kp_id: kp_id,
+                    poster: `https://st.kp.yandex.net/images/film_iphone/iphone360_${kp_id}.jpg`,
+                    description: 'Не удалось загрузить описание.',
+                    player: [{
+                        name: 'KinoDivBox Default',
+                        type: 'iframe',
+                        url: url
+                    }]
+                };
+            });
     }
-
-    Lampa.Player.regSource('kinodivbox', KinoDivBox);
-
-    Lampa.Plugin.add({
-        title: 'KinoDivBox',
-        version: '1.0',
-        description: 'Источник с плеером KinoDivBox (по КиноПоиск ID)',
-        author: 'KinoDivBox'
-    });
-})();
+};
