@@ -1,33 +1,51 @@
 (() => {
     const plugin = {
-        name: 'kinodivbox',
+        name: 'kinodivbox_card',
         init: function() {
-            // Добавляем кнопку в интерфейс плеера Lampa
-            Lampa.Player.addButton({
-                title: 'Открыть в KinoDivBox',
-                icon: 'fas fa-film', // иконка кнопки (можно изменить)
-                action: function(player) {
-                    // Получаем ID фильма
-                    const kpid = player.data.kpid || player.data.id || null;
 
-                    if(kpid) {
-                        // Формируем ссылку на KinoDivBox
+            // Сохраняем оригинальный метод render карточки
+            const originalCardRender = Lampa.Component.Card.prototype.render;
+
+            // Переписываем render
+            Lampa.Component.Card.prototype.render = function() {
+                const cardElement = originalCardRender.call(this);
+
+                const kpid = this.data.kpid || this.data.id || null;
+
+                if(kpid) {
+                    const btn = document.createElement('button');
+                    btn.innerHTML = 'KinoDivBox';
+                    btn.className = 'card-btn-kinodivbox';
+                    btn.style.cssText = `
+                        position: absolute;
+                        bottom: 5px;
+                        right: 5px;
+                        padding: 2px 6px;
+                        font-size: 12px;
+                        background: #ff3b3b;
+                        color: white;
+                        border: none;
+                        border-radius: 3px;
+                        cursor: pointer;
+                        z-index: 10;
+                    `;
+
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation(); // чтобы не открывался плеер
                         const url = `https://kinodivbox.github.io/iframe?id=${kpid}`;
-
-                        // Открываем ссылку в Lampa
                         Lampa.Activity.push({
                             url: url,
                             title: 'KinoDivBox'
                         });
-                    } else {
-                        // Ошибка, если ID нет
-                        Lampa.Noty.show('Ошибка', 'Не найден ID фильма (kpid)');
-                    }
+                    });
+
+                    cardElement.appendChild(btn);
                 }
-            });
+
+                return cardElement;
+            };
         }
     };
 
-    // Регистрируем плагин в Lampa
     Lampa.Plugin.register(plugin.name, plugin);
 })();
