@@ -2,48 +2,47 @@
     const plugin = {
         name: 'kinodivbox_details',
         init() {
-            // Слушаем экран "подробности"
+            // Следим за открытием экрана фильма/сериала
             Lampa.Listener.follow('full', (event) => {
-                if (event.type === 'complite') {
-                    const info = event.data;
-                    const body = event.body;
+                if (event.type !== 'complite') return;
 
-                    const buttonsBlock = body.querySelector('.full-actions');
-                    if (!buttonsBlock) return;
+                const body = event.body;
+                if (!body) return;
 
-                    if (buttonsBlock.querySelector('.kinodivbox-btn')) return;
+                const buttonsBlock = body.querySelector('.full-actions');
+                if (!buttonsBlock) return;
 
-                    // создаём кнопку
-                    const btn = document.createElement('div');
-                    btn.className = 'kinodivbox-btn selector';
-                    btn.textContent = 'KinoDivBox';
-                    btn.style.cssText = `
-                        display: inline-block;
-                        margin-left: 10px;
-                        padding: 8px 12px;
-                        background: #ff3b3b;
-                        border-radius: 6px;
-                        font-size: 14px;
-                        color: #fff;
-                        cursor: pointer;
-                    `;
+                // Если кнопка уже есть — не дублируем
+                if (buttonsBlock.querySelector('.kinodivbox-btn')) return;
 
-                    btn.addEventListener('click', () => {
+                // Создаём кнопку
+                const btn = document.createElement('div');
+                btn.className = 'kinodivbox-btn selector';
+                btn.textContent = 'KinoDivBox';
+                btn.style.cssText = `
+                    display: inline-block;
+                    margin-left: 10px;
+                    padding: 8px 12px;
+                    background: #ff3b3b;
+                    border-radius: 6px;
+                    font-size: 14px;
+                    color: #fff;
+                    cursor: pointer;
+                `;
+
+                // Обработчик нажатия
+                btn.addEventListener('click', () => {
+                    let input = prompt('Введите ID или ссылку КиноПоиска:');
+                    if (input) {
                         let kpid = null;
 
-                        // пробуем взять ID из данных Lampa
-                        if (info && (info.kp_id || info.kinopoisk_id)) {
-                            kpid = info.kp_id || info.kinopoisk_id;
-                        }
+                        // если ссылка
+                        let match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
+                        if (match) kpid = match[1];
 
-                        if (!kpid) {
-                            // если ID нет → спрашиваем у пользователя
-                            let input = prompt('Введите ID или ссылку КиноПоиска:');
-                            if (input) {
-                                let match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
-                                if (match) kpid = match[1];
-                                if (!kpid && /^\d+$/.test(input.trim())) kpid = input.trim();
-                            }
+                        // если просто число
+                        if (!kpid && /^\d+$/.test(input.trim())) {
+                            kpid = input.trim();
                         }
 
                         if (kpid) {
@@ -54,16 +53,18 @@
                                 window.open(url, '_blank');
                             }
                         } else {
-                            Lampa.Noty.show('KP ID не найден, введите вручную');
+                            Lampa.Noty.show('Некорректный ID или ссылка');
                         }
-                    });
+                    }
+                });
 
-                    buttonsBlock.appendChild(btn);
-                }
+                // Вставляем кнопку
+                buttonsBlock.appendChild(btn);
             });
         }
     };
 
+    // Регистрация плагина
     (function register() {
         if (window.Lampa && Lampa.Plugin && typeof Lampa.Plugin.register === 'function') {
             Lampa.Plugin.register(plugin.name, plugin);
