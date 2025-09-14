@@ -2,16 +2,16 @@
     const plugin = {
         name: 'kinodivbox_details',
         init() {
+            // Отслеживаем открытие страницы фильма/сериала
             Lampa.Listener.follow('full', (event) => {
                 if (event.type !== 'complite') return;
-
                 const body = event.body;
                 if (!body) return;
 
-                // следим за изменениями внутри страницы
-                const observer = new MutationObserver(() => {
+                // Функция для добавления кнопки
+                const addButton = () => {
                     const buttonsBlock = body.querySelector('.full-actions');
-                    if (!buttonsBlock) return;
+                    if (!buttonsBlock) return false; // ещё нет блока
 
                     if (!buttonsBlock.querySelector('.kinodivbox-btn')) {
                         const btn = document.createElement('div');
@@ -34,13 +34,11 @@
                                 let kpid = null;
 
                                 // если ссылка
-                                let match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
+                                const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
                                 if (match) kpid = match[1];
 
                                 // если число
-                                if (!kpid && /^\d+$/.test(input.trim())) {
-                                    kpid = input.trim();
-                                }
+                                if (!kpid && /^\d+$/.test(input.trim())) kpid = input.trim();
 
                                 if (kpid) {
                                     const url = `https://kinodivbox.github.io/iframe?id=${kpid}`;
@@ -57,14 +55,25 @@
 
                         buttonsBlock.appendChild(btn);
                     }
-                });
 
-                observer.observe(body, { childList: true, subtree: true });
+                    return true; // кнопка добавлена
+                };
+
+                // Сразу пробуем добавить кнопку
+                if (!addButton()) {
+                    // Если блока ещё нет — используем MutationObserver
+                    const observer = new MutationObserver(() => {
+                        if (addButton()) {
+                            observer.disconnect(); // кнопка добавлена, отключаем наблюдение
+                        }
+                    });
+                    observer.observe(body, { childList: true, subtree: true });
+                }
             });
         }
     };
 
-    // регистрация
+    // регистрация плагина
     (function register() {
         if (window.Lampa && Lampa.Plugin && typeof Lampa.Plugin.register === 'function') {
             Lampa.Plugin.register(plugin.name, plugin);
