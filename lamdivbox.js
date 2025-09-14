@@ -2,7 +2,6 @@
     const plugin = {
         name: 'kinodivbox_details',
         init() {
-            // Функция добавления кнопки
             const addButton = () => {
                 const buttonsBlock = document.querySelector('.full-actions');
                 if (!buttonsBlock) return false;
@@ -29,10 +28,8 @@
                         let input = prompt('Введите ID или ссылку КиноПоиска:');
                         if (input) {
                             let kpid = null;
-
                             const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
                             if (match) kpid = match[1];
-
                             if (!kpid && /^\d+$/.test(input.trim())) kpid = input.trim();
 
                             if (kpid) {
@@ -54,10 +51,10 @@
                 return true;
             };
 
-            // Сразу пробуем добавить кнопку
+            // Добавляем кнопку сразу, если блок уже есть
             addButton();
 
-            // Используем MutationObserver на документ, чтобы отслеживать динамические изменения
+            // Отслеживаем изменения на странице (динамическая подгрузка)
             const observer = new MutationObserver(() => {
                 addButton();
             });
@@ -66,7 +63,7 @@
         }
     };
 
-    // регистрация плагина
+    // Регистрация плагина
     (function register() {
         if (window.Lampa && Lampa.Plugin && typeof Lampa.Plugin.register === 'function') {
             Lampa.Plugin.register(plugin.name, plugin);
