@@ -5,20 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Смотреть фильмы и сериалы онлайн по ID КиноПоиск — KinoDivBox</title>
-  <meta name="description" content="KinoDivBox — смотри фильмы и сериалы онлайн по ID КиноПоиска. Все популярные плееры в одном месте: быстро, удобно и бесплатно.">
-  <meta name="keywords" content="смотреть фильмы онлайн, кино по id, kinopoisk id, KinoDivBox, сериалы онлайн, смотреть кино бесплатно">
-  <link rel="icon" href="/css_js/favicon.svg" type="image/x-icon" />
-  <link rel="canonical" href="https://kinodivbox.github.io/">
 
-  <meta property="og:title" content="KinoDivBox — фильмы и сериалы по ID КиноПоиск">
-  <meta property="og:description" content="Введите ID фильма или сериала с КиноПоиска и смотрите онлайн на KinoDivBox.">
-  <meta property="og:type" content="website">
-  <meta name="author" content="KinoDivBox" />
-  <meta name="robots" content="index, follow" />
-  <meta property="og:url" content="https://kinodivbox.github.io/">
-  <meta name="twitter:image" content="/319529_O.png" />
-  <meta property="og:image" content="/319529_O.png" />
+<meta name="description" content="KinoDivBox — смотри фильмы и сериалы онлайн по ID КиноПоиска. Все популярные плееры в одном месте: быстро, удобно и бесплатно.">
 
+<meta name="keywords" content="смотреть фильмы онлайн, кино по id, kinopoisk id, KinoDivBox, сериалы онлайн, смотреть кино бесплатно">
+
+<link rel="icon" href="/css_js/favicon.svg" type="image/x-icon" />
+<link rel="canonical" href="https://kinodivbox.github.io/">
+
+<meta property="og:title" content="KinoDivBox — фильмы и сериалы по ID КиноПоиск">
+<meta property="og:description" content="Введите ID фильма или сериала с КиноПоиска и смотрите онлайн на KinoDivBox.">
+<meta property="og:type" content="website">
+<meta name="author" content="KinoDivBox" />
+<meta name="robots" content="index, follow" />
+<meta property="og:url" content="https://kinodivbox.github.io/">
+<meta name="twitter:image" content="/319529_O.png" />
+<meta property="og:image" content="/319529_O.png" />
+  
   <style>
     body {
       margin: 0;
@@ -28,6 +31,7 @@
       padding: 20px;
       transition: background 0.5s ease;
     }
+
     p.logo {
       text-align: center;
       font-weight: 900;
@@ -42,14 +46,17 @@
       margin: 0 0 30px;
       transition: color 0.3s ease;
     }
+
     p.logo:hover {
       color: #ff7043;
       animation: pulse 1.5s infinite;
     }
+
     @keyframes pulse {
       0%, 100% { color: #ff3d00; }
       50% { color: #ff7043; }
     }
+
     .search-box {
       max-width: 650px;
       margin: 0 auto 20px;
@@ -58,6 +65,7 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+
     input, button {
       padding: 12px 16px;
       font-size: 18px;
@@ -66,6 +74,7 @@
       outline-offset: 2px;
       transition: box-shadow 0.3s ease, transform 0.2s ease;
     }
+
     input {
       flex-grow: 1;
       min-width: 280px;
@@ -73,15 +82,18 @@
       color: #eee;
       box-shadow: inset 0 0 8px #000;
     }
+
     input::placeholder {
       color: #999;
       font-style: italic;
     }
+
     input:focus {
       box-shadow: 0 0 8px 2px #ff3d00;
       background: #333;
       color: #fff;
     }
+
     button {
       background-color: #ff3d00;
       color: white;
@@ -89,16 +101,21 @@
       box-shadow: 0 3px 6px rgba(255, 61, 0, 0.6);
       user-select: none;
     }
+
     button:hover, button:focus {
       background-color: #ff6f3a;
       box-shadow: 0 6px 12px rgba(255, 111, 58, 0.8);
       transform: translateY(-2px);
     }
+
+    /* Контейнер плеера с переключателем */
     #playerArea {
       max-width: 900px;
       margin: 0 auto 20px;
       position: relative;
     }
+
+    /* Переключатель — кнопки-кругляшки справа сверху */
     #playerSwitcher {
       position: absolute;
       top: 12px;
@@ -107,6 +124,7 @@
       gap: 8px;
       z-index: 10;
     }
+
     #playerSwitcher button {
       width: 28px;
       height: 28px;
@@ -123,11 +141,17 @@
       font-size: 14px;
       user-select: none;
     }
+
     #playerSwitcher button.active,
     #playerSwitcher button:hover {
       background-color: #ff3d00;
       color: white;
     }
+
+    .player {
+      margin: 0;
+    }
+
     .player-block {
       display: none;
       margin-bottom: 40px;
@@ -137,11 +161,13 @@
       overflow: hidden;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
     .player-block.active {
       display: block;
       transform: translateY(0);
       box-shadow: 0 8px 24px rgba(255 61 0 / 0.7);
     }
+
     .player-block h2 {
       text-align: center;
       font-size: 22px;
@@ -149,6 +175,7 @@
       color: #ffb399;
       user-select: none;
     }
+
     iframe {
       width: 100%;
       height: 60vh;
@@ -157,11 +184,21 @@
       display: block;
       opacity: 1 !important;
     }
+
     @media (max-width: 600px) {
-      .player-block h2 { font-size: 18px; }
-      input { font-size: 16px; }
-      button { font-size: 16px; }
-      iframe { height: 40vh; }
+      .player-block h2 {
+        font-size: 18px;
+      }
+      input {
+        font-size: 16px;
+      }
+      button {
+        font-size: 16px;
+      }
+      iframe {
+        height: 40vh;
+      }
+      /* На мобильных переключатели снизу, горизонтально */
       #playerSwitcher {
         position: static;
         justify-content: center;
@@ -175,71 +212,126 @@
       }
     }
 
-    /* SEO текст */
-    .seo-text {
-      max-width: 900px;
-      margin: 40px auto;
-      color: #ccc;
-      font-size: 15px;
-      line-height: 1.6;
+    /* Стили для рекламного баннера */
+    .ad-banner {
+      background: linear-gradient(45deg, #ff3d00, #ff6f3a);
+      color: #fff;
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      margin: 20px auto;
+      max-width: 700px;
+      box-shadow: 0 4px 12px rgba(255, 61, 0, 0.4);
+      animation: fadeIn 0.8s ease-in-out;
+      transition: opacity 0.5s ease;
     }
-    .seo-text h1 { font-size: 22px; color: #fff; margin-bottom: 15px; }
 
-    /* Фильм по ID */
-    #movie-info {
-      display: none;
-      max-width: 900px;
-      margin: 30px auto;
-      display: flex;
-      gap: 25px;
-      align-items: flex-start;
+    .ad-banner.hidden {
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      overflow: hidden;
+      padding: 0;
+      margin: 0 auto;
     }
-    #movie-info img {
-      width: 200px;
-      border-radius: 14px;
-    }
-    #movie-info .movie-meta h2 { margin: 0 0 10px; color: #fff; }
-    #movie-info .movie-meta p { color: #ccc; line-height: 1.5; font-size: 15px; }
-    @media (max-width: 768px) {
-      #movie-info { flex-direction: column; align-items: center; text-align: center; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
-
   <script src="https://allohatv.github.io/insert-player.js"></script>
   <script src="https://kodir2.github.io/actualize.js" async></script>
   <script src="https://hdvb-player.github.io/actualize.js" async></script>
   <script src="https://lmx-pl.github.io/lmx-f.github.io/act.js" async></script>
 </head>
 <body>
-
+  
 <p class="logo" title="Перейти на главную страницу">
   🎬 <a href="/" style="color:inherit; text-decoration:none;">KinoDivBox</a>
 </p>
 
 <div class="search-box">
-  <input id="query" type="text" placeholder="Введите ID или ссылку КиноПоиска" onkeydown="if(event.key==='Enter') searchPlayer()" aria-label="Поиск по ID или ссылке КиноПоиска" />
+  <input
+    id="query"
+    type="text"
+    placeholder="Введите ID или ссылку КиноПоиска"
+    onkeydown="if(event.key==='Enter') searchPlayer()"
+    aria-label="Поиск по ID или ссылке КиноПоиска"
+  />
   <button onclick="searchPlayer()" aria-label="Поиск">Поиск</button>
   <button onclick="copyShareLink()" aria-label="Поделиться ссылкой">Поделиться</button>
 </div>
-
-<!-- SEO текст -->
+  
+  <center>
+<!-- seo-text -->
 <section class="seo-text">
   <h1>Смотреть фильмы и сериалы онлайн по ID КиноПоиск</h1>
-  <p><strong>KinoDivBox</strong> — это удобный сервис для просмотра фильмов и сериалов онлайн по ID с сайта КиноПоиск.</p>
-  <p>Наш сервис не хранит видеофайлы, а использует открытые источники. Подходит для новинок кино, популярных сериалов и классики.</p>
-  <p>Если вы не знаете ID — просто откройте страницу фильма на КиноПоиске и скопируйте цифры из ссылки.</p>
-</section>
 
-<!-- Фильм по ID -->
-<div id="movie-info">
-  <img id="movie-poster" alt="Постер фильма">
-  <div class="movie-meta">
-    <h2 id="movie-title"></h2>
-    <p id="movie-desc"></p>
-  </div>
+  <p>
+    <strong>KinoDivBox</strong> — это удобный сервис для просмотра фильмов и сериалов онлайн
+    по ID с сайта КиноПоиск. Просто вставьте ID фильма или сериала — и получите доступ
+    к нескольким плеерам в одном месте.
+  </p>
+
+  <p>
+    Наш сервис не хранит видеофайлы, а использует открытые источники.
+    KinoDivBox подходит для просмотра новинок кино, популярных сериалов
+    и классических фильмов без лишних регистраций.
+  </p>
+
+  <p>
+    Если вы не знаете ID — просто откройте страницу фильма на КиноПоиске
+    и скопируйте цифры из адресной строки.
+  </p>
+</section>
+  
+<style>
+.seo-text {
+  max-width: 900px;
+  margin: 40px auto;
+  color: #ccc;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.seo-text h1 {
+  font-size: 22px;
+  color: #fff;
+  margin-bottom: 15px;
+}
+</style>
+<!-- seo-text -->
+</center>
+  
+<!-- Рекламный баннер -->
+<div id="adBanner" class="ad-banner">
+  <p style="text-align: center;">
+    <img alt="" src="https://kinodivbox.github.io/319529_O.png" style="width: 100%; height: auto;" />
+  </p>
+  <!-- счетчики ... оставляем без изменений -->
+  <center>
+    <!--LiveInternet counter-->
+    <a href="https://www.liveinternet.ru/click" target="_blank">
+      <img id="licnt3652" width="88" height="15" style="border:0"
+           title="LiveInternet: показано число посетителей за сегодня"
+           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+           alt="" />
+    </a>
+    <script>(function(d,s){
+      d.getElementById("licnt3652").src =
+        "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
+        ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
+        (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
+        ";u" + escape(d.URL) +
+        ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
+    })(document,screen)</script>
+    <!--/LiveInternet-->
+  </center>
 </div>
 
-<!-- Плееры -->
+<!-- Контейнер плеера + переключатель -->
 <div id="playerArea">
   <div id="playerSwitcher" aria-label="Выбор плеера" role="tablist" hidden></div>
   <div class="player" id="playerContainer" aria-live="polite" aria-atomic="true"></div>
@@ -251,64 +343,282 @@ const players = {
   Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
   VideoCDN: id => `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`,
   Vibix: id => `https://675812196.videoframe2.com/embed-kp/${id}`,
-  HDVB: async id => { const token='8a22f8e7684404c3815e3ffa940f00a0'; try{const res=await fetch(`https://apivb.com/api/videos.json?id_kp=${id}&token=${token}`); const data=await res.json(); if(Array.isArray(data)&&data.length>0&&data[0].iframe_url) return data[0].iframe_url;}catch(e){console.error(e);}return null;},
+  HDVB: async (id) => {
+  const token = '8a22f8e7684404c3815e3ffa940f00a0';
+  const url = `https://apivb.com/api/videos.json?id_kp=${id}&token=${token}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0 && data[0].iframe_url) {
+      return data[0].iframe_url; // Берём первый iframe
+    }
+  } catch (e) {
+    console.error('HDVB error:', e);
+  }
+  return null;
+},
   Kodik: id => `https:////kodik.cc/find-player?kinopoiskID=${id}`,
   Трейлер: id => `https://api.atomics.ws/embed/trailer-kp/${id}`,
 };
 
-function extractID(input){const match=input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);return match?match[1]:input;}
-
-async function searchPlayer(){
-  let query=document.getElementById("query").value.trim();
-  query=extractID(query);
-  if(!/^\d+$/.test(query)){alert("Введите числовой ID КиноПоиска или корректную ссылку");return;}
-  const container=document.getElementById("playerContainer");
-  const switcher=document.getElementById("playerSwitcher");
-  container.innerHTML=''; switcher.innerHTML=''; switcher.hidden=true;
-  let index=0;
-  for(const[name,getSrc] of Object.entries(players)){
-    let iframeSrc=typeof getSrc==='function'?await getSrc(query):null;
-    if(!iframeSrc) continue;
-    const block=document.createElement("div"); block.className="player-block"; if(index===0)block.classList.add("active");
-    const title=document.createElement("h2"); title.textContent=name; block.appendChild(title);
-    const iframe=document.createElement("iframe"); iframe.src=iframeSrc; iframe.allowFullscreen=true; iframe.loading="lazy"; iframe.title=`Плеер ${name} для КиноПоиск ID ${query}`; block.appendChild(iframe);
-    container.appendChild(block);
-    const btn=document.createElement("button"); btn.textContent=index+1; btn.title=name; if(index===0)btn.classList.add("active"); btn.onclick=()=>{[...switcher.children].forEach(b=>b.classList.remove("active"));[...container.children].forEach(p=>p.classList.remove("active")); btn.classList.add("active"); block.classList.add("active");};
-    switcher.appendChild(btn); index++;
+  function extractID(input) {
+    const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
+    return match ? match[1] : input;
   }
-  if(index>1)switcher.hidden=false;
-  history.replaceState(null,'',`?id=${query}`);
-  loadMovieData(query);
+
+ async function searchPlayer() {
+  let query = document.getElementById("query").value.trim();
+  query = extractID(query);
+
+  if (!/^\d+$/.test(query)) {
+    alert("Введите числовой ID КиноПоиска или корректную ссылку");
+    return;
+  }
+
+  const container = document.getElementById("playerContainer");
+  const switcher = document.getElementById("playerSwitcher");
+  container.innerHTML = '';
+  switcher.innerHTML = '';
+  switcher.hidden = true;
+
+  document.getElementById("adBanner")?.classList.add("hidden");
+
+  let index = 0;
+  for (const [name, getSrc] of Object.entries(players)) {
+    let iframeSrc = typeof getSrc === 'function' ? await getSrc(query) : null;
+    if (!iframeSrc) continue;
+
+    const block = document.createElement("div");
+    block.className = "player-block";
+    if (index === 0) block.classList.add("active");
+
+    const title = document.createElement("h2");
+    title.textContent = name;
+    block.appendChild(title);
+
+    const iframe = document.createElement("iframe");
+    iframe.src = iframeSrc;
+    iframe.allowFullscreen = true;
+    iframe.loading = "lazy";
+    iframe.title = `Плеер ${name} для КиноПоиск ID ${query}`;
+    block.appendChild(iframe);
+
+    container.appendChild(block);
+
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    btn.title = name;
+    if (index === 0) btn.classList.add("active");
+    btn.onclick = () => {
+      [...switcher.children].forEach(b => b.classList.remove("active"));
+      [...container.children].forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      block.classList.add("active");
+    };
+    switcher.appendChild(btn);
+    index++;
+  }
+
+  if (index > 1) switcher.hidden = false;
+
+  history.replaceState(null, '', `?id=${query}`);
 }
 
-function copyShareLink(){let query=document.getElementById("query").value.trim(); query=extractID(query); if(!/^\d+$/.test(query)){alert("Введите корректный ID или ссылку перед копированием"); return;} const url=`${window.location.origin}${window.location.pathname}?id=${query}`; navigator.clipboard.writeText(url).then(()=>alert("Ссылка скопирована!")).catch(()=>alert("Ошибка при копировании ссылки."));}
+  function copyShareLink() {
+    let query = document.getElementById("query").value.trim();
+    query = extractID(query);
 
-function loadFromURL(){const params=new URLSearchParams(window.location.search); const id=params.get("id"); if(id&&/^\d+$/.test(id)){document.getElementById("query").value=id; searchPlayer();}}
-window.onload=loadFromURL;
+    if (!/^\d+$/.test(query)) {
+      alert("Введите корректный ID или ссылку перед копированием");
+      return;
+    }
 
-// Функция загрузки данных фильма с TMDB
-const TMDB_API_KEY="YOUR_TMDB_KEY"; // замените на свой ключ
-async function loadMovieData(id){
-  try{
-    const res=await fetch(`https://api.themoviedb.org/3/find/${id}?api_key=${TMDB_API_KEY}&external_source=imdb_id`);
-    const data=await res.json();
-    const movie=data.movie_results[0]||data.tv_results[0];
-    if(!movie)return;
-    document.getElementById("movie-info").style.display="flex";
-    document.getElementById("movie-title").textContent=movie.title||movie.name;
-    document.getElementById("movie-desc").textContent=movie.overview||"Описание недоступно";
-    if(movie.poster_path)document.getElementById("movie-poster").src="https://image.tmdb.org/t/p/w500"+movie.poster_path;
-    document.title=`${movie.title||movie.name} — смотреть онлайн | KinoDivBox`;
-    let meta=document.querySelector("meta[name='description']");
-    if(!meta){meta=document.createElement("meta"); meta.name="description"; document.head.appendChild(meta);}
-    meta.content=`Смотреть ${movie.title||movie.name} онлайн бесплатно на KinoDivBox. Все плееры в одном месте.`;
-  }catch(e){console.error(e);}
-}
+    const url = `${window.location.origin}${window.location.pathname}?id=${query}`;
+    navigator.clipboard.writeText(url)
+      .then(() => alert("Ссылка скопирована!"))
+      .catch(() => alert("Ошибка при копировании ссылки."));
+  }
 
-// Блокировка F12 и контекстного меню
-document.oncontextmenu=function(){return false;};
-document.onkeydown=function(e){if(e.keyCode==123)return false; if(e.ctrlKey&&e.shiftKey&&e.keyCode=='I'.charCodeAt(0))return false; if(e.ctrlKey&&e.shiftKey&&e.keyCode=='J'.charCodeAt(0))return false; if(e.ctrlKey&&e.keyCode=='U'.charCodeAt(0))return false; if(e.ctrlKey&&e.shiftKey&&e.keyCode=='C'.charCodeAt(0))return false;};
+  function loadFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    if (id && /^\d+$/.test(id)) {
+      document.getElementById("query").value = id;
+      searchPlayer();
+    }
+  }
+
+  window.onload = loadFromURL;
+
+  // Отключение контекстного меню и горячих клавиш
+  document.oncontextmenu = function() { return false; };
+  document.onkeydown = function(e) {
+    if (e.keyCode == 123) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+  };
 </script>
+
+<!-- Кнопки перехода на сайты -->
+<div style="text-align: center; margin-top: 30px;">
+  <button onclick="window.open('https://www.kinopoisk.ru/lists/categories/movies/', '_blank')" 
+          aria-label="КиноПоиск Список ID"
+          class="action-button">
+    КиноПоиск Список ID
+  </button>
+  <button onclick="window.open('/contact', '_blank')" 
+          aria-label="КОНТАКТЫ"
+          class="action-button">
+    КОНТАКТЫ
+  </button>
+  <button onclick="window.open('https://t.me/kinodivbox_Official', '_blank')" 
+          aria-label="TELEGRAM"
+          class="action-button">
+    TELEGRAM
+  </button>
+  <button onclick="window.open('https://www.tiktok.com/@kinodivbox_official', '_blank')" 
+          aria-label="TikTok"
+          class="action-button">
+    TikTok
+  </button>
+  <button onclick="window.open('/install_helper', '_blank')" 
+          aria-label="InstallHelper"
+          class="action-button">
+    InstallHelper
+  </button>
+</div>
+
+<!-- Иконка "?" -->
+<div id="help-icon" title="Как пользоваться сайтом" 
+     style="
+       position: fixed;
+       bottom: 20px;
+       right: 20px;
+       width: 48px;
+       height: 48px;
+       background-color: #007bff;
+       color: white;
+       font-weight: bold;
+       font-size: 28px;
+       line-height: 48px;
+       text-align: center;
+       border-radius: 50%;
+       cursor: pointer;
+       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+       user-select: none;
+       z-index: 10000;
+       ">
+  ?
+</div>
+
+<!-- Всплывающее окно с инструкцией -->
+<div id="help-popup" 
+     style="
+       display: none;
+       position: fixed;
+       bottom: 80px;
+       right: 20px;
+       width: 320px;
+       max-height: 400px;
+       overflow-y: auto;
+       background: var(--bg-color, #f9f9f9);
+       color: var(--text-color, #222);
+       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+       border-radius: 12px;
+       padding: 1rem 1.2rem;
+       font-family: sans-serif;
+       font-size: 0.9rem;
+       line-height: 1.4;
+       z-index: 10000;
+       ">
+  <h3 style="margin-top: 0; font-size: 1.2rem; text-align:center;">📘 Как пользоваться сайтом</h3>
+
+  <p><strong>🔎 Найдите ID КиноПоиска:</strong><br>
+  Перейдите на <a href="https://www.kinopoisk.ru" target="_blank" rel="noopener" style="color:#007bff;">КиноПоиск</a>, выберите фильм или сериал, и скопируйте цифры из ссылки:<br>
+
+<p>📌 Пример: Если вы открыли страницу фильма:</p>
+  <code>https://www.kinopoisk.ru/film/<mark>535341</mark>/</code> → ID = <strong>535341</strong></p>
+  
+<p>🎬 Пример с сериалом:</p>
+  <code>https://www.kinopoisk.ru/series/<mark>1234567</mark>/</code> → ID = <strong>1234567</strong></p>
+
+  <p><strong>🎬 Как смотреть фильм:</strong></p>
+  <ol>
+    <li>Вставьте ID в наш поиск на сайте "kinodivbox.github.io"</li>
+    <li>Нажмите кнопку «Поиск»</li>
+    <li>Выберите плеер для просмотра</li>
+  </ol>
+  
+    <p><strong>💡 Советы:</strong><br>
+— Если плеер не загружается?
+<p>1. Убедитесь, что ваш браузер обновлён до последней версии.<br />
+2. Попробуйте выбрать другой плеер<br />
+(кнопки: 1 / 2 / 3 / 4 / 5).<br />
+3. Если проблема не решается, воспользуйтесь VPN &mdash; возможно, ваш провайдер блокирует доступ.<br />
+4.&nbsp;Рекомендуем для ПК:<br />
+Установите расширения для браузера, повышающие безопасность, конфиденциальность и удобство.<br />
+Смотрите раздел &laquo;<a href="/install_helper">InstallHelper</a>&raquo;.</p>
+
+  <p><strong>❓ Часто задаваемые вопросы:</strong><br>
+  — 🟢 Можно вставить ссылку целиком?
+Да, можно — сайт сам автоматически извлечёт ID из ссылки.<br>
+  — 🟠 А если вставлю не тот ID?
+Вы увидите пустой плеер или ошибку. Просто вставьте правильный ID ещё раз.</p>
+
+  <p style="text-align:center; margin-top:1rem;">
+    <button id="help-close" style="
+      background:#007bff; color:#fff; border:none; border-radius:6px; padding: 6px 12px; cursor:pointer;
+      font-size: 0.9rem;
+    ">Закрыть</button>
+  </p>
+</div>
+
+<script>
+  const helpIcon = document.getElementById('help-icon');
+  const helpPopup = document.getElementById('help-popup');
+  const helpClose = document.getElementById('help-close');
+
+  helpIcon.addEventListener('click', () => {
+    helpPopup.style.display = helpPopup.style.display === 'block' ? 'none' : 'block';
+  });
+
+  helpClose.addEventListener('click', () => {
+    helpPopup.style.display = 'none';
+  });
+
+  // Закрывать по клику вне окна
+  document.addEventListener('click', (e) => {
+    if (!helpPopup.contains(e.target) && !helpIcon.contains(e.target)) {
+      helpPopup.style.display = 'none';
+    }
+  });
+</script>
+
+<style>
+  /* Поддержка тёмной темы */
+  body.dark #help-popup {
+    --bg-color: #222;
+    --text-color: #eee;
+  }
+
+  /* Подсветка ID в коде */
+  #help-popup mark {
+    background-color: #fffb91;
+    color: #444;
+    padding: 0 4px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  #help-popup a {
+    text-decoration: none;
+  }
+  #help-popup a:hover {
+    text-decoration: underline;
+  }
+</style>
 
 </body>
 </html>
