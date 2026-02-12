@@ -1,213 +1,144 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KinoDivBox 4.0</title>
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff3d00">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KinoDivBox - Полная инструкция</title>
 <style>
-body{
-  margin:0;
-  font-family:sans-serif;
-  background:#111;
-  color:#eee;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
-}
-
-header{
-  padding:15px;
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
-  background:#ff3d00;
-}
-
-main{
-  flex:1;
-  padding:20px;
-  max-width:900px;
-  margin:auto;
-  width:100%;
-}
-
-.search{
-  display:flex;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-input{
-  flex:1;
-  padding:10px;
-  border-radius:8px;
-  border:none;
-  font-size:16px;
-}
-
-button{
-  padding:10px 15px;
-  border:none;
-  border-radius:8px;
-  background:#ff3d00;
-  color:white;
-  cursor:pointer;
-}
-
-.player{
-  margin-top:15px;
-}
-
-iframe{
-  width:100%;
-  height:60vh;
-  border:none;
-  border-radius:12px;
-}
-
-.nav{
-  display:flex;
-  justify-content:space-around;
-  background:#1c1c1c;
-  padding:10px;
-}
-
-.nav button{
-  background:none;
-  color:#aaa;
-}
-
-.nav button.active{
-  color:#ff3d00;
-}
-
-.loader{
-  width:50px;
-  height:50px;
-  border:5px solid #333;
-  border-top:5px solid #ff3d00;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-  margin:40px auto;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg);}
-}
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background-color: #1f1f1f;
+    padding: 20px;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    color: #ff6b6b;
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+    background-color: #222;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: #fff;
+    padding: 15px 25px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  nav a:hover {
+    background-color: #ff6b6b;
+    color: #fff;
+    border-radius: 5px;
+  }
+  section {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #1b1b1b;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+  }
+  h2 {
+    color: #ff6b6b;
+    margin-top: 0;
+  }
+  ul {
+    padding-left: 20px;
+  }
+  code {
+    background-color: #333;
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+  .tip {
+    background-color: #333;
+    padding: 10px;
+    border-left: 4px solid #ff6b6b;
+    margin: 15px 0;
+  }
+  footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1f1f1f;
+    color: #aaa;
+    font-size: 0.9em;
+  }
 </style>
 </head>
-
 <body>
 
-<header>🎬 KinoDivBox 4.0</header>
+<header>KinoDivBox – Полная инструкция</header>
 
-<main id="app"></main>
+<nav>
+  <a href="#search">Поиск фильмов/сериалов</a>
+  <a href="#id">Ввод ID КиноПоиска</a>
+  <a href="#players">Переключение плееров</a>
+  <a href="#history">История и закладки</a>
+  <a href="#random">Случайный фильм</a>
+  <a href="#copy">Копирование ссылки</a>
+  <a href="#safety">Безопасность</a>
+</nav>
 
-<div class="nav">
-  <button onclick="showHome()" class="active">Главная</button>
-  <button onclick="showFavorites()">Избранное</button>
-  <button onclick="showHistory()">История</button>
-</div>
+<section id="search">
+  <h2>1. Поиск фильмов и сериалов</h2>
+  <p>В верхней части сайта есть поле поиска. Вводите название фильма или сериала, нажимаете Enter, и KinoDivBox покажет все доступные результаты.</p>
+  <div class="tip">Совет: Используйте английское или русское название для более точного результата.</div>
+</section>
 
-<script>
-const app = document.getElementById("app");
+<section id="id">
+  <h2>2. Ввод ID КиноПоиска</h2>
+  <p>Чтобы быстро открыть фильм через ID, введите номер КиноПоиска в специальное поле. Пример:</p>
+  <ul>
+    <li>Ссылка: <code>https://www.kinopoisk.ru/film/535341/</code></li>
+    <li>ID: <code>535341</code></li>
+  </ul>
+  <div class="tip">Совет: Сайт автоматически извлекает ID из полной ссылки, так что просто вставьте ссылку.</div>
+</section>
 
-const players = {
-  VideoCDN: id => `https://p.lumex.space/j3mqebEPqCLB?domain=${location.hostname}&kp_id=${id}`,
-  Collaps: id => `https://api.namy.ws/embed/kp/${id}`
-};
+<section id="players">
+  <h2>3. Переключение плееров</h2>
+  <p>KinoDivBox поддерживает несколько плееров: Collaps, Alloha, HDVB, Videocdn и другие. Используйте круглые кнопки в правом верхнем углу плеера для переключения между источниками.</p>
+  <div class="tip">Совет: Если плеер не загружается, попробуйте другой источник.</div>
+</section>
 
-function extractID(input){
-  const match = input.match(/(\\d+)/);
-  return match ? match[1] : null;
-}
+<section id="history">
+  <h2>4. История и закладки</h2>
+  <p>Все просмотренные фильмы и сериалы сохраняются в истории. Закладки помогают отмечать любимые фильмы, чтобы вернуться к ним позже.</p>
+  <ul>
+    <li>История просмотров доступна в разделе <b>"История"</b>.</li>
+    <li>Закладки добавляются кнопкой <b>"В избранное"</b>.</li>
+  </ul>
+</section>
 
-function saveHistory(id){
-  let history = JSON.parse(localStorage.getItem("history")||"[]");
-  if(!history.includes(id)){
-    history.unshift(id);
-    history = history.slice(0,20);
-  }
-  localStorage.setItem("history",JSON.stringify(history));
-}
+<section id="random">
+  <h2>5. Случайный фильм</h2>
+  <p>Нажмите кнопку <b>"Случайный фильм"</b>, и сайт выберет фильм для просмотра. Отличный способ открыть что-то новое!</p>
+</section>
 
-function addFavorite(id){
-  let fav = JSON.parse(localStorage.getItem("favorites")||"[]");
-  if(!fav.includes(id)){
-    fav.push(id);
-  }
-  localStorage.setItem("favorites",JSON.stringify(fav));
-}
+<section id="copy">
+  <h2>6. Копирование ссылки на плеер</h2>
+  <p>Вы можете скопировать прямую ссылку на текущий плеер с помощью кнопки <b>"Копировать ссылку"</b> под плеером.</p>
+</section>
 
-function showHome(){
-  setActive(0);
-  app.innerHTML = `
-    <div class="search">
-      <input id="idInput" placeholder="Введите ID КиноПоиск">
-      <button onclick="loadPlayer()">Смотреть</button>
-    </div>
-    <div id="playerArea"></div>
-  `;
-}
+<section id="safety">
+  <h2>7. Безопасность и советы</h2>
+  <ul>
+    <li>Сайт защищает контент от случайного копирования и сторонних вставок iframe.</li>
+    <li>Не используйте подозрительные скрипты и расширения, чтобы не нарушать безопасность.</li>
+    <li>Используйте актуальный браузер и антивирус для защиты.</li>
+  </ul>
+</section>
 
-function showFavorites(){
-  setActive(1);
-  const fav = JSON.parse(localStorage.getItem("favorites")||"[]");
-  app.innerHTML = "<h3>Избранное</h3>" +
-    fav.map(id=>`<p><button onclick="quickLoad('${id}')">${id}</button></p>`).join("");
-}
-
-function showHistory(){
-  setActive(2);
-  const history = JSON.parse(localStorage.getItem("history")||"[]");
-  app.innerHTML = "<h3>История</h3>" +
-    history.map(id=>`<p><button onclick="quickLoad('${id}')">${id}</button></p>`).join("");
-}
-
-function setActive(index){
-  document.querySelectorAll(".nav button").forEach((b,i)=>{
-    b.classList.toggle("active",i===index);
-  });
-}
-
-function quickLoad(id){
-  showHome();
-  document.getElementById("idInput").value=id;
-  loadPlayer();
-}
-
-function loadPlayer(){
-  const input = document.getElementById("idInput").value.trim();
-  const id = extractID(input);
-  if(!id){ alert("Неверный ID"); return; }
-
-  const area = document.getElementById("playerArea");
-  area.innerHTML='<div class="loader"></div>';
-
-  saveHistory(id);
-
-  const src = players.VideoCDN(id);
-
-  setTimeout(()=>{
-    area.innerHTML = `
-      <iframe src="${src}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
-      <div style="margin-top:10px;">
-        <button onclick="addFavorite('${id}')">⭐ В избранное</button>
-      </div>
-    `;
-  },800);
-}
-
-showHome();
-
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js');
-}
-</script>
+<footer>
+  &copy; 2026 KinoDivBox. Все права защищены. Сайт носит информационный характер.
+</footer>
 
 </body>
 </html>
