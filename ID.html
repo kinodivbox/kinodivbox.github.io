@@ -336,6 +336,8 @@
 </div>
 
 <script>
+const PLAYER_TIMEOUT = 4000;
+
 const players = {
   Collaps: id => Promise.resolve(`https://api.namy.ws/embed/kp/${id}`),
   Alloha: id => Promise.resolve(`https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`),
@@ -358,6 +360,16 @@ const players = {
 const container = document.getElementById("playerContainer");
 const switcher = document.getElementById("playerSwitcher");
 
+function timeoutPromise(promise, ms) {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(null), ms);
+    promise.then(res => {
+      clearTimeout(timer);
+      resolve(res);
+    }).catch(() => resolve(null));
+  });
+}
+
 function extractID(input) {
   const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
   return match ? match[1] : input;
@@ -367,10 +379,10 @@ function showLoader() {
   container.innerHTML = `<div class="loader"></div>`;
 }
 
-function createPlayerBlock(name, src, index) {
+function createPlayerBlock(name, src, index, isActive) {
   const block = document.createElement("div");
   block.className = "player-block";
-  if (index === 0) block.classList.add("active");
+  if (isActive) block.classList.add("active");
 
   const title = document.createElement("h2");
   title.textContent = name;
@@ -380,13 +392,10 @@ function createPlayerBlock(name, src, index) {
   iframe.src = src;
   iframe.loading = "lazy";
   iframe.allowFullscreen = true;
-  iframe.title = `Плеер ${name}`;
   iframe.referrerPolicy = "no-referrer";
   iframe.setAttribute("sandbox",
     "allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
   );
-
-  iframe.onerror = () => block.remove();
 
   block.appendChild(iframe);
   container.appendChild(block);
@@ -394,22 +403,16 @@ function createPlayerBlock(name, src, index) {
   const btn = document.createElement("button");
   btn.textContent = index + 1;
   btn.title = name;
-  btn.setAttribute("role", "tab");
-  btn.setAttribute("aria-selected", index === 0);
 
-  if (index === 0) btn.classList.add("active");
+  if (isActive) btn.classList.add("active");
 
   btn.onclick = () => {
-    [...switcher.children].forEach(b => {
-      b.classList.remove("active");
-      b.setAttribute("aria-selected", "false");
-    });
-
+    [...switcher.children].forEach(b => b.classList.remove("active"));
     [...container.children].forEach(p => p.classList.remove("active"));
-
     btn.classList.add("active");
-    btn.setAttribute("aria-selected", "true");
     block.classList.add("active");
+
+    localStorage.setItem("favoritePlayer", name);
   };
 
   switcher.appendChild(btn);
@@ -420,40 +423,45 @@ async function searchPlayer() {
   query = extractID(query);
 
   if (!/^\d+$/.test(query)) {
-    alert("Введите корректный ID КиноПоиска");
+    alert("Введите корректный ID");
     return;
   }
 
   showLoader();
   switcher.innerHTML = "";
   switcher.hidden = true;
-
   document.getElementById("adBanner")?.classList.add("hidden");
+
+  const favorite = localStorage.getItem("favoritePlayer");
 
   const entries = Object.entries(players);
 
+  // Если есть любимый плеер — ставим первым
+  if (favorite && players[favorite]) {
+    entries.sort(([a], [b]) => (a === favorite ? -1 : b === favorite ? 1 : 0));
+  }
+
   const results = await Promise.all(
     entries.map(([name, fn]) =>
-      fn(query).then(src => ({ name, src }))
+      timeoutPromise(fn(query), PLAYER_TIMEOUT)
+        .then(src => ({ name, src }))
     )
   );
 
   container.innerHTML = "";
 
-  let index = 0;
+  const workingPlayers = results.filter(p => p.src);
 
-  results.forEach(({ name, src }) => {
-    if (!src) return;
-    createPlayerBlock(name, src, index);
-    index++;
-  });
-
-  if (index === 0) {
-    container.innerHTML = "<p style='text-align:center;'>Плееры не найдены 😢</p>";
+  if (workingPlayers.length === 0) {
+    container.innerHTML = "<p style='text-align:center;'>Ни один плеер не ответил 😢</p>";
     return;
   }
 
-  if (index > 1) switcher.hidden = false;
+  workingPlayers.forEach((p, i) => {
+    createPlayerBlock(p.name, p.src, i, i === 0);
+  });
+
+  if (workingPlayers.length > 1) switcher.hidden = false;
 
   history.replaceState(null, "", `?id=${query}`);
   localStorage.setItem("lastID", query);
@@ -471,6 +479,7 @@ function loadFromURL() {
 
 window.addEventListener("load", loadFromURL);
 </script>
+
 
 <!-- Кнопки перехода на сайты -->
 <div style="text-align: center; margin-top: 30px;">
