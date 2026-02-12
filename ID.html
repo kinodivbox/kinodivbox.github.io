@@ -337,126 +337,139 @@
 
 <script>
 const players = {
-  Collaps: id => `https://api.namy.ws/embed/kp/${id}`,
-  Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
-  VideoCDN: id => `https://p.lumex.space/j3mqebEPqCLB?domain=kinodivbox.github.io&kp_id=${id}`,
-  Vibix: id => `https://675812196.videoframe2.com/embed-kp/${id}`,
+  Collaps: id => Promise.resolve(`https://api.namy.ws/embed/kp/${id}`),
+  Alloha: id => Promise.resolve(`https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`),
+  VideoCDN: id => Promise.resolve(`https://p.lumex.space/j3mqebEPqCLB?domain=${location.hostname}&kp_id=${id}`),
+  Vibix: id => Promise.resolve(`https://675812196.videoframe2.com/embed-kp/${id}`),
+  Kodik: id => Promise.resolve(`https://kodik.cc/find-player?kinopoiskID=${id}`),
+  Трейлер: id => Promise.resolve(`https://api.atomics.ws/embed/trailer-kp/${id}`),
+
   HDVB: async (id) => {
-  const token = '8a22f8e7684404c3815e3ffa940f00a0';
-  const url = `https://apivb.com/api/videos.json?id_kp=${id}&token=${token}`;
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    if (Array.isArray(data) && data.length > 0 && data[0].iframe_url) {
-      return data[0].iframe_url; // Берём первый iframe
+    try {
+      const res = await fetch(`https://apivb.com/api/videos.json?id_kp=${id}&token=8a22f8e7684404c3815e3ffa940f00a0`);
+      const data = await res.json();
+      return data?.[0]?.iframe_url || null;
+    } catch {
+      return null;
     }
-  } catch (e) {
-    console.error('HDVB error:', e);
   }
-  return null;
-},
-  Kodik: id => `https:////kodik.cc/find-player?kinopoiskID=${id}`,
-  Трейлер: id => `https://api.atomics.ws/embed/trailer-kp/${id}`,
 };
 
-  function extractID(input) {
-    const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
-    return match ? match[1] : input;
-  }
+const container = document.getElementById("playerContainer");
+const switcher = document.getElementById("playerSwitcher");
 
- async function searchPlayer() {
+function extractID(input) {
+  const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
+  return match ? match[1] : input;
+}
+
+function showLoader() {
+  container.innerHTML = `<div class="loader"></div>`;
+}
+
+function createPlayerBlock(name, src, index) {
+  const block = document.createElement("div");
+  block.className = "player-block";
+  if (index === 0) block.classList.add("active");
+
+  const title = document.createElement("h2");
+  title.textContent = name;
+  block.appendChild(title);
+
+  const iframe = document.createElement("iframe");
+  iframe.src = src;
+  iframe.loading = "lazy";
+  iframe.allowFullscreen = true;
+  iframe.title = `Плеер ${name}`;
+  iframe.referrerPolicy = "no-referrer";
+  iframe.setAttribute("sandbox",
+    "allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
+  );
+
+  iframe.onerror = () => block.remove();
+
+  block.appendChild(iframe);
+  container.appendChild(block);
+
+  const btn = document.createElement("button");
+  btn.textContent = index + 1;
+  btn.title = name;
+  btn.setAttribute("role", "tab");
+  btn.setAttribute("aria-selected", index === 0);
+
+  if (index === 0) btn.classList.add("active");
+
+  btn.onclick = () => {
+    [...switcher.children].forEach(b => {
+      b.classList.remove("active");
+      b.setAttribute("aria-selected", "false");
+    });
+
+    [...container.children].forEach(p => p.classList.remove("active"));
+
+    btn.classList.add("active");
+    btn.setAttribute("aria-selected", "true");
+    block.classList.add("active");
+  };
+
+  switcher.appendChild(btn);
+}
+
+async function searchPlayer() {
   let query = document.getElementById("query").value.trim();
   query = extractID(query);
 
   if (!/^\d+$/.test(query)) {
-    alert("Введите числовой ID КиноПоиска или корректную ссылку");
+    alert("Введите корректный ID КиноПоиска");
     return;
   }
 
-  const container = document.getElementById("playerContainer");
-  const switcher = document.getElementById("playerSwitcher");
-  container.innerHTML = '';
-  switcher.innerHTML = '';
+  showLoader();
+  switcher.innerHTML = "";
   switcher.hidden = true;
 
   document.getElementById("adBanner")?.classList.add("hidden");
 
+  const entries = Object.entries(players);
+
+  const results = await Promise.all(
+    entries.map(([name, fn]) =>
+      fn(query).then(src => ({ name, src }))
+    )
+  );
+
+  container.innerHTML = "";
+
   let index = 0;
-  for (const [name, getSrc] of Object.entries(players)) {
-    let iframeSrc = typeof getSrc === 'function' ? await getSrc(query) : null;
-    if (!iframeSrc) continue;
 
-    const block = document.createElement("div");
-    block.className = "player-block";
-    if (index === 0) block.classList.add("active");
-
-    const title = document.createElement("h2");
-    title.textContent = name;
-    block.appendChild(title);
-
-    const iframe = document.createElement("iframe");
-    iframe.src = iframeSrc;
-    iframe.allowFullscreen = true;
-    iframe.loading = "lazy";
-    iframe.title = `Плеер ${name} для КиноПоиск ID ${query}`;
-    block.appendChild(iframe);
-
-    container.appendChild(block);
-
-    const btn = document.createElement("button");
-    btn.textContent = index + 1;
-    btn.title = name;
-    if (index === 0) btn.classList.add("active");
-    btn.onclick = () => {
-      [...switcher.children].forEach(b => b.classList.remove("active"));
-      [...container.children].forEach(p => p.classList.remove("active"));
-      btn.classList.add("active");
-      block.classList.add("active");
-    };
-    switcher.appendChild(btn);
+  results.forEach(({ name, src }) => {
+    if (!src) return;
+    createPlayerBlock(name, src, index);
     index++;
+  });
+
+  if (index === 0) {
+    container.innerHTML = "<p style='text-align:center;'>Плееры не найдены 😢</p>";
+    return;
   }
 
   if (index > 1) switcher.hidden = false;
 
-  history.replaceState(null, '', `?id=${query}`);
+  history.replaceState(null, "", `?id=${query}`);
+  localStorage.setItem("lastID", query);
 }
 
-  function copyShareLink() {
-    let query = document.getElementById("query").value.trim();
-    query = extractID(query);
+function loadFromURL() {
+  const id = new URLSearchParams(location.search).get("id")
+        || localStorage.getItem("lastID");
 
-    if (!/^\d+$/.test(query)) {
-      alert("Введите корректный ID или ссылку перед копированием");
-      return;
-    }
-
-    const url = `${window.location.origin}${window.location.pathname}?id=${query}`;
-    navigator.clipboard.writeText(url)
-      .then(() => alert("Ссылка скопирована!"))
-      .catch(() => alert("Ошибка при копировании ссылки."));
+  if (id && /^\d+$/.test(id)) {
+    document.getElementById("query").value = id;
+    searchPlayer();
   }
+}
 
-  function loadFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-    if (id && /^\d+$/.test(id)) {
-      document.getElementById("query").value = id;
-      searchPlayer();
-    }
-  }
-
-  window.onload = loadFromURL;
-
-  // Отключение контекстного меню и горячих клавиш
-  document.oncontextmenu = function() { return false; };
-  document.onkeydown = function(e) {
-    if (e.keyCode == 123) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-  };
+window.addEventListener("load", loadFromURL);
 </script>
 
 <!-- Кнопки перехода на сайты -->
