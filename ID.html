@@ -1,644 +1,213 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-<title>Смотреть фильмы и сериалы онлайн по ID КиноПоиск — KinoDivBox</title>
-
-<meta name="description" content="KinoDivBox — смотри фильмы и сериалы онлайн по ID КиноПоиска. Все популярные плееры в одном месте: быстро, удобно и бесплатно.">
-
-<meta name="keywords" content="смотреть фильмы онлайн, кино по id, kinopoisk id, KinoDivBox, сериалы онлайн, смотреть кино бесплатно">
-
-<link rel="icon" href="/css_js/favicon.svg" type="image/x-icon" />
-<link rel="canonical" href="https://kinodivbox.github.io/">
-
-<meta property="og:title" content="KinoDivBox — фильмы и сериалы по ID КиноПоиск">
-<meta property="og:description" content="Введите ID фильма или сериала с КиноПоиска и смотрите онлайн на KinoDivBox.">
-<meta property="og:type" content="website">
-<meta name="author" content="KinoDivBox" />
-<meta name="robots" content="index, follow" />
-<meta property="og:url" content="https://kinodivbox.github.io/">
-<meta name="twitter:image" content="/319529_O.png" />
-<meta property="og:image" content="/319529_O.png" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #eee;
-      padding: 20px;
-      transition: background 0.5s ease;
-    }
-
-    p.logo {
-      text-align: center;
-      font-weight: 900;
-      font-size: 3rem;
-      color: #ff3d00;
-      cursor: default;
-      user-select: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 30px;
-      transition: color 0.3s ease;
-    }
-
-    p.logo:hover {
-      color: #ff7043;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { color: #ff3d00; }
-      50% { color: #ff7043; }
-    }
-
-    .search-box {
-      max-width: 650px;
-      margin: 0 auto 20px;
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    input, button {
-      padding: 12px 16px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: none;
-      outline-offset: 2px;
-      transition: box-shadow 0.3s ease, transform 0.2s ease;
-    }
-
-    input {
-      flex-grow: 1;
-      min-width: 280px;
-      background: #222;
-      color: #eee;
-      box-shadow: inset 0 0 8px #000;
-    }
-
-    input::placeholder {
-      color: #999;
-      font-style: italic;
-    }
-
-    input:focus {
-      box-shadow: 0 0 8px 2px #ff3d00;
-      background: #333;
-      color: #fff;
-    }
-
-    button {
-      background-color: #ff3d00;
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 3px 6px rgba(255, 61, 0, 0.6);
-      user-select: none;
-    }
-
-    button:hover, button:focus {
-      background-color: #ff6f3a;
-      box-shadow: 0 6px 12px rgba(255, 111, 58, 0.8);
-      transform: translateY(-2px);
-    }
-
-    /* Контейнер плеера с переключателем */
-    #playerArea {
-      max-width: 900px;
-      margin: 0 auto 20px;
-      position: relative;
-    }
-
-    /* Переключатель — кнопки-кругляшки справа сверху */
-    #playerSwitcher {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      display: flex;
-      gap: 8px;
-      z-index: 10;
-    }
-
-    #playerSwitcher button {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: none;
-      background-color: #444;
-      color: #eee;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      user-select: none;
-    }
-
-    #playerSwitcher button.active,
-    #playerSwitcher button:hover {
-      background-color: #ff3d00;
-      color: white;
-    }
-
-    .player {
-      margin: 0;
-    }
-
-    .player-block {
-      display: none;
-      margin-bottom: 40px;
-      background: rgba(255 61 0 / 0.15);
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(255 61 0 / 0.4);
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .player-block.active {
-      display: block;
-      transform: translateY(0);
-      box-shadow: 0 8px 24px rgba(255 61 0 / 0.7);
-    }
-
-    .player-block h2 {
-      text-align: center;
-      font-size: 22px;
-      margin: 15px 0;
-      color: #ffb399;
-      user-select: none;
-    }
-
-    iframe {
-      width: 100%;
-      height: 60vh;
-      border: none;
-      border-radius: 14px;
-      display: block;
-      opacity: 1 !important;
-    }
-
-    @media (max-width: 600px) {
-      .player-block h2 {
-        font-size: 18px;
-      }
-      input {
-        font-size: 16px;
-      }
-      button {
-        font-size: 16px;
-      }
-      iframe {
-        height: 40vh;
-      }
-      /* На мобильных переключатели снизу, горизонтально */
-      #playerSwitcher {
-        position: static;
-        justify-content: center;
-        margin: 10px 0 20px;
-      }
-      #playerSwitcher button {
-        width: auto;
-        border-radius: 8px;
-        padding: 6px 12px;
-        font-size: 14px;
-      }
-    }
-
-    /* Стили для рекламного баннера */
-    .ad-banner {
-      background: linear-gradient(45deg, #ff3d00, #ff6f3a);
-      color: #fff;
-      padding: 16px;
-      border-radius: 12px;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: bold;
-      margin: 20px auto;
-      max-width: 700px;
-      box-shadow: 0 4px 12px rgba(255, 61, 0, 0.4);
-      animation: fadeIn 0.8s ease-in-out;
-      transition: opacity 0.5s ease;
-    }
-
-    .ad-banner.hidden {
-      opacity: 0;
-      pointer-events: none;
-      height: 0;
-      overflow: hidden;
-      padding: 0;
-      margin: 0 auto;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .seo-text {
-  max-width: 900px;
-  margin: 40px auto;
-  color: #ccc;
-  font-size: 15px;
-  line-height: 1.6;
-}
-.seo-text h1 {
-  font-size: 22px;
-  color: #fff;
-  margin-bottom: 15px;
-}
-  </style>
-
-  <script src="https://allohatv.github.io/insert-player.js"></script>
-  <script src="https://kodir2.github.io/actualize.js" async></script>
-  <script src="https://hdvb-player.github.io/actualize.js" async></script>
-  <script src="https://lmx-pl.github.io/lmx-f.github.io/act.js" async></script>
-</head>
-<body>
-  
-<p class="logo" title="Перейти на главную страницу">
-  🎬 <a href="/" style="color:inherit; text-decoration:none;">KinoDivBox</a>
-</p>
-
-<div class="search-box">
-  <input
-    id="query"
-    type="text"
-    placeholder="Введите ID или ссылку КиноПоиска"
-    onkeydown="if(event.key==='Enter') searchPlayer()"
-    aria-label="Поиск по ID или ссылке КиноПоиска"
-  />
-  <button onclick="searchPlayer()" aria-label="Поиск">Поиск</button>
-  <button onclick="copyShareLink()" aria-label="Поделиться ссылкой">Поделиться</button>
-</div>
-
-<!-- Рекламный баннер -->
-<div id="adBanner" class="ad-banner">
-  <p style="text-align: center;">
-    <img alt="" src="https://kinodivbox.github.io/319529_O.png" style="width: 100%; height: auto;" />
-  </p>
-  <!-- счетчики ... оставляем без изменений -->
-    <center>
-<!-- seo-text -->
-<section class="seo-text">
-  <h1>Смотреть фильмы и сериалы онлайн по ID КиноПоиск</h1>
-
-  <p>
-    <strong>KinoDivBox</strong> — это удобный сервис для просмотра фильмов и сериалов онлайн
-    по ID с сайта КиноПоиск. Просто вставьте ID фильма или сериала — и получите доступ
-    к нескольким плеерам в одном месте.
-  </p>
-
-  <p>
-    Наш сервис не хранит видеофайлы, а использует открытые источники.
-    KinoDivBox подходит для просмотра новинок кино, популярных сериалов
-    и классических фильмов без лишних регистраций.
-  </p>
-
-  <p>
-    Если вы не знаете ID — просто откройте страницу фильма на КиноПоиске
-    и скопируйте цифры из адресной строки.
-  </p>
-</section>
-<!-- seo-text -->
-</center>
-  <center>
-    <!--LiveInternet counter-->
-    <a href="https://www.liveinternet.ru/click" target="_blank">
-      <img id="licnt3652" width="88" height="15" style="border:0"
-           title="LiveInternet: показано число посетителей за сегодня"
-           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
-           alt="" />
-    </a>
-    <script>(function(d,s){
-      d.getElementById("licnt3652").src =
-        "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
-        ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
-        (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
-        ";u" + escape(d.URL) +
-        ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
-    })(document,screen)</script>
-    <!--/LiveInternet-->
-  </center>
-</div>
-
-<!-- Контейнер плеера + переключатель -->
-<div id="playerArea">
-  <div id="playerSwitcher" aria-label="Выбор плеера" role="tablist" hidden></div>
-  <div class="player" id="playerContainer" aria-live="polite" aria-atomic="true"></div>
-</div>
-
-<script>
-const PLAYER_TIMEOUT = 4000;
-
-const players = {
-  Collaps: id => Promise.resolve(`https://api.namy.ws/embed/kp/${id}`),
-  Alloha: id => Promise.resolve(`https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`),
-  VideoCDN: id => Promise.resolve(`https://p.lumex.space/j3mqebEPqCLB?domain=${location.hostname}&kp_id=${id}`),
-  Vibix: id => Promise.resolve(`https://675812196.videoframe2.com/embed-kp/${id}`),
-  Kodik: id => Promise.resolve(`https://kodik.cc/find-player?kinopoiskID=${id}`),
-  Трейлер: id => Promise.resolve(`https://api.atomics.ws/embed/trailer-kp/${id}`),
-
-  HDVB: async (id) => {
-    try {
-      const res = await fetch(`https://apivb.com/api/videos.json?id_kp=${id}&token=8a22f8e7684404c3815e3ffa940f00a0`);
-      const data = await res.json();
-      return data?.[0]?.iframe_url || null;
-    } catch {
-      return null;
-    }
-  }
-};
-
-const container = document.getElementById("playerContainer");
-const switcher = document.getElementById("playerSwitcher");
-
-function timeoutPromise(promise, ms) {
-  return new Promise((resolve) => {
-    const timer = setTimeout(() => resolve(null), ms);
-    promise.then(res => {
-      clearTimeout(timer);
-      resolve(res);
-    }).catch(() => resolve(null));
-  });
-}
-
-function extractID(input) {
-  const match = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/);
-  return match ? match[1] : input;
-}
-
-function showLoader() {
-  container.innerHTML = `<div class="loader"></div>`;
-}
-
-function createPlayerBlock(name, src, index, isActive) {
-  const block = document.createElement("div");
-  block.className = "player-block";
-  if (isActive) block.classList.add("active");
-
-  const title = document.createElement("h2");
-  title.textContent = name;
-  block.appendChild(title);
-
-  const iframe = document.createElement("iframe");
-  iframe.src = src;
-  iframe.loading = "lazy";
-  iframe.allowFullscreen = true;
-  iframe.referrerPolicy = "no-referrer";
-  iframe.setAttribute("sandbox",
-    "allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
-  );
-
-  block.appendChild(iframe);
-  container.appendChild(block);
-
-  const btn = document.createElement("button");
-  btn.textContent = index + 1;
-  btn.title = name;
-
-  if (isActive) btn.classList.add("active");
-
-  btn.onclick = () => {
-    [...switcher.children].forEach(b => b.classList.remove("active"));
-    [...container.children].forEach(p => p.classList.remove("active"));
-    btn.classList.add("active");
-    block.classList.add("active");
-
-    localStorage.setItem("favoritePlayer", name);
-  };
-
-  switcher.appendChild(btn);
-}
-
-async function searchPlayer() {
-  let query = document.getElementById("query").value.trim();
-  query = extractID(query);
-
-  if (!/^\d+$/.test(query)) {
-    alert("Введите корректный ID");
-    return;
-  }
-
-  showLoader();
-  switcher.innerHTML = "";
-  switcher.hidden = true;
-  document.getElementById("adBanner")?.classList.add("hidden");
-
-  const favorite = localStorage.getItem("favoritePlayer");
-
-  const entries = Object.entries(players);
-
-  // Если есть любимый плеер — ставим первым
-  if (favorite && players[favorite]) {
-    entries.sort(([a], [b]) => (a === favorite ? -1 : b === favorite ? 1 : 0));
-  }
-
-  const results = await Promise.all(
-    entries.map(([name, fn]) =>
-      timeoutPromise(fn(query), PLAYER_TIMEOUT)
-        .then(src => ({ name, src }))
-    )
-  );
-
-  container.innerHTML = "";
-
-  const workingPlayers = results.filter(p => p.src);
-
-  if (workingPlayers.length === 0) {
-    container.innerHTML = "<p style='text-align:center;'>Ни один плеер не ответил 😢</p>";
-    return;
-  }
-
-  workingPlayers.forEach((p, i) => {
-    createPlayerBlock(p.name, p.src, i, i === 0);
-  });
-
-  if (workingPlayers.length > 1) switcher.hidden = false;
-
-  history.replaceState(null, "", `?id=${query}`);
-  localStorage.setItem("lastID", query);
-}
-
-function loadFromURL() {
-  const id = new URLSearchParams(location.search).get("id")
-        || localStorage.getItem("lastID");
-
-  if (id && /^\d+$/.test(id)) {
-    document.getElementById("query").value = id;
-    searchPlayer();
-  }
-}
-
-window.addEventListener("load", loadFromURL);
-</script>
-
-
-<!-- Кнопки перехода на сайты -->
-<div style="text-align: center; margin-top: 30px;">
-  <button onclick="window.open('https://www.kinopoisk.ru/lists/categories/movies/', '_blank')" 
-          aria-label="КиноПоиск Список ID"
-          class="action-button">
-    КиноПоиск Список ID
-  </button>
-  <button onclick="window.open('/contact', '_blank')" 
-          aria-label="КОНТАКТЫ"
-          class="action-button">
-    КОНТАКТЫ
-  </button>
-  <button onclick="window.open('https://t.me/kinodivbox_Official', '_blank')" 
-          aria-label="TELEGRAM"
-          class="action-button">
-    TELEGRAM
-  </button>
-  <button onclick="window.open('https://www.tiktok.com/@kinodivbox_official', '_blank')" 
-          aria-label="TikTok"
-          class="action-button">
-    TikTok
-  </button>
-  <button onclick="window.open('/install_helper', '_blank')" 
-          aria-label="InstallHelper"
-          class="action-button">
-    InstallHelper
-  </button>
-</div>
-
-<!-- Иконка "?" -->
-<div id="help-icon" title="Как пользоваться сайтом" 
-     style="
-       position: fixed;
-       bottom: 20px;
-       right: 20px;
-       width: 48px;
-       height: 48px;
-       background-color: #007bff;
-       color: white;
-       font-weight: bold;
-       font-size: 28px;
-       line-height: 48px;
-       text-align: center;
-       border-radius: 50%;
-       cursor: pointer;
-       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-       user-select: none;
-       z-index: 10000;
-       ">
-  ?
-</div>
-
-<!-- Всплывающее окно с инструкцией -->
-<div id="help-popup" 
-     style="
-       display: none;
-       position: fixed;
-       bottom: 80px;
-       right: 20px;
-       width: 320px;
-       max-height: 400px;
-       overflow-y: auto;
-       background: var(--bg-color, #f9f9f9);
-       color: var(--text-color, #222);
-       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-       border-radius: 12px;
-       padding: 1rem 1.2rem;
-       font-family: sans-serif;
-       font-size: 0.9rem;
-       line-height: 1.4;
-       z-index: 10000;
-       ">
-  <h3 style="margin-top: 0; font-size: 1.2rem; text-align:center;">📘 Как пользоваться сайтом</h3>
-
-  <p><strong>🔎 Найдите ID КиноПоиска:</strong><br>
-  Перейдите на <a href="https://www.kinopoisk.ru" target="_blank" rel="noopener" style="color:#007bff;">КиноПоиск</a>, выберите фильм или сериал, и скопируйте цифры из ссылки:<br>
-
-<p>📌 Пример: Если вы открыли страницу фильма:</p>
-  <code>https://www.kinopoisk.ru/film/<mark>535341</mark>/</code> → ID = <strong>535341</strong></p>
-  
-<p>🎬 Пример с сериалом:</p>
-  <code>https://www.kinopoisk.ru/series/<mark>1234567</mark>/</code> → ID = <strong>1234567</strong></p>
-
-  <p><strong>🎬 Как смотреть фильм:</strong></p>
-  <ol>
-    <li>Вставьте ID в наш поиск на сайте "kinodivbox.github.io"</li>
-    <li>Нажмите кнопку «Поиск»</li>
-    <li>Выберите плеер для просмотра</li>
-  </ol>
-  
-    <p><strong>💡 Советы:</strong><br>
-— Если плеер не загружается?
-<p>1. Убедитесь, что ваш браузер обновлён до последней версии.<br />
-2. Попробуйте выбрать другой плеер<br />
-(кнопки: 1 / 2 / 3 / 4 / 5).<br />
-3. Если проблема не решается, воспользуйтесь VPN &mdash; возможно, ваш провайдер блокирует доступ.<br />
-4.&nbsp;Рекомендуем для ПК:<br />
-Установите расширения для браузера, повышающие безопасность, конфиденциальность и удобство.<br />
-Смотрите раздел &laquo;<a href="/install_helper">InstallHelper</a>&raquo;.</p>
-
-  <p><strong>❓ Часто задаваемые вопросы:</strong><br>
-  — 🟢 Можно вставить ссылку целиком?
-Да, можно — сайт сам автоматически извлечёт ID из ссылки.<br>
-  — 🟠 А если вставлю не тот ID?
-Вы увидите пустой плеер или ошибку. Просто вставьте правильный ID ещё раз.</p>
-
-  <p style="text-align:center; margin-top:1rem;">
-    <button id="help-close" style="
-      background:#007bff; color:#fff; border:none; border-radius:6px; padding: 6px 12px; cursor:pointer;
-      font-size: 0.9rem;
-    ">Закрыть</button>
-  </p>
-</div>
-
-<script>
-  const helpIcon = document.getElementById('help-icon');
-  const helpPopup = document.getElementById('help-popup');
-  const helpClose = document.getElementById('help-close');
-
-  helpIcon.addEventListener('click', () => {
-    helpPopup.style.display = helpPopup.style.display === 'block' ? 'none' : 'block';
-  });
-
-  helpClose.addEventListener('click', () => {
-    helpPopup.style.display = 'none';
-  });
-
-  // Закрывать по клику вне окна
-  document.addEventListener('click', (e) => {
-    if (!helpPopup.contains(e.target) && !helpIcon.contains(e.target)) {
-      helpPopup.style.display = 'none';
-    }
-  });
-</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KinoDivBox 4.0</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff3d00">
 
 <style>
-  /* Поддержка тёмной темы */
-  body.dark #help-popup {
-    --bg-color: #222;
-    --text-color: #eee;
-  }
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#111;
+  color:#eee;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
 
-  /* Подсветка ID в коде */
-  #help-popup mark {
-    background-color: #fffb91;
-    color: #444;
-    padding: 0 4px;
-    border-radius: 3px;
-    font-weight: 600;
-  }
+header{
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+  background:#ff3d00;
+}
 
-  #help-popup a {
-    text-decoration: none;
-  }
-  #help-popup a:hover {
-    text-decoration: underline;
-  }
+main{
+  flex:1;
+  padding:20px;
+  max-width:900px;
+  margin:auto;
+  width:100%;
+}
+
+.search{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+input{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  font-size:16px;
+}
+
+button{
+  padding:10px 15px;
+  border:none;
+  border-radius:8px;
+  background:#ff3d00;
+  color:white;
+  cursor:pointer;
+}
+
+.player{
+  margin-top:15px;
+}
+
+iframe{
+  width:100%;
+  height:60vh;
+  border:none;
+  border-radius:12px;
+}
+
+.nav{
+  display:flex;
+  justify-content:space-around;
+  background:#1c1c1c;
+  padding:10px;
+}
+
+.nav button{
+  background:none;
+  color:#aaa;
+}
+
+.nav button.active{
+  color:#ff3d00;
+}
+
+.loader{
+  width:50px;
+  height:50px;
+  border:5px solid #333;
+  border-top:5px solid #ff3d00;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:40px auto;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
 </style>
+</head>
+
+<body>
+
+<header>🎬 KinoDivBox 4.0</header>
+
+<main id="app"></main>
+
+<div class="nav">
+  <button onclick="showHome()" class="active">Главная</button>
+  <button onclick="showFavorites()">Избранное</button>
+  <button onclick="showHistory()">История</button>
+</div>
+
+<script>
+const app = document.getElementById("app");
+
+const players = {
+  VideoCDN: id => `https://p.lumex.space/j3mqebEPqCLB?domain=${location.hostname}&kp_id=${id}`,
+  Collaps: id => `https://api.namy.ws/embed/kp/${id}`
+};
+
+function extractID(input){
+  const match = input.match(/(\\d+)/);
+  return match ? match[1] : null;
+}
+
+function saveHistory(id){
+  let history = JSON.parse(localStorage.getItem("history")||"[]");
+  if(!history.includes(id)){
+    history.unshift(id);
+    history = history.slice(0,20);
+  }
+  localStorage.setItem("history",JSON.stringify(history));
+}
+
+function addFavorite(id){
+  let fav = JSON.parse(localStorage.getItem("favorites")||"[]");
+  if(!fav.includes(id)){
+    fav.push(id);
+  }
+  localStorage.setItem("favorites",JSON.stringify(fav));
+}
+
+function showHome(){
+  setActive(0);
+  app.innerHTML = `
+    <div class="search">
+      <input id="idInput" placeholder="Введите ID КиноПоиск">
+      <button onclick="loadPlayer()">Смотреть</button>
+    </div>
+    <div id="playerArea"></div>
+  `;
+}
+
+function showFavorites(){
+  setActive(1);
+  const fav = JSON.parse(localStorage.getItem("favorites")||"[]");
+  app.innerHTML = "<h3>Избранное</h3>" +
+    fav.map(id=>`<p><button onclick="quickLoad('${id}')">${id}</button></p>`).join("");
+}
+
+function showHistory(){
+  setActive(2);
+  const history = JSON.parse(localStorage.getItem("history")||"[]");
+  app.innerHTML = "<h3>История</h3>" +
+    history.map(id=>`<p><button onclick="quickLoad('${id}')">${id}</button></p>`).join("");
+}
+
+function setActive(index){
+  document.querySelectorAll(".nav button").forEach((b,i)=>{
+    b.classList.toggle("active",i===index);
+  });
+}
+
+function quickLoad(id){
+  showHome();
+  document.getElementById("idInput").value=id;
+  loadPlayer();
+}
+
+function loadPlayer(){
+  const input = document.getElementById("idInput").value.trim();
+  const id = extractID(input);
+  if(!id){ alert("Неверный ID"); return; }
+
+  const area = document.getElementById("playerArea");
+  area.innerHTML='<div class="loader"></div>';
+
+  saveHistory(id);
+
+  const src = players.VideoCDN(id);
+
+  setTimeout(()=>{
+    area.innerHTML = `
+      <iframe src="${src}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+      <div style="margin-top:10px;">
+        <button onclick="addFavorite('${id}')">⭐ В избранное</button>
+      </div>
+    `;
+  },800);
+}
+
+showHome();
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 
 </body>
 </html>
