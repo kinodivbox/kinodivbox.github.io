@@ -161,9 +161,8 @@ function showPlayer(src,name){
   const id=params.get('id');
   if(id) buildPlayers(id);
 })();
-</script>
 
-    // Отключение контекстного меню и горячих клавиш
+      // Отключение контекстного меню и горячих клавиш
   document.oncontextmenu = function() { return false; };
   document.onkeydown = function(e) {
     if (e.keyCode == 123) return false;
