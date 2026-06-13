@@ -90,6 +90,11 @@
   <script src="https://kodir2.github.io/actualize.js" async></script>
   <script src="https://hdvb-player.github.io/actualize.js" async></script>
   <script src="https://lmx-pl.github.io/lmx-f.github.io/act.js" async></script>
+  <script>
+  !function(e,n,t,r,a){r=e.createElement(n),a=e.getElementsByTagName(n)
+  [0],r.async=!0,r.src=t,a.parentNode.insertBefore(r,a)}
+  (document,"script","//kodik-add.com/change-domains.min.js");
+</script>
 <script>
 const players = {
   "Collaps": id=>`https://api.namy.ws/embed/kp/${id}`,
@@ -108,6 +113,7 @@ const players = {
     return null;
   },
   "Vibix": id=>`https://675812196.videoframe2.com/embed-kp/${id}`,
+  "Kodik": id => `https://kodikplayer.com/find-player?kinopoiskID=${id}`,
   "Трейлер": id=>`https://api.atomics.ws/embed/trailer-kp/${id}`
 };
 
