@@ -156,6 +156,47 @@
       background: #03060c;
     }
 
+    /* Собственная кнопка полноэкранного режима для VideoSeeD */
+    .fullscreen-control {
+      position: absolute;
+      z-index: 4;
+      top: 10px;
+      right: 10px;
+      padding: 8px 11px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 8px;
+      background: rgba(8,13,24,.92);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,.35);
+    }
+
+    .fullscreen-control:hover {
+      background: #202d43;
+    }
+
+    .fullscreen-control[hidden] {
+      display: none !important;
+    }
+
+    .stage:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      background: #03060c;
+    }
+
+    .stage:fullscreen .video-frame {
+      width: 100%;
+      height: 100%;
+    }
+
+    .stage:-webkit-full-screen {
+      width: 100vw;
+      height: 100vh;
+      background: #03060c;
+    }
+
     .state {
       position: absolute;
       inset: 0;
@@ -248,16 +289,26 @@
     @media (max-width: 420px) {
       .topbar { padding: 7px 9px; }
       .switcher { padding: 7px; gap: 6px; }
+
       .switch-btn {
         padding: 6px 10px;
         min-height: 32px;
         font-size: 12px;
       }
+
       .brand-sub {
         font-size: 9px;
         letter-spacing: .7px;
       }
+
       .state { padding: 14px; }
+
+      .fullscreen-control {
+        top: 7px;
+        right: 7px;
+        padding: 7px 9px;
+        font-size: 12px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -284,6 +335,14 @@
     </nav>
 
     <section id="stage" class="stage" aria-live="polite">
+
+      <button id="fullscreenButton"
+              class="fullscreen-control"
+              type="button"
+              hidden>
+        ⛶ На весь экран
+      </button>
+
       <div id="state" class="state" role="status">
         <span id="stateIcon" class="state-icon" aria-hidden="true">▶</span>
         <div id="stateTitle" class="state-title">Подготовка плеера</div>
@@ -327,6 +386,7 @@
     const stateCopy = document.getElementById('stateCopy');
     const retryButton = document.getElementById('retryButton');
     const footStatus = document.getElementById('footStatus');
+    const fullscreenButton = document.getElementById('fullscreenButton');
 
     let currentId = '';
     let currentRequest = 0;
@@ -349,7 +409,7 @@
       {
         name: 'HDVB',
         resolve: async id => {
-          const token = '8a22f8e7684404c3815e3ffa940f00a0';
+          const token = '8a22f8e7684404c3815e3ffa940f00a';
           const url =
             `https://apivb.com/api/videos.json?id_kp=${encodeURIComponent(id)}&token=${encodeURIComponent(token)}`;
 
@@ -457,6 +517,9 @@
 
       clearPlayer();
 
+      // Собственная кнопка показывается только для VideoSeeD.
+      fullscreenButton.hidden = name !== 'VideoSeeD';
+
       [...switcher.querySelectorAll('.switch-btn')].forEach(btn => {
         btn.setAttribute('aria-pressed', String(btn === button));
       });
@@ -480,8 +543,8 @@
       );
 
       /*
-       * VideoSeeD получает iframe без sandbox.
-       * Для других провайдеров сохраняется прежнее ограничение.
+       * VideoSeeD запускается без sandbox.
+       * Ограничения других источников оставляем без изменений.
        */
       if (name !== 'VideoSeeD') {
         frame.setAttribute(
@@ -494,6 +557,38 @@
       hideState();
       footStatus.textContent = `Источник: ${name}`;
     }
+
+    /*
+     * Собственная кнопка полного экрана.
+     * Разворачиваем область stage вместе с iframe.
+     */
+    fullscreenButton.addEventListener('click', async () => {
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+          return;
+        }
+
+        if (stage.requestFullscreen) {
+          await stage.requestFullscreen();
+        } else if (stage.webkitRequestFullscreen) {
+          stage.webkitRequestFullscreen();
+        } else {
+          footStatus.textContent =
+            'Полноэкранный режим не поддерживается браузером';
+        }
+      } catch (error) {
+        console.warn('[KinoDivBox] Fullscreen request failed:', error);
+        footStatus.textContent =
+          'Полный экран заблокирован браузером или родительской страницей';
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      fullscreenButton.textContent = document.fullscreenElement
+        ? '⤢ Выйти из полного экрана'
+        : '⛶ На весь экран';
+    });
 
     function makeButton(provider, src = '', pending = false) {
       const button = document.createElement('button');
@@ -520,6 +615,7 @@
       switcher.replaceChildren();
       switcher.hidden = true;
       clearPlayer();
+      fullscreenButton.hidden = true;
 
       if (!id) {
         setState(
@@ -540,10 +636,7 @@
 
       const buttons = new Map();
 
-      /*
-       * Сначала создаём все кнопки в правильном порядке.
-       * HDVB остаётся третьим во время загрузки API.
-       */
+      // Сначала создаём все кнопки в правильном порядке.
       for (const provider of providers) {
         if (provider.name === 'HDVB') {
           buttons.set(
@@ -568,7 +661,7 @@
         firstButton.click();
       }
 
-      // Загружаем HDVB отдельно, не задерживая другие плееры.
+      // HDVB загружается отдельно и всегда остаётся третьим.
       const hdvb = providers.find(provider => provider.name === 'HDVB');
       const hdvbButton = buttons.get('HDVB');
 
@@ -623,8 +716,11 @@
     buildPlayers(getIdFromUrl());
   })();
 
-              // Отключение контекстного меню и горячих клавиш
-  document.oncontextmenu = function() { return false; };
+  // Отключение контекстного меню и некоторых горячих клавиш.
+  document.oncontextmenu = function() {
+    return false;
+  };
+
   document.onkeydown = function(e) {
     if (e.keyCode == 123) return false;
     if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
@@ -633,24 +729,26 @@
     if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
   };
   </script>
-            <center>
-    <!--LiveInternet counter-->
-    <a href="https://www.liveinternet.ru/click" target="_blank">
+
+  <center>
+    <!-- LiveInternet counter -->
+    <a href="https://www.liveinternet.ru/click" target="_blank" rel="noopener noreferrer">
       <img id="licnt3652" width="88" height="15" style="border:0"
            title="LiveInternet: показано число посетителей за сегодня"
            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
            alt="" />
     </a>
-    <script>(function(d,s){
-      d.getElementById("licnt3652").src =
-        "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
-        ((typeof(s)=="undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
-        (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
-        ";u" + escape(d.URL) +
-        ";h" + escape(d.title.substring(0,150)) + ";" + Math.random()
-    })(document,screen)</script>
-    <!--/LiveInternet-->
+    <script>
+      (function(d, s) {
+        d.getElementById("licnt3652").src =
+          "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
+          ((typeof(s) == "undefined") ? "" : ";s" + s.width + "*" + s.height + "*" +
+          (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
+          ";u" + escape(d.URL) +
+          ";h" + escape(d.title.substring(0, 150)) + ";" + Math.random();
+      })(document, screen);
+    </script>
+    <!-- /LiveInternet -->
   </center>
-  </script>
 </body>
 </html>
