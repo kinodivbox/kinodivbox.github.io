@@ -161,6 +161,21 @@
     .player-block.active { display: block; }
     .player-frame-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; min-height: 220px; background: #05080d; }
     .player-frame-wrap iframe { display: block; width: 100%; height: 100%; position: absolute; inset: 0; border: 0; background: #05080d; }
+    .videoseed-fullscreen {
+      position: absolute; z-index: 20; top: 12px; left: 50%; transform: translateX(-50%);
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 40px; max-width: calc(100% - 24px); padding: 9px 15px;
+      border: 1px solid rgba(255,255,255,.24); border-radius: 999px;
+      color: #fff; background: rgba(9,13,20,.86); box-shadow: 0 8px 28px rgba(0,0,0,.32);
+      font: inherit; font-size: .88rem; font-weight: 750; white-space: nowrap;
+      cursor: pointer; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .videoseed-fullscreen:hover { background: var(--accent); border-color: var(--accent); }
+    .videoseed-fullscreen:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+    .player-frame-wrap:fullscreen { width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; background: #000; }
+    .player-frame-wrap:fullscreen iframe { width: 100%; height: 100%; }
+    .player-frame-wrap:-webkit-full-screen { width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; background: #000; }
+    .player-frame-wrap:-webkit-full-screen iframe { width: 100%; height: 100%; }
     .player-caption { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #101722; color: var(--muted); font-size: .84rem; }
     .player-caption strong { color: var(--text); }
     .text-link { background: none; border: 0; color: #ffad96; padding: 4px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
@@ -354,7 +369,7 @@
   <footer class="footer">
     <div class="shell footer-inner">
       <div>© <span id="year"></span> KinoDivBox. Интерфейс поиска сторонних источников.</div>
-              <center>
+      <center>
     <!--LiveInternet counter-->
     <a href="https://www.liveinternet.ru/click" target="_blank">
       <img id="licnt3652" width="88" height="15" style="border:0"
@@ -404,13 +419,16 @@
       HDVB: async id => {
         const token = "8a22f8e7684404c3815e3ffa940f00a0";
         const endpoint = `https://apivb.com/api/videos.json?id_kp=${encodeURIComponent(id)}&token=${encodeURIComponent(token)}`;
-        const response = await fetchWithTimeout(endpoint, 9000);
+        const response = await fetchWithTimeout(endpoint, 15000);
         if (!response.ok) throw new Error("HDVB: HTTP " + response.status);
         const data = await response.json();
-        if (Array.isArray(data) && data.length && typeof data[0].iframe_url === "string") {
-          return validatePlayerUrl(data[0].iframe_url);
+        const item = Array.isArray(data) ? data[0] : data;
+        const iframeUrl = item?.iframe_url || item?.data?.iframe_url || data?.data?.iframe_url || "";
+        if (typeof iframeUrl !== "string" || !iframeUrl.trim()) {
+          console.warn("HDVB: в ответе API не найден iframe_url", data);
+          return null;
         }
-        return null;
+        return validatePlayerUrl(iframeUrl.trim());
       },
       VeoVeo: id => `https://api.rstprgapipt.com/balancer-api/iframe?kp=${encodeURIComponent(id)}&token=eyJhbGciOiJIUzI1NiJ9.eyJ3ZWJTaXRlIjoiODE1IiwiaXNzIjoiYXBpLXdlYm1hc3RlciIsInN1YiI6IjgwMyIsImlhdCI6MTc3ODI2MTE1NywianRpIjoiM2Q5MDk5NjktOTNhOC00MDA0LWEzNDItMmE0NmMxMjUyMjc1Iiwic2NvcGUiOiJETEUifQ.w9ElOwW-i07LD5tX05TGYzgiViDqh8saEWmOwLAzyGU`,
       VideoSeeD: id => `https://tv-2-kinoserial.net/embed_auto/${encodeURIComponent(id)}/?token=6091e1d0bf421f73804d2f0dcc2bf1cf`,
@@ -505,11 +523,39 @@
       iframe.loading = index === 0 ? "eager" : "lazy";
       iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
       iframe.allowFullscreen = true;
+      iframe.setAttribute("allowfullscreen", "");
       iframe.referrerPolicy = "strict-origin-when-cross-origin";
-      iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-presentation allow-popups");
-      // Внешние плееры могут требовать дополнительные sandbox-разрешения. Если источник не работает,
-      // удалите sandbox только после проверки доверия к домену этого источника.
+      // HDVB и VideoSeeD требуют возможностей, которые sandbox может блокировать.
+      // Для остальных источников сохраняем ограничение sandbox.
+      if (name !== "VideoSeeD" && name !== "HDVB") {
+        iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-presentation allow-popups");
+      }
       frameWrap.appendChild(iframe);
+
+      if (name === "VideoSeeD") {
+        const fullscreenButton = document.createElement("button");
+        fullscreenButton.type = "button";
+        fullscreenButton.className = "videoseed-fullscreen";
+        fullscreenButton.innerHTML = '<span aria-hidden="true">⛶</span><span>Полный экран</span>';
+        fullscreenButton.setAttribute("aria-label", "Открыть VideoSeeD на полный экран");
+        fullscreenButton.addEventListener("click", async () => {
+          try {
+            if (document.fullscreenElement || document.webkitFullscreenElement) {
+              if (document.exitFullscreen) await document.exitFullscreen();
+              else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+              return;
+            }
+            if (frameWrap.requestFullscreen) await frameWrap.requestFullscreen();
+            else if (frameWrap.webkitRequestFullscreen) frameWrap.webkitRequestFullscreen();
+            else if (iframe.requestFullscreen) await iframe.requestFullscreen();
+            else window.alert("Полный экран не поддерживается этим браузером.");
+          } catch (error) {
+            console.warn("Не удалось открыть VideoSeeD на полный экран:", error);
+            window.alert("Браузер не разрешил полный экран. Попробуйте нажать кнопку ещё раз или использовать значок полноэкранного режима в самом плеере.");
+          }
+        });
+        frameWrap.appendChild(fullscreenButton);
+      }
 
       const caption = document.createElement("div");
       caption.className = "player-caption";
@@ -555,16 +601,22 @@
 
       const entries = Object.entries(players);
       const results = await Promise.all(entries.map(async ([name, getUrl]) => {
+        let timeoutId;
         try {
+          const timeoutPromise = new Promise((_, reject) => {
+            timeoutId = setTimeout(() => reject(new Error("Превышено время ожидания")), name === "HDVB" ? 16000 : 10000);
+          });
           const result = await Promise.race([
             Promise.resolve().then(() => getUrl(id)),
-            new Promise((_, reject) => setTimeout(() => reject(new Error("Превышено время ожидания")), 10000))
+            timeoutPromise
           ]);
           const safeUrl = typeof result === "string" ? validatePlayerUrl(result) : null;
           return safeUrl ? { name, url: safeUrl } : null;
         } catch (error) {
           console.warn(`Источник ${name} недоступен:`, error);
           return null;
+        } finally {
+          if (timeoutId) clearTimeout(timeoutId);
         }
       }));
 
@@ -681,16 +733,6 @@
       queryInput.value = initialId;
       searchPlayer();
     }
-
-    // Отключение контекстного меню и горячих клавиш
-  document.oncontextmenu = function() { return false; };
-  document.onkeydown = function(e) {
-    if (e.keyCode == 123) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-  };
-</script>
+  </script>
 </body>
 </html>
