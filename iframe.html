@@ -1,69 +1,585 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KinoDivBox — Агрегатор плееров</title>
-<style>
-  html, body {
-    margin:0; padding:0; height:100%; width:100%;
-    display:flex; justify-content:center; align-items:flex-start;
-    background:#0b1020; color:#fff; font-family:Inter,Segoe UI,Arial,sans-serif;
-  }
-  .wrap {
-    width:100%; max-width:100%; padding:0;
-    display:flex; flex-direction:column; height:100%;
-  }
-  .player-wrap {
-    width:100%; flex:1; display:flex; flex-direction:column;
-  }
-  .player-switch {
-    display:flex; gap:8px; flex-wrap:wrap; padding:10px;
-    background:rgba(0,0,0,0.3); width:100%; justify-content:center;
-  }
-  .switch-btn {
-    background:transparent; border:1px solid rgba(255,255,255,0.3);
-    border-radius:8px; padding:6px 12px; cursor:pointer; color:#fff;
-  }
-  .switch-btn[aria-pressed="true"]{
-    background:#ff4b1f; color:#fff; border-color:transparent;
-  }
-  #playerFrame {
-    width:100%; flex:1; display:grid; place-items:center;
-    background:rgba(255,255,255,0.02);
-  }
-  iframe { width:100%; height:100%; border:0; }
-  .hidden { display:none; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>KinoDivBox — Embed Player</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080d18;
+      --panel: #111a2a;
+      --text: #f5f7fb;
+      --muted: #9ba9bf;
+      --line: rgba(255,255,255,.12);
+      --accent: #ff633d;
+      --accent-hover: #ff7958;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    body {
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 Inter, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    button { font: inherit; }
+
+    .embed {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .topbar {
+      flex: 0 0 auto;
+      min-height: 46px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border-bottom: 1px solid var(--line);
+      background: #0c1321;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: white;
+      background: linear-gradient(135deg, #ff815b, #e83f20);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .brand { font-weight: 750; letter-spacing: .2px; }
+
+    .brand-sub {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+      white-space: nowrap;
+    }
+
+    .switcher {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 10px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: thin;
+      background: #0b1120;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .switcher[hidden] { display: none !important; }
+
+    .switch-btn {
+      flex: 0 0 auto;
+      min-height: 34px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 8px;
+      background: #141e30;
+      color: #dbe4f2;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s, border-color .15s;
+    }
+
+    .switch-btn:hover {
+      background: #202d43;
+      border-color: rgba(255,255,255,.32);
+    }
+
+    .switch-btn[aria-pressed="true"] {
+      color: white;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    button:focus-visible, a:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+
+    .stage {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      background: #03060c;
+      isolation: isolate;
+    }
+
+    .video-frame {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #03060c;
+    }
+
+    .state {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 22px;
+      text-align: center;
+      color: var(--muted);
+      background: #03060c;
+    }
+
+    .state[hidden] { display: none !important; }
+
+    .state-icon {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 28px;
+    }
+
+    .state-title {
+      margin-bottom: 5px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .state-copy {
+      max-width: 440px;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .retry {
+      margin-top: 14px;
+      padding: 8px 14px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .retry:hover { background: var(--accent-hover); }
+    .retry[hidden] { display: none !important; }
+
+    .foot {
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+      min-height: 27px;
+      background: #0c1321;
+      border-top: 1px solid var(--line);
+      color: #7f8ca2;
+      font-size: 10px;
+    }
+
+    .brand-link {
+      flex: 0 0 auto;
+      color: #aebbd0;
+      text-decoration: none;
+    }
+
+    .brand-link:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .foot-status {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 420px) {
+      .topbar { padding: 7px 9px; }
+      .switcher { padding: 7px; gap: 6px; }
+      .switch-btn { padding: 6px 10px; min-height: 32px; font-size: 12px; }
+      .brand-sub { font-size: 9px; letter-spacing: .7px; }
+      .state { padding: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
 </head>
+
 <body>
-<div class="wrap">
-  <section class="player-wrap" aria-live="polite">
-    <div class="player-switch" role="tablist" aria-label="Выбор плеера" id="playerSwitcher"></div>
-    <div id="playerFrame" class="player-frame">
-      <div id="empty" style="text-align:center;color:rgba(255,255,255,0.45);padding:12px">
-        🎬 Введите ID КиноПоиска и нажмите «Поиск»
+  <main class="embed" aria-label="KinoDivBox встроенный видеоплеер">
 
-        <!-- Кнопки перехода на сайты -->
-<div style="text-align: center; margin-top: 30px;">
-  <button onclick="window.open('/', '_blank')" 
-          aria-label="Смотреть на KinoDivBox"
-          class="action-button">
-    Смотреть на KinoDivBox
-  </button>
-  <button onclick="window.open('/contact', '_blank')" 
-          aria-label="КОНТАКТЫ"
-          class="action-button">
-    КОНТАКТЫ
-  </button>
-  <button onclick="window.open('/install_helper', '_blank')" 
-          aria-label="Установка расширения"
-          class="action-button">
-    Установка расширения
-  </button>
-</div>
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">K</div>
+      <div class="brand">KinoDivBox</div>
+      <div class="brand-sub">EMBED PLAYER</div>
+    </header>
 
-          <center>
+    <nav id="playerSwitcher"
+         class="switcher"
+         aria-label="Выбор источника видео"
+         hidden>
+    </nav>
+
+    <section id="stage" class="stage" aria-live="polite">
+      <div id="state" class="state" role="status">
+        <span id="stateIcon" class="state-icon" aria-hidden="true">▶</span>
+        <div id="stateTitle" class="state-title">Подготовка плеера</div>
+        <div id="stateCopy" class="state-copy">
+          Проверяем доступные источники видео…
+        </div>
+        <button id="retryButton" class="retry" type="button" hidden>
+          Повторить
+        </button>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span id="footStatus" class="foot-status">
+        KinoDivBox Embed Player
+      </span>
+      <a class="brand-link"
+         href="https://kinodivbox.github.io/"
+         target="_blank"
+         rel="noopener noreferrer">KinoDivBox</a>
+    </footer>
+
+  </main>
+
+  <!-- Существующие вспомогательные скрипты -->
+  <script src="https://super-puper.che-bur-net.cc/vv2.js"></script>
+  <script src="https://allohatv.github.io/insert-player.js"></script>
+  <script src="https://kodir2.github.io/actualize.js" async></script>
+  <script src="https://hdvb-player.github.io/actualize.js" async></script>
+  <script src="https://lmx-pl.github.io/lmx-f.github.io/act.js" async></script>
+
+  <script>
+  (() => {
+    'use strict';
+
+    const switcher = document.getElementById('playerSwitcher');
+    const stage = document.getElementById('stage');
+    const state = document.getElementById('state');
+    const stateIcon = document.getElementById('stateIcon');
+    const stateTitle = document.getElementById('stateTitle');
+    const stateCopy = document.getElementById('stateCopy');
+    const retryButton = document.getElementById('retryButton');
+    const footStatus = document.getElementById('footStatus');
+
+    let currentId = '';
+    let currentRequest = 0;
+
+    const providers = [
+      {
+        name: 'Alloha',
+        resolve: id =>
+          `https://harald-as.newplayjj.com/?kp=${encodeURIComponent(id)}&token=e7b61f129f4a392ac4bf6726a9dd6a`
+      },
+      {
+        name: 'Collaps',
+        resolve: id =>
+          `https://api.namy.ws/embed/kp/${encodeURIComponent(id)}`
+      },
+      {
+        name: 'HDVB',
+        resolve: async id => {
+          const token = '8a22f8e7684404c3815e3ffa940f00a0';
+          const url =
+            `https://apivb.com/api/videos.json?id_kp=${encodeURIComponent(id)}&token=${encodeURIComponent(token)}`;
+
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 7000);
+
+          try {
+            const response = await fetch(url, {
+              signal: controller.signal,
+              mode: 'cors',
+              credentials: 'omit'
+            });
+
+            if (!response.ok) return null;
+
+            const data = await response.json();
+
+            if (!Array.isArray(data) ||
+                !data.length ||
+                !data[0].iframe_url) {
+              return null;
+            }
+
+            return data[0].iframe_url;
+          } catch (error) {
+            console.warn('[KinoDivBox] HDVB lookup failed:', error);
+            return null;
+          } finally {
+            clearTimeout(timeout);
+          }
+        }
+      },
+      {
+        name: 'VeoVeo',
+        resolve: id =>
+          `https://api.rstprgapipt.com/balancer-api/iframe?kp=${encodeURIComponent(id)}&token=eyJhbGciOiJIUzI1NiJ9.eyJ3ZWJTaXRlIjoiODE1IiwiaXNzIjoiYXBpLXdlYm1hc3RlciIsInN1YiI6IjgwMyIsImlhdCI6MTc3ODI2MTE1NywianRpIjoiM2Q5MDk5NjktOTNhOC00MDA0LWEzNDItMmE0NmMxMjUyMjc1Iiwic2NvcGUiOiJETEUifQ.w9ElOwW-i07LD5tX05TGYzgiViDqh8saEWmOwLAzyGU`
+      },
+      {
+        name: 'VideoSeeD',
+        resolve: id =>
+          `https://tv-2-kinoserial.net/embed_auto/${encodeURIComponent(id)}/?token=6091e1d0bf421f73804d2f0dcc2bf1cf`
+      },
+      {
+        name: 'Kodik',
+        resolve: id =>
+          `https://kodikplayer.com/find-player?kinopoiskID=${encodeURIComponent(id)}`
+      },
+      {
+        name: 'Трейлер',
+        resolve: id =>
+          `https://api.atomics.ws/embed/trailer-kp/${encodeURIComponent(id)}`
+      }
+    ];
+
+    function getIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = (params.get('id') || '').trim();
+      return /^\d{1,10}$/.test(raw) ? raw : '';
+    }
+
+    function setState(icon, title, copy, showRetry = false) {
+      stateIcon.textContent = icon;
+      stateTitle.textContent = title;
+      stateCopy.textContent = copy;
+      retryButton.hidden = !showRetry;
+      state.hidden = false;
+    }
+
+    function hideState() {
+      state.hidden = true;
+    }
+
+    function clearPlayer() {
+      const oldFrame = stage.querySelector('iframe.video-frame');
+      if (oldFrame) oldFrame.remove();
+    }
+
+    function safeHttpUrl(value) {
+      if (typeof value !== 'string' || !value.trim()) return '';
+
+      try {
+        const url = new URL(value, window.location.href);
+
+        if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+          return '';
+        }
+
+        return url.href;
+      } catch (_) {
+        return '';
+      }
+    }
+
+    function showPlayer(src, name, button) {
+      const safeSrc = safeHttpUrl(src);
+
+      if (!safeSrc) {
+        setState(
+          '!',
+          'Источник недоступен',
+          'Провайдер вернул некорректный адрес. Выберите другой источник.'
+        );
+        return;
+      }
+
+      clearPlayer();
+
+      [...switcher.querySelectorAll('.switch-btn')].forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn === button));
+      });
+
+      const frame = document.createElement('iframe');
+      frame.className = 'video-frame';
+      frame.src = safeSrc;
+      frame.title = `Видеоплеер ${name}`;
+      frame.loading = 'eager';
+
+      frame.setAttribute(
+        'allow',
+        'autoplay; fullscreen; picture-in-picture; encrypted-media'
+      );
+      frame.setAttribute('allowfullscreen', '');
+      frame.setAttribute('webkitallowfullscreen', '');
+      frame.setAttribute('mozallowfullscreen', '');
+      frame.setAttribute(
+        'referrerpolicy',
+        'strict-origin-when-cross-origin'
+      );
+
+      /*
+       * ВАЖНО:
+       * Для VideoSeeD не ставим sandbox, так как он может
+       * мешать полноэкранному режиму и работе внутреннего плеера.
+       *
+       * Для остальных источников сохраняем прежние ограничения.
+       */
+      if (name !== 'VideoSeeD') {
+        frame.setAttribute(
+          'sandbox',
+          'allow-forms allow-scripts allow-same-origin allow-presentation allow-popups'
+        );
+      }
+
+      stage.insertBefore(frame, state);
+      hideState();
+      footStatus.textContent = `Источник: ${name}`;
+    }
+
+    function makeButton(provider, src) {
+      const button = document.createElement('button');
+      button.className = 'switch-btn';
+      button.type = 'button';
+      button.textContent = provider.name;
+      button.setAttribute('aria-pressed', 'false');
+
+      button.addEventListener('click', () => {
+        showPlayer(src, provider.name, button);
+      });
+
+      switcher.appendChild(button);
+    }
+
+    async function buildPlayers(id) {
+      const requestNumber = ++currentRequest;
+      currentId = id;
+
+      switcher.replaceChildren();
+      switcher.hidden = true;
+      clearPlayer();
+
+      if (!id) {
+        setState(
+          'ⓘ',
+          'Не указан ID фильма',
+          'Добавьте ID Кинопоиска в адрес после ?id=. Например: /iframe?id=535341'
+        );
+        footStatus.textContent = 'Ожидается ID фильма';
+        return;
+      }
+
+      setState(
+        '…',
+        'Загружаем источники',
+        'Подготавливаем доступные варианты просмотра…'
+      );
+      footStatus.textContent = `ID Кинопоиска: ${id}`;
+
+      /*
+       * Обычные источники показываем сразу.
+       * HDVB загружается отдельно и не блокирует остальные.
+       */
+      const immediateProviders =
+        providers.filter(provider => provider.name !== 'HDVB');
+
+      const immediate = immediateProviders.map(provider => ({
+        provider,
+        src: safeHttpUrl(provider.resolve(id))
+      })).filter(item => item.src);
+
+      immediate.forEach(item => makeButton(item.provider, item.src));
+      switcher.hidden = switcher.children.length === 0;
+
+      if (switcher.children.length) {
+        const firstButton = switcher.querySelector('button');
+        firstButton.click();
+      }
+
+      const hdvb = providers.find(provider => provider.name === 'HDVB');
+
+      const hdvbPromise = hdvb.resolve(id).then(src => ({
+        provider: hdvb,
+        src: safeHttpUrl(src)
+      }));
+
+      const hdvbResult = await hdvbPromise;
+
+      if (requestNumber !== currentRequest) return;
+
+      if (hdvbResult.src) {
+        const exists = [...switcher.querySelectorAll('.switch-btn')]
+          .some(btn => btn.textContent === hdvbResult.provider.name);
+
+        if (!exists) {
+          makeButton(hdvbResult.provider, hdvbResult.src);
+          switcher.hidden = false;
+        }
+      }
+
+      if (switcher.children.length === 0) {
+        setState(
+          '×',
+          'Источники не найдены',
+          'Не удалось подготовить источники для этого ID. Попробуйте позже или проверьте ID.',
+          true
+        );
+        footStatus.textContent = 'Нет доступных источников';
+      } else {
+        footStatus.textContent = `Готово · ID ${id}`;
+      }
+    }
+
+    retryButton.addEventListener('click', () => {
+      buildPlayers(currentId || getIdFromUrl());
+    });
+
+    buildPlayers(getIdFromUrl());
+  })();
+
+          // Отключение контекстного меню и горячих клавиш
+  document.oncontextmenu = function() { return false; };
+  document.onkeydown = function(e) {
+    if (e.keyCode == 123) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+  };
+  </script>
+            <center>
     <!--LiveInternet counter-->
     <a href="https://www.liveinternet.ru/click" target="_blank">
       <img id="licnt3652" width="88" height="15" style="border:0"
@@ -81,102 +597,5 @@
     })(document,screen)</script>
     <!--/LiveInternet-->
   </center>
-      </div>
-    </div>
-  </section>
-</div>
-
-  <script src="https://super-puper.che-bur-net.cc/vv2.js"></script>
-  <script src="https://allohatv.github.io/insert-player.js"></script>
-  <script src="https://kodir2.github.io/actualize.js" async></script>
-  <script src="https://hdvb-player.github.io/actualize.js" async></script>
-  <script src="https://lmx-pl.github.io/lmx-f.github.io/act.js" async></script>
-  <script>
-  !function(e,n,t,r,a){r=e.createElement(n),a=e.getElementsByTagName(n)
-  [0],r.async=!0,r.src=t,a.parentNode.insertBefore(r,a)}
-  (document,"script","//kodik-add.com/change-domains.min.js");
-</script>
-<script>
-const players = {
-  "Alloha": id=>`https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
-  "Collaps": id=>`https://api.namy.ws/embed/kp/${id}`,
-  "HDVB": async id=>{
-    try{
-      const token='8a22f8e7684404c3815e3ffa940f00a0';
-      const url=`https://apivb.com/api/videos.json?id_kp=${id}&token=${token}`;
-      const res = await fetch(url);
-      if(!res.ok) return null;
-      const data = await res.json();
-      if(Array.isArray(data)&&data.length>0&&data[0].iframe_url) return data[0].iframe_url;
-    }catch(e){console.warn('HDVB fetch failed',e);}
-    return null;
-  },
-  "VeoVeo": id=>`https://api.rstprgapipt.com/balancer-api/iframe?kp=${id}&token=eyJhbGciOiJIUzI1NiJ9.eyJ3ZWJTaXRlIjoiODE1IiwiaXNzIjoiYXBpLXdlYm1hc3RlciIsInN1YiI6IjgwMyIsImlhdCI6MTc3ODI2MTE1NywianRpIjoiM2Q5MDk5NjktOTNhOC00MDA0LWEzNDItMmE0NmMxMjUyMjc1Iiwic2NvcGUiOiJETEUifQ.w9ElOwW-i07LD5tX05TGYzgiViDqh8saEWmOwLAzyGU`,
-  "VideoSeeD": id =>`https://tv-2-kinoserial.net/embed_auto/${id}/?token=6091e1d0bf421f73804d2f0dcc2bf1cf`,
-  "Kodik": id => `https://kodikplayer.com/find-player?kinopoiskID=${id}`,
-  "Трейлер": id=>`https://api.atomics.ws/embed/trailer-kp/${id}`
-};
-
-function extractKP(input){
-  if(!input) return '';
-  input=input.trim();
-  const m = input.match(/kinopoisk\.ru\/(?:film|series)\/(\d+)/i);
-  if(m) return m[1];
-  const digits = input.match(/\d{1,10}/);
-  return digits ? digits[0] : '';
-}
-
-// Создание плееров
-async function buildPlayers(id){
-  const switcher = document.getElementById('playerSwitcher');
-  const frame = document.getElementById('playerFrame');
-  switcher.innerHTML=''; frame.innerHTML='<div>Загрузка...</div>';
-
-  let created=0;
-  for(const [name, fn] of Object.entries(players)){
-    try{
-      const src = typeof fn==='function'?await fn(id):null;
-      if(!src) continue;
-      const btn = document.createElement('button');
-      btn.className='switch-btn'; btn.type='button'; btn.textContent=name;
-      btn.setAttribute('role','tab'); btn.setAttribute('aria-pressed','false');
-      btn.addEventListener('click', ()=>{
-        [...switcher.children].forEach(b=>b.setAttribute('aria-pressed','false'));
-        btn.setAttribute('aria-pressed','true'); showPlayer(src,name);
-      });
-      switcher.appendChild(btn);
-      created++;
-    }catch(e){console.warn('player build error',name,e);}
-  }
-  if(created===0){ frame.innerHTML='❌ Плееры не найдены'; return; }
-  switcher.querySelector('button')?.click();
-}
-
-// Показ выбранного плеера
-function showPlayer(src,name){
-  const frame = document.getElementById('playerFrame');
-  const iframe=document.createElement('iframe');
-  iframe.src=src; iframe.loading='lazy';
-  iframe.title=name; iframe.allowFullscreen=''; iframe.setAttribute('allow','autoplay; fullscreen; picture-in-picture');
-  frame.innerHTML=''; frame.appendChild(iframe);
-}
-
-// Загрузка из URL
-(function(){
-  const params=new URLSearchParams(location.search);
-  const id=params.get('id');
-  if(id) buildPlayers(id);
-})();
-
-      // Отключение контекстного меню и горячих клавиш
-  document.oncontextmenu = function() { return false; };
-  document.onkeydown = function(e) {
-    if (e.keyCode == 123) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-  };
-</script>
 </body>
 </html>
