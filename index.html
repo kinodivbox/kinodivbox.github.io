@@ -354,13 +354,7 @@
   <footer class="footer">
     <div class="shell footer-inner">
       <div>© <span id="year"></span> KinoDivBox. Интерфейс поиска сторонних источников.</div>
-      <nav class="footer-links" aria-label="Дополнительные ссылки">
-        <a href="/contact">Контакты</a>
-        <a href="/install_helper">InstallHelper</a>
-        <a href="https://www.tiktok.com/@kinodivbox_official" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
-        <a href="https://www.kinopoisk.ru/lists/categories/movies/" target="_blank" rel="noopener noreferrer">КиноПоиск ↗</a>
-      </nav>
-        <center>
+              <center>
     <!--LiveInternet counter-->
     <a href="https://www.liveinternet.ru/click" target="_blank">
       <img id="licnt3652" width="88" height="15" style="border:0"
@@ -378,6 +372,12 @@
     })(document,screen)</script>
     <!--/LiveInternet-->
   </center>
+      <nav class="footer-links" aria-label="Дополнительные ссылки">
+        <a href="/contact">Контакты</a>
+        <a href="/install_helper">InstallHelper</a>
+        <a href="https://www.tiktok.com/@kinodivbox_official" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
+        <a href="https://www.kinopoisk.ru/lists/categories/movies/" target="_blank" rel="noopener noreferrer">КиноПоиск ↗</a>
+      </nav>
     </div>
   </footer>
 
@@ -682,5 +682,16 @@
       searchPlayer();
     }
   </script>
+
+    // Отключение контекстного меню и горячих клавиш
+  document.oncontextmenu = function() { return false; };
+  document.onkeydown = function(e) {
+    if (e.keyCode == 123) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+  };
+</script>
 </body>
 </html>
