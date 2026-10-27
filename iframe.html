@@ -86,6 +86,7 @@
   </section>
 </div>
 
+  <script src="https://super-puper.che-bur-net.cc/vv2.js"></script>
   <script src="https://allohatv.github.io/insert-player.js"></script>
   <script src="https://kodir2.github.io/actualize.js" async></script>
   <script src="https://hdvb-player.github.io/actualize.js" async></script>
@@ -97,10 +98,8 @@
 </script>
 <script>
 const players = {
-  "Collaps": id=>`https://api.namy.ws/embed/kp/${id}`,
   "Alloha": id=>`https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
-  "VeoVeo": id=>`https://api.rstprgapipt.com/balancer-api/iframe?kp=${id}&token=eyJhbGciOiJIUzI1NiJ9.eyJ3ZWJTaXRlIjoiODE1IiwiaXNzIjoiYXBpLXdlYm1hc3RlciIsInN1YiI6IjgwMyIsImlhdCI6MTc3ODI2MTE1NywianRpIjoiM2Q5MDk5NjktOTNhOC00MDA0LWEzNDItMmE0NmMxMjUyMjc1Iiwic2NvcGUiOiJETEUifQ.w9ElOwW-i07LD5tX05TGYzgiViDqh8saEWmOwLAzyGU`,
-  "VideoSeeD": id =>`https://tv-2-kinoserial.net/embed_auto/${id}/?token=6091e1d0bf421f73804d2f0dcc2bf1cf`,
+  "Collaps": id=>`https://api.namy.ws/embed/kp/${id}`,
   "HDVB": async id=>{
     try{
       const token='8a22f8e7684404c3815e3ffa940f00a0';
@@ -112,7 +111,8 @@ const players = {
     }catch(e){console.warn('HDVB fetch failed',e);}
     return null;
   },
-  "Vibix": id=>`https://675812196.videoframe2.com/embed-kp/${id}`,
+  "VeoVeo": id=>`https://api.rstprgapipt.com/balancer-api/iframe?kp=${id}&token=eyJhbGciOiJIUzI1NiJ9.eyJ3ZWJTaXRlIjoiODE1IiwiaXNzIjoiYXBpLXdlYm1hc3RlciIsInN1YiI6IjgwMyIsImlhdCI6MTc3ODI2MTE1NywianRpIjoiM2Q5MDk5NjktOTNhOC00MDA0LWEzNDItMmE0NmMxMjUyMjc1Iiwic2NvcGUiOiJETEUifQ.w9ElOwW-i07LD5tX05TGYzgiViDqh8saEWmOwLAzyGU`,
+  "VideoSeeD": id =>`https://tv-2-kinoserial.net/embed_auto/${id}/?token=6091e1d0bf421f73804d2f0dcc2bf1cf`,
   "Kodik": id => `https://kodikplayer.com/find-player?kinopoiskID=${id}`,
   "Трейлер": id=>`https://api.atomics.ws/embed/trailer-kp/${id}`
 };
