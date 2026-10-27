@@ -12,7 +12,6 @@
     :root {
       color-scheme: dark;
       --bg: #080d18;
-      --panel: #111a2a;
       --text: #f5f7fb;
       --muted: #9ba9bf;
       --line: rgba(255,255,255,.12);
@@ -34,17 +33,17 @@
       background: var(--bg);
       color: var(--text);
       font: 14px/1.45 Inter, system-ui, -apple-system,
-            BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     }
 
     button { font: inherit; }
 
     .embed {
+      display: flex;
+      flex-direction: column;
       width: 100%;
       height: 100%;
       min-height: 0;
-      display: flex;
-      flex-direction: column;
       overflow: hidden;
       background: var(--bg);
     }
@@ -61,19 +60,22 @@
     }
 
     .brand-mark {
-      width: 28px;
-      height: 28px;
       flex: 0 0 auto;
       display: grid;
       place-items: center;
+      width: 28px;
+      height: 28px;
       border-radius: 8px;
-      color: white;
       background: linear-gradient(135deg, #ff815b, #e83f20);
+      color: white;
       font-size: 15px;
       font-weight: 900;
     }
 
-    .brand { font-weight: 750; letter-spacing: .2px; }
+    .brand {
+      font-weight: 750;
+      letter-spacing: .2px;
+    }
 
     .brand-sub {
       margin-left: auto;
@@ -97,7 +99,9 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .switcher[hidden] { display: none !important; }
+    .switcher[hidden] {
+      display: none !important;
+    }
 
     .switch-btn {
       flex: 0 0 auto;
@@ -112,7 +116,7 @@
       transition: background .15s, border-color .15s;
     }
 
-    .switch-btn:hover {
+    .switch-btn:hover:not(:disabled) {
       background: #202d43;
       border-color: rgba(255,255,255,.32);
     }
@@ -121,6 +125,11 @@
       color: white;
       background: var(--accent);
       border-color: var(--accent);
+    }
+
+    .switch-btn:disabled {
+      opacity: .55;
+      cursor: wait;
     }
 
     button:focus-visible, a:focus-visible {
@@ -162,7 +171,9 @@
       background: #03060c;
     }
 
-    .state[hidden] { display: none !important; }
+    .state[hidden] {
+      display: none !important;
+    }
 
     .state-icon {
       display: block;
@@ -195,8 +206,13 @@
       font-weight: 700;
     }
 
-    .retry:hover { background: var(--accent-hover); }
-    .retry[hidden] { display: none !important; }
+    .retry:hover {
+      background: var(--accent-hover);
+    }
+
+    .retry[hidden] {
+      display: none !important;
+    }
 
     .foot {
       flex: 0 0 auto;
@@ -232,13 +248,22 @@
     @media (max-width: 420px) {
       .topbar { padding: 7px 9px; }
       .switcher { padding: 7px; gap: 6px; }
-      .switch-btn { padding: 6px 10px; min-height: 32px; font-size: 12px; }
-      .brand-sub { font-size: 9px; letter-spacing: .7px; }
+      .switch-btn {
+        padding: 6px 10px;
+        min-height: 32px;
+        font-size: 12px;
+      }
+      .brand-sub {
+        font-size: 9px;
+        letter-spacing: .7px;
+      }
       .state { padding: 14px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { transition: none !important; }
+      *, *::before, *::after {
+        transition: none !important;
+      }
     }
   </style>
 </head>
@@ -283,7 +308,7 @@
 
   </main>
 
-  <!-- Существующие вспомогательные скрипты -->
+  <!-- Вспомогательные скрипты существующих источников -->
   <script src="https://super-puper.che-bur-net.cc/vv2.js"></script>
   <script src="https://allohatv.github.io/insert-player.js"></script>
   <script src="https://kodir2.github.io/actualize.js" async></script>
@@ -306,6 +331,10 @@
     let currentId = '';
     let currentRequest = 0;
 
+    /*
+     * Порядок массива определяет порядок кнопок.
+     * HDVB всегда третий, даже пока загружается API.
+     */
     const providers = [
       {
         name: 'Alloha',
@@ -451,11 +480,8 @@
       );
 
       /*
-       * ВАЖНО:
-       * Для VideoSeeD не ставим sandbox, так как он может
-       * мешать полноэкранному режиму и работе внутреннего плеера.
-       *
-       * Для остальных источников сохраняем прежние ограничения.
+       * VideoSeeD получает iframe без sandbox.
+       * Для других провайдеров сохраняется прежнее ограничение.
        */
       if (name !== 'VideoSeeD') {
         frame.setAttribute(
@@ -469,18 +495,22 @@
       footStatus.textContent = `Источник: ${name}`;
     }
 
-    function makeButton(provider, src) {
+    function makeButton(provider, src = '', pending = false) {
       const button = document.createElement('button');
       button.className = 'switch-btn';
       button.type = 'button';
-      button.textContent = provider.name;
+      button.textContent = pending ? `${provider.name}…` : provider.name;
       button.setAttribute('aria-pressed', 'false');
+      button.disabled = pending || !src;
 
-      button.addEventListener('click', () => {
-        showPlayer(src, provider.name, button);
-      });
+      if (src) {
+        button.addEventListener('click', () => {
+          showPlayer(src, provider.name, button);
+        });
+      }
 
       switcher.appendChild(button);
+      return button;
     }
 
     async function buildPlayers(id) {
@@ -508,48 +538,72 @@
       );
       footStatus.textContent = `ID Кинопоиска: ${id}`;
 
+      const buttons = new Map();
+
       /*
-       * Обычные источники показываем сразу.
-       * HDVB загружается отдельно и не блокирует остальные.
+       * Сначала создаём все кнопки в правильном порядке.
+       * HDVB остаётся третьим во время загрузки API.
        */
-      const immediateProviders =
-        providers.filter(provider => provider.name !== 'HDVB');
+      for (const provider of providers) {
+        if (provider.name === 'HDVB') {
+          buttons.set(
+            provider.name,
+            makeButton(provider, '', true)
+          );
+          continue;
+        }
 
-      const immediate = immediateProviders.map(provider => ({
-        provider,
-        src: safeHttpUrl(provider.resolve(id))
-      })).filter(item => item.src);
+        const src = safeHttpUrl(provider.resolve(id));
+        const button = makeButton(provider, src);
+        buttons.set(provider.name, button);
+      }
 
-      immediate.forEach(item => makeButton(item.provider, item.src));
-      switcher.hidden = switcher.children.length === 0;
+      switcher.hidden = false;
 
-      if (switcher.children.length) {
-        const firstButton = switcher.querySelector('button');
+      // Автоматически выбираем первый доступный источник.
+      const firstButton = [...switcher.querySelectorAll('.switch-btn')]
+        .find(button => !button.disabled);
+
+      if (firstButton) {
         firstButton.click();
       }
 
+      // Загружаем HDVB отдельно, не задерживая другие плееры.
       const hdvb = providers.find(provider => provider.name === 'HDVB');
+      const hdvbButton = buttons.get('HDVB');
 
-      const hdvbPromise = hdvb.resolve(id).then(src => ({
-        provider: hdvb,
-        src: safeHttpUrl(src)
-      }));
+      try {
+        const result = await hdvb.resolve(id);
 
-      const hdvbResult = await hdvbPromise;
+        if (requestNumber !== currentRequest) return;
+
+        const src = safeHttpUrl(result);
+
+        if (src) {
+          hdvbButton.disabled = false;
+          hdvbButton.textContent = 'HDVB';
+
+          hdvbButton.addEventListener('click', () => {
+            showPlayer(src, 'HDVB', hdvbButton);
+          });
+        } else {
+          hdvbButton.disabled = true;
+          hdvbButton.textContent = 'HDVB недоступен';
+          hdvbButton.title = 'Источник HDVB не найден';
+        }
+      } catch (error) {
+        if (requestNumber !== currentRequest) return;
+
+        hdvbButton.disabled = true;
+        hdvbButton.textContent = 'HDVB недоступен';
+      }
 
       if (requestNumber !== currentRequest) return;
 
-      if (hdvbResult.src) {
-        const exists = [...switcher.querySelectorAll('.switch-btn')]
-          .some(btn => btn.textContent === hdvbResult.provider.name);
+      const available = [...switcher.querySelectorAll('.switch-btn')]
+        .filter(button => !button.disabled);
 
-        if (!exists) {
-          makeButton(hdvbResult.provider, hdvbResult.src);
-          switcher.hidden = false;
-        }
-      }
-
-      if (switcher.children.length === 0) {
+      if (!available.length) {
         setState(
           '×',
           'Источники не найдены',
@@ -569,7 +623,7 @@
     buildPlayers(getIdFromUrl());
   })();
 
-          // Отключение контекстного меню и горячих клавиш
+              // Отключение контекстного меню и горячих клавиш
   document.oncontextmenu = function() { return false; };
   document.onkeydown = function(e) {
     if (e.keyCode == 123) return false;
@@ -597,5 +651,6 @@
     })(document,screen)</script>
     <!--/LiveInternet-->
   </center>
+  </script>
 </body>
 </html>
