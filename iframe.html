@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -18,12 +19,9 @@
       --accent-hover: #ff7958;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html,
-    body {
+    html, body {
       margin: 0;
       width: 100%;
       height: 100%;
@@ -38,9 +36,7 @@
         BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     }
 
-    button {
-      font: inherit;
-    }
+    button { font: inherit; }
 
     .embed {
       display: flex;
@@ -52,16 +48,12 @@
       background: var(--bg);
     }
 
-    /* Панель выбора плеера */
-
     .switcher {
       flex: 0 0 auto;
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 10px 12px;
+      gap: 7px;
+      padding: 9px 10px;
       overflow-x: auto;
       overscroll-behavior-x: contain;
       scrollbar-width: thin;
@@ -102,13 +94,10 @@
       cursor: wait;
     }
 
-    button:focus-visible,
-    a:focus-visible {
+    button:focus-visible, a:focus-visible {
       outline: 2px solid white;
       outline-offset: 2px;
     }
-
-    /* Область видео */
 
     .stage {
       position: relative;
@@ -129,50 +118,35 @@
       background: #03060c;
     }
 
-    /* Центральная кнопка VideoSeeD */
-
-    .fullscreen-control {
+    /* VideoSeeD: кнопка по центру сверху */
+    .videoseed-fullscreen {
       position: absolute;
-      z-index: 4;
-      top: 50%;
+      top: 12px;
       left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 11px 17px;
-      border: 1px solid rgba(255,255,255,.3);
+      transform: translateX(-50%);
+      z-index: 10;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,.22);
       border-radius: 10px;
-      background: rgba(8,13,24,.78);
+      background: rgba(8,13,24,.88);
       color: #fff;
       font-weight: 700;
       cursor: pointer;
-      opacity: .85;
-      box-shadow: 0 3px 15px rgba(0,0,0,.25);
-      transition: opacity .2s, background .2s;
+      box-shadow: 0 4px 18px rgba(0,0,0,.28);
+      backdrop-filter: blur(8px);
     }
 
-    .fullscreen-control:hover,
-    .fullscreen-control:focus-visible {
-      opacity: 1;
-      background: rgba(255,99,61,.95);
+    .videoseed-fullscreen:hover {
+      background: rgba(35,46,64,.96);
     }
 
-    .fullscreen-control[hidden] {
-      display: none !important;
+    .videoseed-fullscreen.visible {
+      display: inline-flex;
     }
-
-    .stage:fullscreen,
-    .stage:-webkit-full-screen {
-      width: 100vw;
-      height: 100vh;
-      background: #03060c;
-    }
-
-    .stage:fullscreen .video-frame,
-    .stage:-webkit-full-screen .video-frame {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Сообщения и ошибки */
 
     .state {
       position: absolute;
@@ -232,8 +206,6 @@
       display: none !important;
     }
 
-    /* Нижняя строка */
-
     .foot {
       flex: 0 0 auto;
       display: flex;
@@ -265,32 +237,23 @@
       white-space: nowrap;
     }
 
-    @media (max-width: 520px) {
+    @media (max-width: 420px) {
       .switcher {
+        padding: 7px;
         gap: 6px;
-        padding: 8px 6px;
       }
 
       .switch-btn {
-        padding: 6px 9px;
+        padding: 6px 10px;
         min-height: 32px;
         font-size: 12px;
       }
 
-      .fullscreen-control {
-        padding: 9px 13px;
-        font-size: 12px;
-      }
-
-      .state {
-        padding: 14px;
-      }
+      .state { padding: 14px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
+      *, *::before, *::after {
         transition: none !important;
       }
     }
@@ -298,36 +261,28 @@
 </head>
 
 <body>
-  <main class="embed" aria-label="KinoDivBox видеоплеер">
+  <main class="embed" aria-label="KinoDivBox встроенный видеоплеер">
 
-    <!-- Центральная панель источников -->
     <nav id="playerSwitcher"
          class="switcher"
          aria-label="Выбор источника видео"
          hidden>
     </nav>
 
-    <!-- Видео -->
     <section id="stage" class="stage" aria-live="polite">
-
-      <button id="fullscreenButton"
-              class="fullscreen-control"
+      <button id="videoSeeDFullscreen"
+              class="videoseed-fullscreen"
               type="button"
-              hidden>
-        ⛶ На весь экран
+              aria-label="Развернуть VideoSeeD на весь экран">
+        ⛶ Полный экран
       </button>
 
       <div id="state" class="state" role="status">
         <span id="stateIcon" class="state-icon" aria-hidden="true">▶</span>
-
-        <div id="stateTitle" class="state-title">
-          Подготовка плеера
-        </div>
-
+        <div id="stateTitle" class="state-title">Подготовка плеера</div>
         <div id="stateCopy" class="state-copy">
           Проверяем доступные источники видео…
         </div>
-
         <button id="retryButton" class="retry" type="button" hidden>
           Повторить
         </button>
@@ -338,7 +293,6 @@
       <span id="footStatus" class="foot-status">
         KinoDivBox Embed Player
       </span>
-
       <a class="brand-link"
          href="https://kinodivbox.github.io/"
          target="_blank"
@@ -366,15 +320,14 @@
     const stateCopy = document.getElementById('stateCopy');
     const retryButton = document.getElementById('retryButton');
     const footStatus = document.getElementById('footStatus');
-    const fullscreenButton = document.getElementById('fullscreenButton');
+    const fullscreenButton = document.getElementById('videoSeeDFullscreen');
 
     let currentId = '';
     let currentRequest = 0;
 
     /*
-     * Порядок кнопок:
-     * Alloha, Collaps, HDVB, VeoVeo,
-     * VideoSeeD, Kodik, Трейлер.
+     * Порядок источников сохранён.
+     * HDVB всегда отображается третьим.
      */
     const providers = [
       {
@@ -390,48 +343,44 @@
       {
         name: 'HDVB',
         resolve: async id => {
-          const token = '8a22f8e7684404c3815e3ffa940f00a';
+          const token = '8a22f8e7684404c3815e3ffa940f00a0';
           const url =
             `https://apivb.com/api/videos.json?id_kp=${encodeURIComponent(id)}&token=${encodeURIComponent(token)}`;
 
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 15000);
+
           try {
             const response = await fetch(url, {
+              signal: controller.signal,
               mode: 'cors',
               credentials: 'omit',
               cache: 'no-store'
             });
 
             if (!response.ok) {
-              throw new Error(`HTTP ${response.status}`);
+              throw new Error(`HDVB API вернул HTTP ${response.status}`);
             }
 
             const data = await response.json();
+            const item = Array.isArray(data) ? data[0] : data;
+            const iframeUrl =
+              item?.iframe_url || item?.data?.iframe_url || '';
 
-            if (Array.isArray(data) && data[0]?.iframe_url) {
-              return data[0].iframe_url;
+            if (typeof iframeUrl !== 'string' || !iframeUrl.trim()) {
+              console.warn(
+                '[KinoDivBox] HDVB: iframe_url отсутствует в ответе API',
+                data
+              );
+              return null;
             }
 
-            if (
-              data &&
-              !Array.isArray(data) &&
-              data.iframe_url
-            ) {
-              return data.iframe_url;
-            }
-
-            console.warn(
-              '[KinoDivBox] HDVB: неожиданный ответ API',
-              data
-            );
-
-            return null;
+            return iframeUrl.trim();
           } catch (error) {
-            console.warn(
-              '[KinoDivBox] HDVB lookup failed:',
-              error
-            );
-
+            console.warn('[KinoDivBox] HDVB lookup failed:', error);
             return null;
+          } finally {
+            clearTimeout(timeout);
           }
         }
       },
@@ -460,7 +409,6 @@
     function getIdFromUrl() {
       const params = new URLSearchParams(window.location.search);
       const raw = (params.get('id') || '').trim();
-
       return /^\d{1,10}$/.test(raw) ? raw : '';
     }
 
@@ -478,24 +426,17 @@
 
     function clearPlayer() {
       const oldFrame = stage.querySelector('iframe.video-frame');
-
-      if (oldFrame) {
-        oldFrame.remove();
-      }
+      if (oldFrame) oldFrame.remove();
+      fullscreenButton.classList.remove('visible');
     }
 
     function safeHttpUrl(value) {
-      if (typeof value !== 'string' || !value.trim()) {
-        return '';
-      }
+      if (typeof value !== 'string' || !value.trim()) return '';
 
       try {
         const url = new URL(value, window.location.href);
 
-        if (
-          url.protocol !== 'https:' &&
-          url.protocol !== 'http:'
-        ) {
+        if (url.protocol !== 'https:' && url.protocol !== 'http:') {
           return '';
         }
 
@@ -514,25 +455,16 @@
           'Источник недоступен',
           'Провайдер вернул некорректный адрес. Выберите другой источник.'
         );
-
         return;
       }
 
       clearPlayer();
 
-      fullscreenButton.hidden = name !== 'VideoSeeD';
-
-      [
-        ...switcher.querySelectorAll('.switch-btn')
-      ].forEach(btn => {
-        btn.setAttribute(
-          'aria-pressed',
-          String(btn === button)
-        );
+      [...switcher.querySelectorAll('.switch-btn')].forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn === button));
       });
 
       const frame = document.createElement('iframe');
-
       frame.className = 'video-frame';
       frame.src = safeSrc;
       frame.title = `Видеоплеер ${name}`;
@@ -542,19 +474,19 @@
         'allow',
         'autoplay; fullscreen; picture-in-picture; encrypted-media'
       );
-
       frame.setAttribute('allowfullscreen', '');
       frame.setAttribute('webkitallowfullscreen', '');
       frame.setAttribute('mozallowfullscreen', '');
-
       frame.setAttribute(
         'referrerpolicy',
         'strict-origin-when-cross-origin'
       );
 
-      // VideoSeeD работает без sandbox.
-      // Остальным источникам оставляем прежние ограничения.
-      if (name !== 'VideoSeeD') {
+      /*
+       * Для HDVB и VideoSeeD не используем sandbox,
+       * чтобы не мешать работе сторонних плееров.
+       */
+      if (name !== 'VideoSeeD' && name !== 'HDVB') {
         frame.setAttribute(
           'sandbox',
           'allow-forms allow-scripts allow-same-origin allow-presentation allow-popups'
@@ -562,15 +494,161 @@
       }
 
       stage.insertBefore(frame, state);
-
+      fullscreenButton.classList.toggle('visible', name === 'VideoSeeD');
       hideState();
       footStatus.textContent = `Источник: ${name}`;
     }
 
-    /*
-     * Полноэкранный режим VideoSeeD.
-     * Разворачиваем область плеера целиком.
-     */
+    function makeButton(provider, src = '', pending = false) {
+      const button = document.createElement('button');
+      button.className = 'switch-btn';
+      button.type = 'button';
+      button.textContent = pending ? `${provider.name}…` : provider.name;
+      button.setAttribute('aria-pressed', 'false');
+      button.disabled = pending || !src;
+
+      if (src) {
+        button.addEventListener('click', () => {
+          showPlayer(src, provider.name, button);
+        });
+      }
+
+      switcher.appendChild(button);
+      return button;
+    }
+
+    async function buildPlayers(id) {
+      const requestNumber = ++currentRequest;
+      currentId = id;
+
+      switcher.replaceChildren();
+      switcher.hidden = true;
+      clearPlayer();
+
+      if (!id) {
+        setState(
+          'ⓘ',
+          'Не указан ID фильма',
+          'Добавьте ID Кинопоиска в адрес после ?id=. Например: /iframe?id=535341'
+        );
+        footStatus.textContent = 'Ожидается ID фильма';
+        return;
+      }
+
+      setState(
+        '…',
+        'Загружаем источники',
+        'Подготавливаем доступные варианты просмотра…'
+      );
+      footStatus.textContent = `ID Кинопоиска: ${id}`;
+
+      const buttons = new Map();
+      let hdvbSrc = '';
+      let hdvbLoading = false;
+
+      const hdvbProvider = providers.find(
+        provider => provider.name === 'HDVB'
+      );
+
+      // Кнопки создаются сразу и остаются в правильном порядке.
+      for (const provider of providers) {
+        if (provider.name === 'HDVB') {
+          const button = makeButton(provider, '', true);
+          button.textContent = 'HDVB · загрузка';
+          buttons.set('HDVB', button);
+
+          button.addEventListener('click', async () => {
+            if (hdvbSrc) {
+              showPlayer(hdvbSrc, 'HDVB', button);
+              return;
+            }
+
+            if (!hdvbLoading) {
+              await loadHDVB();
+            }
+          });
+
+          continue;
+        }
+
+        const src = safeHttpUrl(provider.resolve(id));
+        buttons.set(provider.name, makeButton(provider, src));
+      }
+
+      switcher.hidden = false;
+
+      // Открываем первый доступный источник, не ожидая ответа HDVB.
+      const firstButton = [
+        ...switcher.querySelectorAll('.switch-btn')
+      ].find(button => !button.disabled);
+
+      if (firstButton) {
+        firstButton.click();
+      }
+
+      async function loadHDVB() {
+        if (hdvbLoading || requestNumber !== currentRequest) return;
+
+        hdvbLoading = true;
+
+        const button = buttons.get('HDVB');
+        button.disabled = true;
+        button.textContent = 'HDVB · загрузка';
+        button.title = 'Идёт запрос к API HDVB';
+
+        try {
+          const result = await hdvbProvider.resolve(id);
+
+          if (requestNumber !== currentRequest) return;
+
+          hdvbSrc = safeHttpUrl(result);
+
+          if (hdvbSrc) {
+            button.disabled = false;
+            button.textContent = 'HDVB';
+            button.title = 'Открыть плеер HDVB';
+          } else {
+            button.disabled = false;
+            button.textContent = 'HDVB · повторить';
+            button.title =
+              'Источник не найден. Нажмите, чтобы повторить запрос.';
+          }
+        } catch (error) {
+          if (requestNumber !== currentRequest) return;
+
+          console.warn('[KinoDivBox] Не удалось загрузить HDVB:', error);
+
+          button.disabled = false;
+          button.textContent = 'HDVB · повторить';
+          button.title =
+            'Не удалось связаться с API HDVB. Нажмите, чтобы повторить.';
+        } finally {
+          hdvbLoading = false;
+        }
+
+        if (requestNumber !== currentRequest) return;
+
+        const anyReady = [...buttons.entries()].some(([name, btn]) =>
+          name === 'HDVB' ? Boolean(hdvbSrc) : !btn.disabled
+        );
+
+        if (!anyReady) {
+          setState(
+            '×',
+            'Источники не найдены',
+            'Не удалось подготовить источники для этого ID. Проверьте ID или попробуйте позже.',
+            true
+          );
+          footStatus.textContent = 'Нет доступных источников';
+        } else {
+          footStatus.textContent = `Готово · ID ${id}`;
+        }
+      }
+
+      // HDVB загружается отдельно от остальных плееров.
+      loadHDVB();
+    }
+
     fullscreenButton.addEventListener('click', async () => {
       try {
         if (document.fullscreenElement) {
@@ -584,209 +662,17 @@
           stage.webkitRequestFullscreen();
         } else {
           footStatus.textContent =
-            'Полноэкранный режим не поддерживается браузером';
+            'Полный экран не поддерживается этим браузером';
         }
       } catch (error) {
         console.warn(
-          '[KinoDivBox] Fullscreen request failed:',
+          '[KinoDivBox] Не удалось включить полный экран:',
           error
         );
-
         footStatus.textContent =
-          'Полный экран заблокирован браузером или родительской страницей';
+          'Браузер не разрешил полный экран';
       }
     });
-
-    document.addEventListener('fullscreenchange', () => {
-      fullscreenButton.textContent = document.fullscreenElement
-        ? '⤢ Выйти из полного экрана'
-        : '⛶ На весь экран';
-    });
-
-    function makeButton(provider, src = '', pending = false) {
-      const button = document.createElement('button');
-
-      button.className = 'switch-btn';
-      button.type = 'button';
-      button.textContent = pending
-        ? `${provider.name}…`
-        : provider.name;
-
-      button.setAttribute('aria-pressed', 'false');
-      button.disabled = pending || !src;
-
-      if (src) {
-        button.addEventListener('click', () => {
-          showPlayer(src, provider.name, button);
-        });
-      }
-
-      switcher.appendChild(button);
-
-      return button;
-    }
-
-    async function buildPlayers(id) {
-      const requestNumber = ++currentRequest;
-
-      currentId = id;
-
-      switcher.replaceChildren();
-      switcher.hidden = true;
-
-      clearPlayer();
-      fullscreenButton.hidden = true;
-
-      if (!id) {
-        setState(
-          'ⓘ',
-          'Не указан ID фильма',
-          'Добавьте ID Кинопоиска в адрес после ?id=. Например: /iframe?id=535341'
-        );
-
-        footStatus.textContent = 'Ожидается ID фильма';
-
-        return;
-      }
-
-      setState(
-        '…',
-        'Загружаем источники',
-        'Подготавливаем доступные варианты просмотра…'
-      );
-
-      footStatus.textContent = `ID Кинопоиска: ${id}`;
-
-      const buttons = new Map();
-
-      /*
-       * Сразу создаём все кнопки.
-       * Поэтому HDVB всегда третий.
-       */
-      for (const provider of providers) {
-        if (provider.name === 'HDVB') {
-          const button = makeButton(provider, '', true);
-
-          button.textContent = 'HDVB · загрузка…';
-          buttons.set('HDVB', button);
-
-          continue;
-        }
-
-        const src = safeHttpUrl(provider.resolve(id));
-        const button = makeButton(provider, src);
-
-        buttons.set(provider.name, button);
-      }
-
-      switcher.hidden = false;
-
-      // Автоматически выбираем первый доступный источник.
-      const firstButton = [
-        ...switcher.querySelectorAll('.switch-btn')
-      ].find(button => !button.disabled);
-
-      if (firstButton) {
-        firstButton.click();
-      }
-
-      /*
-       * HDVB: одна функция загрузки и один обработчик клика.
-       * Это исключает двойной запуск при выборе плеера.
-       */
-      const hdvbButton = buttons.get('HDVB');
-
-      let hdvbSrc = '';
-      let hdvbLoading = false;
-
-      async function loadHDVB() {
-        if (hdvbLoading || requestNumber !== currentRequest) {
-          return;
-        }
-
-        hdvbLoading = true;
-        hdvbButton.disabled = true;
-        hdvbButton.textContent = 'HDVB · загрузка…';
-
-        try {
-          const provider = providers.find(
-            item => item.name === 'HDVB'
-          );
-
-          const result = await provider.resolve(id);
-
-          if (requestNumber !== currentRequest) {
-            return;
-          }
-
-          const src = safeHttpUrl(result);
-
-          if (!src) {
-            hdvbSrc = '';
-
-            hdvbButton.textContent = 'HDVB · повторить';
-            hdvbButton.title =
-              'Не удалось получить адрес. Нажмите для повторной попытки.';
-
-            return;
-          }
-
-          hdvbSrc = src;
-
-          hdvbButton.textContent = 'HDVB';
-          hdvbButton.title = '';
-        } catch (error) {
-          if (requestNumber !== currentRequest) {
-            return;
-          }
-
-          console.warn(
-            '[KinoDivBox] HDVB load failed:',
-            error
-          );
-
-          hdvbSrc = '';
-
-          hdvbButton.textContent = 'HDVB · повторить';
-          hdvbButton.title =
-            'Ошибка запроса. Нажмите для повторной попытки.';
-        } finally {
-          hdvbLoading = false;
-
-          if (requestNumber === currentRequest) {
-            hdvbButton.disabled = false;
-          }
-        }
-      }
-
-      hdvbButton.addEventListener('click', () => {
-        if (hdvbSrc) {
-          showPlayer(hdvbSrc, 'HDVB', hdvbButton);
-        } else {
-          loadHDVB();
-        }
-      });
-
-      // Первая попытка запускается автоматически.
-      loadHDVB();
-
-      const available = [
-        ...switcher.querySelectorAll('.switch-btn')
-      ].filter(button => !button.disabled);
-
-      if (!available.length) {
-        setState(
-          '×',
-          'Источники не найдены',
-          'Не удалось подготовить источники для этого ID. Попробуйте позже или проверьте ID.',
-          true
-        );
-
-        footStatus.textContent = 'Нет доступных источников';
-      } else {
-        footStatus.textContent = `Готово · ID ${id}`;
-      }
-    }
 
     retryButton.addEventListener('click', () => {
       buildPlayers(currentId || getIdFromUrl());
@@ -794,44 +680,11 @@
 
     buildPlayers(getIdFromUrl());
   })();
-
-  // Сохранены существующие ограничения контекстного меню и горячих клавиш.
-  document.oncontextmenu = function() {
-    return false;
-  };
-
-  document.onkeydown = function(e) {
-    if (e.keyCode == 123) return false;
-
-    if (
-      e.ctrlKey &&
-      e.shiftKey &&
-      e.keyCode === 'I'.charCodeAt(0)
-    ) return false;
-
-    if (
-      e.ctrlKey &&
-      e.shiftKey &&
-      e.keyCode === 'J'.charCodeAt(0)
-    ) return false;
-
-    if (
-      e.ctrlKey &&
-      e.keyCode === 'U'.charCodeAt(0)
-    ) return false;
-
-    if (
-      e.ctrlKey &&
-      e.shiftKey &&
-      e.keyCode === 'C'.charCodeAt(0)
-    ) return false;
-  };
   </script>
 
-  <!-- Счётчик LiveInternet -->
   <center>
-    <a href="https://www.liveinternet.ru/click" target="_blank"
-       rel="noopener noreferrer">
+    <!-- Счётчик LiveInternet -->
+    <a href="https://www.liveinternet.ru/click" target="_blank">
       <img id="licnt3652"
            width="88"
            height="15"
@@ -845,14 +698,14 @@
       (function(d, s) {
         d.getElementById("licnt3652").src =
           "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
-          ((typeof(s) == "undefined") ? "" :
-          ";s" + s.width + "*" + s.height + "*" +
-          (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
+          ((typeof(s) === "undefined") ? "" :
+            ";s" + s.width + "*" + s.height + "*" +
+            (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
           ";u" + escape(d.URL) +
-          ";h" + escape(d.title.substring(0, 150)) +
-          ";" + Math.random();
+          ";h" + escape(d.title.substring(0,150)) + ";" + Math.random();
       })(document, screen);
     </script>
+    <!-- /LiveInternet -->
   </center>
 </body>
 </html>
