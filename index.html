@@ -344,7 +344,6 @@
 const players = {
   Alloha: id => `https://harald-as.newplayjj.com/?kp=${id}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
   Collaps: id => `https://api.zenithjs.ws/embed/kp/${id}`,
-  VeoVeo: id=>`https://api.rstprgapipt.com/balancer-api/iframe?kp=${id}&token=eyJhbGciOiJIUzI1NiJ9.eyJ3ZWJTaXRlIjoiODE1IiwiaXNzIjoiYXBpLXdlYm1hc3RlciIsInN1YiI6IjgwMyIsImlhdCI6MTc3ODI2MTE1NywianRpIjoiM2Q5MDk5NjktOTNhOC00MDA0LWEzNDItMmE0NmMxMjUyMjc1Iiwic2NvcGUiOiJETEUifQ.w9ElOwW-i07LD5tX05TGYzgiViDqh8saEWmOwLAzyGU`,
   HDVB: async (id) => {
   const token = '8a22f8e7684404c3815e3ffa940f00a0';
   const url = `https://apivb.com/api/videos.json?id_kp=${id}&token=${token}`;
@@ -359,6 +358,7 @@ const players = {
   }
   return null;
 },
+  VeoVeo: id=>`https://api.rstprgapipt.com/balancer-api/iframe?kp=${id}&token=eyJhbGciOiJIUzI1NiJ9.eyJ3ZWJTaXRlIjoiODE1IiwiaXNzIjoiYXBpLXdlYm1hc3RlciIsInN1YiI6IjgwMyIsImlhdCI6MTc3ODI2MTE1NywianRpIjoiM2Q5MDk5NjktOTNhOC00MDA0LWEzNDItMmE0NmMxMjUyMjc1Iiwic2NvcGUiOiJETEUifQ.w9ElOwW-i07LD5tX05TGYzgiViDqh8saEWmOwLAzyGU`,
   VideoSeeD: id =>`https://tv-2-kinoserial.net/embed_auto/${id}/?token=6091e1d0bf421f73804d2f0dcc2bf1cf`,
   Kodik: id => `https://kodikplayer.com/find-player?kinopoiskID=${id}`,
   Трейлер: id => `https://api.atomics.ws/embed/trailer-kp/${id}`,
