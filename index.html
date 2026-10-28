@@ -538,7 +538,20 @@
         fullscreenButton.className = "videoseed-fullscreen";
         fullscreenButton.innerHTML = '<span aria-hidden="true">⛶</span><span>Полный экран</span>';
         fullscreenButton.setAttribute("aria-label", "Открыть VideoSeeD на полный экран");
+        let fullscreenButtonHideTimer;
+        const showFullscreenButton = () => {
+          fullscreenButton.classList.remove("auto-hidden");
+          window.clearTimeout(fullscreenButtonHideTimer);
+          fullscreenButtonHideTimer = window.setTimeout(() => {
+            if (document.activeElement === fullscreenButton) fullscreenButton.blur();
+            fullscreenButton.classList.add("auto-hidden");
+          }, 3000);
+        };
+        ["pointermove", "pointerdown", "touchstart", "keydown", "focusin"].forEach(eventName => {
+          frameWrap.addEventListener(eventName, showFullscreenButton, { passive: eventName === "touchstart" });
+        });
         fullscreenButton.addEventListener("click", async () => {
+          showFullscreenButton();
           try {
             if (document.fullscreenElement || document.webkitFullscreenElement) {
               if (document.exitFullscreen) await document.exitFullscreen();
@@ -555,6 +568,7 @@
           }
         });
         frameWrap.appendChild(fullscreenButton);
+        showFullscreenButton();
       }
 
       const caption = document.createElement("div");
