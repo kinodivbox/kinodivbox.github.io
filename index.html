@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -19,6 +20,7 @@
   <meta name="twitter:title" content="KinoDivBox — поиск видеоплееров">
   <meta name="twitter:description" content="Поиск доступных источников по ID КиноПоиска.">
   <meta name="twitter:image" content="https://kinodivbox.github.io/319529_O.png">
+
   <style>
     :root {
       color-scheme: dark;
@@ -36,8 +38,10 @@
       --radius: 20px;
       --shadow: 0 24px 70px rgba(0,0,0,.28);
     }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -50,90 +54,212 @@
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
     }
+
     a { color: #ffad96; text-underline-offset: 3px; }
     button, input { font: inherit; }
     button, a, input { -webkit-tap-highlight-color: transparent; }
+
     button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-visible {
       outline: 3px solid rgba(255,133,95,.8);
       outline-offset: 3px;
     }
+
     .shell { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+
     .topbar {
-      display: flex; align-items: center; justify-content: space-between; gap: 20px;
-      min-height: 78px; border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 78px;
+      border-bottom: 1px solid var(--line);
     }
+
     .brand {
-      display: inline-flex; align-items: center; gap: 11px; color: var(--text);
-      text-decoration: none; font-weight: 850; letter-spacing: -.045em; font-size: 1.35rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 850;
+      letter-spacing: -.045em;
+      font-size: 1.35rem;
     }
+
     .brand-mark {
-      display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px;
-      color: #fff; background: linear-gradient(145deg, var(--accent-2), #e63c20);
-      box-shadow: 0 8px 24px rgba(255,99,61,.22); font-size: 1.2rem;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: #fff;
+      background: linear-gradient(145deg, var(--accent-2), #e63c20);
+      box-shadow: 0 8px 24px rgba(255,99,61,.22);
+      font-size: 1.2rem;
     }
+
     .brand span:last-child { white-space: nowrap; }
-    .top-links { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-    .top-links a {
-      color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 600;
-      padding: 9px 12px; border-radius: 10px; transition: color .2s, background .2s;
+
+    .top-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
+
+    .top-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 600;
+      padding: 9px 12px;
+      border-radius: 10px;
+      transition: color .2s, background .2s;
+    }
+
     .top-links a:hover { color: var(--text); background: rgba(255,255,255,.06); }
     .hero { padding: clamp(54px, 9vw, 100px) 0 42px; text-align: center; }
+
     .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px; color: #ffad96;
-      border: 1px solid rgba(255,99,61,.24); background: rgba(255,99,61,.08);
-      padding: 7px 12px; border-radius: 999px; font-size: .78rem; font-weight: 750;
-      letter-spacing: .09em; text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffad96;
+      border: 1px solid rgba(255,99,61,.24);
+      background: rgba(255,99,61,.08);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 750;
+      letter-spacing: .09em;
+      text-transform: uppercase;
     }
-    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
     h1 {
-      max-width: 820px; margin: 22px auto 14px; font-size: clamp(2.2rem, 6vw, 4.3rem);
-      line-height: 1.04; letter-spacing: -.06em; font-weight: 850;
+      max-width: 820px;
+      margin: 22px auto 14px;
+      font-size: clamp(2.2rem, 6vw, 4.3rem);
+      line-height: 1.04;
+      letter-spacing: -.06em;
+      font-weight: 850;
     }
+
     .gradient-text { color: var(--accent-2); }
-    .hero-copy { max-width: 610px; margin: 0 auto; color: var(--muted); font-size: clamp(1rem, 2vw, 1.12rem); }
+
+    .hero-copy {
+      max-width: 610px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.12rem);
+    }
+
     .search-card {
-      width: min(780px, 100%); margin: 32px auto 0; padding: 10px;
-      display: flex; align-items: center; gap: 10px; text-align: left;
-      border: 1px solid rgba(255,255,255,.11); border-radius: 18px;
-      background: rgba(17,24,36,.9); box-shadow: var(--shadow);
+      width: min(780px, 100%);
+      margin: 32px auto 0;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 18px;
+      background: rgba(17,24,36,.9);
+      box-shadow: var(--shadow);
     }
+
     .search-icon { color: var(--muted); padding-left: 10px; flex: 0 0 auto; font-size: 1.25rem; }
+
     #query {
-      width: 100%; min-width: 0; color: var(--text); background: transparent; border: 0;
-      padding: 13px 4px; outline: none; font-size: 1rem;
+      width: 100%;
+      min-width: 0;
+      color: var(--text);
+      background: transparent;
+      border: 0;
+      padding: 13px 4px;
+      outline: none;
+      font-size: 1rem;
     }
+
     #query::placeholder { color: #718096; }
     #query:focus-visible { outline: none; }
+
     .btn {
-      border: 1px solid transparent; border-radius: 12px; padding: 12px 17px;
-      min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      color: var(--text); font-weight: 750; cursor: pointer; text-decoration: none; white-space: nowrap;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 12px 17px;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--text);
+      font-weight: 750;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
       transition: transform .18s ease, background .18s ease, border-color .18s ease, opacity .18s ease;
     }
+
     .btn:hover { transform: translateY(-1px); }
     .btn:active { transform: translateY(0); }
     .btn-primary { background: linear-gradient(135deg, var(--accent-2), #f14b2c); color: #fff; box-shadow: 0 8px 24px rgba(255,99,61,.2); }
     .btn-primary:hover { background: linear-gradient(135deg, #ff987b, #ff5838); }
     .btn-secondary { background: var(--surface-2); border-color: var(--line); }
     .btn-secondary:hover { background: var(--surface-3); }
-    .helper-line { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 14px; color: var(--muted); font-size: .86rem; }
+
+    .helper-line {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
     .helper-line span { display: inline-flex; align-items: center; gap: 6px; }
     .helper-line span + span::before { content: "·"; margin-right: 2px; color: #586779; }
+
     .ad-wrap { margin: 12px auto 42px; width: min(780px, 100%); }
     .ad-label { margin: 0 0 7px; text-align: center; color: #68778a; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
     .ad-banner { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); transition: opacity .2s, max-height .25s, margin .25s; }
     .ad-banner img { display: block; width: 100%; height: auto; }
     .ad-banner.hidden { display: none; }
     .section { margin: 36px auto; }
-    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
     .section-heading h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 1.8rem); letter-spacing: -.035em; }
     .section-heading p { margin: 4px 0 0; color: var(--muted); font-size: .92rem; }
+
     .status {
-      display: none; align-items: flex-start; gap: 12px; margin: 22px auto; padding: 15px 17px;
-      width: min(900px, 100%); border: 1px solid var(--line); border-radius: 14px;
-      background: rgba(17,24,36,.85); color: var(--muted);
+      display: none;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 22px auto;
+      padding: 15px 17px;
+      width: min(900px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(17,24,36,.85);
+      color: var(--muted);
     }
+
     .status.visible { display: flex; }
     .status strong { display: block; color: var(--text); margin-bottom: 2px; }
     .status-icon { flex: 0 0 auto; font-size: 1.15rem; }
@@ -144,78 +270,172 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .player-shell { display: none; }
     .player-shell.visible { display: block; }
+
     .player-toolbar {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
       margin: 0 0 14px;
     }
+
     .player-toolbar h2 { margin: 0; font-size: 1.2rem; }
     .player-toolbar p { margin: 3px 0 0; color: var(--muted); font-size: .88rem; }
     #playerSwitcher { display: flex; gap: 8px; flex-wrap: wrap; }
+
     .player-tab {
-      padding: 9px 13px; min-height: 40px; border-radius: 10px; border: 1px solid var(--line);
-      color: #b7c3d2; background: var(--surface); font-weight: 700; cursor: pointer;
+      padding: 9px 13px;
+      min-height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      color: #b7c3d2;
+      background: var(--surface);
+      font-weight: 700;
+      cursor: pointer;
     }
+
     .player-tab:hover { background: var(--surface-2); color: #fff; }
     .player-tab.active { color: #fff; border-color: rgba(255,99,61,.65); background: rgba(255,99,61,.16); }
     .player-block { display: none; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: #05080d; box-shadow: var(--shadow); }
     .player-block.active { display: block; }
     .player-frame-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; min-height: 220px; background: #05080d; }
     .player-frame-wrap iframe { display: block; width: 100%; height: 100%; position: absolute; inset: 0; border: 0; background: #05080d; }
+
+    /* Кнопка VideoSeeD: плавное исчезновение и повторное появление */
     .videoseed-fullscreen {
-      position: absolute; z-index: 20; top: 12px; left: 50%; transform: translateX(-50%);
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      min-height: 40px; max-width: calc(100% - 24px); padding: 9px 15px;
-      border: 1px solid rgba(255,255,255,.24); border-radius: 999px;
-      color: #fff; background: rgba(9,13,20,.86); box-shadow: 0 8px 28px rgba(0,0,0,.32);
-      font: inherit; font-size: .88rem; font-weight: 750; white-space: nowrap;
-      cursor: pointer; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      position: absolute;
+      z-index: 20;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      max-width: calc(100% - 24px);
+      padding: 9px 15px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(9,13,20,.86);
+      box-shadow: 0 8px 28px rgba(0,0,0,.32);
+      font: inherit;
+      font-size: .88rem;
+      font-weight: 750;
+      white-space: nowrap;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 1;
+      visibility: visible;
+      transition: opacity .28s ease, visibility .28s ease;
     }
+
+    .videoseed-fullscreen.auto-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
     .videoseed-fullscreen:hover { background: var(--accent); border-color: var(--accent); }
     .videoseed-fullscreen:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
     .player-frame-wrap:fullscreen { width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; background: #000; }
     .player-frame-wrap:fullscreen iframe { width: 100%; height: 100%; }
     .player-frame-wrap:-webkit-full-screen { width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; background: #000; }
     .player-frame-wrap:-webkit-full-screen iframe { width: 100%; height: 100%; }
-    .player-caption { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #101722; color: var(--muted); font-size: .84rem; }
+
+    .player-caption {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #101722;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
     .player-caption strong { color: var(--text); }
     .text-link { background: none; border: 0; color: #ffad96; padding: 4px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
     .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
     .feature-card { border: 1px solid var(--line); background: linear-gradient(145deg, rgba(23,33,49,.86), rgba(17,24,36,.78)); border-radius: 16px; padding: 20px; }
     .feature-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; background: rgba(255,99,61,.12); color: var(--accent-2); font-size: 1.2rem; }
     .feature-card h3 { margin: 13px 0 5px; font-size: 1rem; }
     .feature-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+
     .seo-panel { padding: clamp(22px, 4vw, 34px); border: 1px solid var(--line); border-radius: var(--radius); background: rgba(17,24,36,.7); }
     .seo-panel h2 { margin: 0 0 12px; font-size: 1.45rem; letter-spacing: -.03em; }
     .seo-panel h3 { margin: 22px 0 7px; font-size: 1.05rem; }
     .seo-panel p, .seo-panel li { color: var(--muted); }
     .seo-panel p { margin: 10px 0; }
     .seo-panel ol { padding-left: 22px; }
+
     .faq-list { display: grid; gap: 10px; }
     details { border: 1px solid var(--line); border-radius: 13px; background: rgba(17,24,36,.65); padding: 15px 17px; }
     summary { cursor: pointer; font-weight: 700; }
     details p { color: var(--muted); margin: 10px 0 0; }
+
     .footer { border-top: 1px solid var(--line); margin-top: 56px; padding: 26px 0 36px; color: var(--muted); font-size: .85rem; }
     .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
     .footer-links { display: flex; gap: 15px; flex-wrap: wrap; }
     .footer-links a { color: var(--muted); text-decoration: none; }
     .footer-links a:hover { color: var(--text); }
+
     .help-fab {
-      position: fixed; z-index: 30; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom));
-      width: 52px; height: 52px; border: 1px solid rgba(255,255,255,.15); border-radius: 17px;
-      color: #fff; background: linear-gradient(145deg, var(--accent-2), #e84b2c); box-shadow: 0 12px 32px rgba(0,0,0,.35);
-      font-size: 1.3rem; font-weight: 850; cursor: pointer;
+      position: fixed;
+      z-index: 30;
+      right: max(20px, env(safe-area-inset-right));
+      bottom: max(20px, env(safe-area-inset-bottom));
+      width: 52px;
+      height: 52px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 17px;
+      color: #fff;
+      background: linear-gradient(145deg, var(--accent-2), #e84b2c);
+      box-shadow: 0 12px 32px rgba(0,0,0,.35);
+      font-size: 1.3rem;
+      font-weight: 850;
+      cursor: pointer;
     }
+
     .help-popup {
-      display: none; position: fixed; z-index: 31; right: max(20px, env(safe-area-inset-right)); bottom: max(82px, calc(env(safe-area-inset-bottom) + 82px));
-      width: min(370px, calc(100vw - 32px)); max-height: min(72vh, 540px); overflow: auto;
-      padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: #111824; color: var(--text); box-shadow: var(--shadow);
+      display: none;
+      position: fixed;
+      z-index: 31;
+      right: max(20px, env(safe-area-inset-right));
+      bottom: max(82px, calc(env(safe-area-inset-bottom) + 82px));
+      width: min(370px, calc(100vw - 32px));
+      max-height: min(72vh, 540px);
+      overflow: auto;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #111824;
+      color: var(--text);
+      box-shadow: var(--shadow);
     }
+
     .help-popup.open { display: block; }
     .help-popup h2 { margin: 0 0 12px; font-size: 1.15rem; }
     .help-popup p, .help-popup li { color: var(--muted); font-size: .9rem; }
     .help-popup code { color: #ffd0c3; background: #202c3e; padding: 2px 5px; border-radius: 5px; overflow-wrap: anywhere; }
     .help-actions { display: flex; justify-content: flex-end; margin-top: 16px; }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     @media (max-width: 760px) {
       .shell { width: min(100% - 28px, 1120px); }
       .topbar { min-height: 68px; }
@@ -227,6 +447,7 @@
       .feature-card p { grid-column: 2; }
       .feature-icon { grid-row: span 2; }
     }
+
     @media (max-width: 540px) {
       .shell { width: calc(100% - 28px); }
       .topbar { align-items: flex-start; padding: 14px 0; flex-direction: column; gap: 8px; }
@@ -250,16 +471,25 @@
       .player-caption { align-items: flex-start; flex-direction: column; }
       .footer-inner { align-items: flex-start; flex-direction: column; }
     }
+
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="shell topbar">
     <a class="brand" href="/" aria-label="KinoDivBox — главная">
-      <span class="brand-mark" aria-hidden="true">▶</span><span>KinoDivBox</span>
+      <span class="brand-mark" aria-hidden="true">▶</span>
+      <span>KinoDivBox</span>
     </a>
+
     <nav class="top-links" aria-label="Основная навигация">
       <a href="#search">Поиск</a>
       <a href="#how-to">Как пользоваться</a>
@@ -283,12 +513,19 @@
           <button class="btn btn-secondary" id="shareButton" type="button">↗ <span>Поделиться</span></button>
         </div>
       </form>
+
       <div class="helper-line" id="searchHint">
-        <span>✓ По ID или ссылке</span><span>✓ Без регистрации на KinoDivBox</span><span>✓ Несколько источников</span>
+        <span>✓ По ID или ссылке</span>
+        <span>✓ Без регистрации на KinoDivBox</span>
+        <span>✓ Несколько источников</span>
       </div>
+
       <div class="status" id="status" role="status" aria-live="polite">
         <span class="status-icon" id="statusIcon" aria-hidden="true">i</span>
-        <div><strong id="statusTitle">Готово к поиску</strong><span id="statusMessage">Введите ID или ссылку КиноПоиска.</span></div>
+        <div>
+          <strong id="statusTitle">Готово к поиску</strong>
+          <span id="statusMessage">Введите ID или ссылку КиноПоиска.</span>
+        </div>
       </div>
     </section>
 
@@ -312,8 +549,12 @@
 
     <section class="shell section" aria-labelledby="featuresHeading">
       <div class="section-heading">
-        <div><h2 id="featuresHeading">Всё просто</h2><p>Нужный источник — в несколько действий.</p></div>
+        <div>
+          <h2 id="featuresHeading">Всё просто</h2>
+          <p>Нужный источник — в несколько действий.</p>
+        </div>
       </div>
+
       <div class="feature-grid">
         <article class="feature-card">
           <div class="feature-icon" aria-hidden="true">⌕</div>
@@ -348,7 +589,13 @@
     </section>
 
     <section class="shell section" aria-labelledby="faqHeading">
-      <div class="section-heading"><div><h2 id="faqHeading">Частые вопросы</h2><p>Короткие ответы о работе поиска.</p></div></div>
+      <div class="section-heading">
+        <div>
+          <h2 id="faqHeading">Частые вопросы</h2>
+          <p>Короткие ответы о работе поиска.</p>
+        </div>
+      </div>
+
       <div class="faq-list">
         <details>
           <summary>Можно вставить ссылку целиком?</summary>
@@ -397,6 +644,7 @@
   </footer>
 
   <button class="help-fab" id="helpIcon" type="button" aria-label="Открыть инструкцию" aria-expanded="false" aria-controls="helpPopup">?</button>
+
   <aside class="help-popup" id="helpPopup" aria-labelledby="helpTitle" aria-hidden="true">
     <h2 id="helpTitle">Как пользоваться сайтом</h2>
     <ol>
@@ -406,13 +654,16 @@
       <li>Если найдено несколько источников, выберите нужный переключателем над плеером.</li>
     </ol>
     <p>Если видео не запускается, попробуйте другой источник. Доступность внешних сервисов может меняться.</p>
-    <div class="help-actions"><button class="btn btn-secondary" id="helpClose" type="button">Закрыть</button></div>
+    <div class="help-actions">
+      <button class="btn btn-secondary" id="helpClose" type="button">Закрыть</button>
+    </div>
   </aside>
 
   <script>
     "use strict";
 
-    // Существующие источники из исходного сайта. Внешние API могут менять доступность и формат ответа.
+    // Существующие источники из исходного сайта.
+    // Внешние API могут менять доступность и формат ответа.
     const players = {
       Alloha: id => `https://harald-as.newplayjj.com/?kp=${encodeURIComponent(id)}&token=e7b61f129f4a392ac4bf6726a9dd6a`,
       Collaps: id => `https://api.zenithjs.ws/embed/kp/${encodeURIComponent(id)}`,
@@ -421,13 +672,16 @@
         const endpoint = `https://apivb.com/api/videos.json?id_kp=${encodeURIComponent(id)}&token=${encodeURIComponent(token)}`;
         const response = await fetchWithTimeout(endpoint, 15000);
         if (!response.ok) throw new Error("HDVB: HTTP " + response.status);
+
         const data = await response.json();
         const item = Array.isArray(data) ? data[0] : data;
         const iframeUrl = item?.iframe_url || item?.data?.iframe_url || data?.data?.iframe_url || "";
+
         if (typeof iframeUrl !== "string" || !iframeUrl.trim()) {
           console.warn("HDVB: в ответе API не найден iframe_url", data);
           return null;
         }
+
         return validatePlayerUrl(iframeUrl.trim());
       },
       VeoVeo: id => `https://api.rstprgapipt.com/balancer-api/iframe?kp=${encodeURIComponent(id)}&token=eyJhbGciOiJIUzI1NiJ9.eyJ3ZWJTaXRlIjoiODE1IiwiaXNzIjoiYXBpLXdlYm1hc3RlciIsInN1YiI6IjgwMyIsImlhdCI6MTc3ODI2MTE1NywianRpIjoiM2Q5MDk5NjktOTNhOC00MDA0LWEzNDItMmE0NmMxMjUyMjc1Iiwic2NvcGUiOiJETEUifQ.w9ElOwW-i07LD5tX05TGYzgiViDqh8saEWmOwLAzyGU`,
@@ -452,10 +706,15 @@
     function extractID(value) {
       const input = String(value || "").trim();
       if (/^\d+$/.test(input)) return input;
+
       try {
         const url = new URL(input.includes("://") ? input : "https://" + input);
         const host = url.hostname.toLowerCase();
-        if (host !== "kinopoisk.ru" && !host.endsWith(".kinopoisk.ru")) return null;
+
+        if (host !== "kinopoisk.ru" && !host.endsWith(".kinopoisk.ru")) {
+          return null;
+        }
+
         const match = url.pathname.match(/\/(?:film|series)\/(\d+)(?:\/|$)/i);
         return match ? match[1] : null;
       } catch (_) {
@@ -477,8 +736,13 @@
     async function fetchWithTimeout(url, timeoutMs) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
+
       try {
-        return await fetch(url, { signal: controller.signal, mode: "cors", credentials: "omit" });
+        return await fetch(url, {
+          signal: controller.signal,
+          mode: "cors",
+          credentials: "omit"
+        });
       } finally {
         clearTimeout(timer);
       }
@@ -486,8 +750,10 @@
 
     function setStatus(kind, title, message) {
       statusBox.className = "status visible" + (kind ? " " + kind : "");
-      statusIcon.innerHTML = kind === "loading" ? '<span class="spinner" aria-hidden="true"></span>' :
-        kind === "error" ? "!" : kind === "success" ? "✓" : "i";
+      statusIcon.innerHTML = kind === "loading"
+        ? '<span class="spinner" aria-hidden="true"></span>'
+        : kind === "error" ? "!" : kind === "success" ? "✓" : "i";
+
       statusTitle.textContent = title;
       statusMessage.textContent = message;
     }
@@ -517,6 +783,7 @@
 
       const frameWrap = document.createElement("div");
       frameWrap.className = "player-frame-wrap";
+
       const iframe = document.createElement("iframe");
       iframe.src = url;
       iframe.title = `Плеер ${name} для ID ${id}`;
@@ -525,11 +792,16 @@
       iframe.allowFullscreen = true;
       iframe.setAttribute("allowfullscreen", "");
       iframe.referrerPolicy = "strict-origin-when-cross-origin";
+
       // HDVB и VideoSeeD требуют возможностей, которые sandbox может блокировать.
       // Для остальных источников сохраняем ограничение sandbox.
       if (name !== "VideoSeeD" && name !== "HDVB") {
-        iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-presentation allow-popups");
+        iframe.setAttribute(
+          "sandbox",
+          "allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
+        );
       }
+
       frameWrap.appendChild(iframe);
 
       if (name === "VideoSeeD") {
@@ -538,50 +810,76 @@
         fullscreenButton.className = "videoseed-fullscreen";
         fullscreenButton.innerHTML = '<span aria-hidden="true">⛶</span><span>Полный экран</span>';
         fullscreenButton.setAttribute("aria-label", "Открыть VideoSeeD на полный экран");
+
         let fullscreenButtonHideTimer;
-        const showFullscreenButton = () => {
+
+        function showFullscreenButton() {
           fullscreenButton.classList.remove("auto-hidden");
           window.clearTimeout(fullscreenButtonHideTimer);
+
           fullscreenButtonHideTimer = window.setTimeout(() => {
-            if (document.activeElement === fullscreenButton) fullscreenButton.blur();
+            if (document.activeElement === fullscreenButton) {
+              fullscreenButton.blur();
+            }
             fullscreenButton.classList.add("auto-hidden");
           }, 3000);
-        };
+        }
+
+        // События области плеера возвращают кнопку.
         ["pointermove", "pointerdown", "touchstart", "keydown", "focusin"].forEach(eventName => {
-          frameWrap.addEventListener(eventName, showFullscreenButton, { passive: eventName === "touchstart" });
+          frameWrap.addEventListener(eventName, showFullscreenButton, {
+            passive: eventName === "touchstart"
+          });
         });
+
         fullscreenButton.addEventListener("click", async () => {
           showFullscreenButton();
+
           try {
             if (document.fullscreenElement || document.webkitFullscreenElement) {
-              if (document.exitFullscreen) await document.exitFullscreen();
-              else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+              if (document.exitFullscreen) {
+                await document.exitFullscreen();
+              } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+              }
               return;
             }
-            if (frameWrap.requestFullscreen) await frameWrap.requestFullscreen();
-            else if (frameWrap.webkitRequestFullscreen) frameWrap.webkitRequestFullscreen();
-            else if (iframe.requestFullscreen) await iframe.requestFullscreen();
-            else window.alert("Полный экран не поддерживается этим браузером.");
+
+            if (frameWrap.requestFullscreen) {
+              await frameWrap.requestFullscreen();
+            } else if (frameWrap.webkitRequestFullscreen) {
+              frameWrap.webkitRequestFullscreen();
+            } else if (iframe.requestFullscreen) {
+              await iframe.requestFullscreen();
+            } else {
+              window.alert("Полный экран не поддерживается этим браузером.");
+            }
           } catch (error) {
             console.warn("Не удалось открыть VideoSeeD на полный экран:", error);
             window.alert("Браузер не разрешил полный экран. Попробуйте нажать кнопку ещё раз или использовать значок полноэкранного режима в самом плеере.");
           }
         });
+
         frameWrap.appendChild(fullscreenButton);
         showFullscreenButton();
       }
 
       const caption = document.createElement("div");
       caption.className = "player-caption";
+
       const label = document.createElement("span");
       label.append("Источник: ");
+
       const strong = document.createElement("strong");
       strong.textContent = name;
       label.appendChild(strong);
+
       const note = document.createElement("span");
       note.textContent = "Внешний видеоплеер";
+
       caption.append(label, note);
       block.append(frameWrap, caption);
+
       return block;
     }
 
@@ -592,11 +890,15 @@
         button.setAttribute("aria-selected", String(active));
         button.tabIndex = active ? 0 : -1;
       });
-      [...playerContainer.children].forEach((panel, i) => panel.classList.toggle("active", i === index));
+
+      [...playerContainer.children].forEach((panel, i) => {
+        panel.classList.toggle("active", i === index);
+      });
     }
 
     async function searchPlayer() {
       const id = extractID(queryInput.value);
+
       if (!id) {
         setStatus("error", "Проверьте ID или ссылку", "Введите числовой ID или ссылку на страницу фильма/сериала на kinopoisk.ru.");
         queryInput.focus();
@@ -614,16 +916,23 @@
       history.replaceState(null, "", url.pathname + url.search + url.hash);
 
       const entries = Object.entries(players);
+
       const results = await Promise.all(entries.map(async ([name, getUrl]) => {
         let timeoutId;
+
         try {
           const timeoutPromise = new Promise((_, reject) => {
-            timeoutId = setTimeout(() => reject(new Error("Превышено время ожидания")), name === "HDVB" ? 16000 : 10000);
+            timeoutId = setTimeout(
+              () => reject(new Error("Превышено время ожидания")),
+              name === "HDVB" ? 16000 : 10000
+            );
           });
+
           const result = await Promise.race([
             Promise.resolve().then(() => getUrl(id)),
             timeoutPromise
           ]);
+
           const safeUrl = typeof result === "string" ? validatePlayerUrl(result) : null;
           return safeUrl ? { name, url: safeUrl } : null;
         } catch (error) {
@@ -635,6 +944,7 @@
       }));
 
       if (searchToken !== activeSearchToken) return;
+
       const available = results.filter(Boolean);
       setLoading(false);
 
@@ -646,6 +956,7 @@
       available.forEach((item, index) => {
         const block = createPlayerBlock(item.name, id, item.url, index);
         if (!block) return;
+
         playerContainer.appendChild(block);
 
         const tab = document.createElement("button");
@@ -657,16 +968,23 @@
         tab.setAttribute("aria-selected", String(index === 0));
         tab.tabIndex = index === 0 ? 0 : -1;
         tab.textContent = item.name;
+
         tab.addEventListener("click", () => activatePlayer(index));
+
         tab.addEventListener("keydown", event => {
           if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
             event.preventDefault();
-            const next = (index + (event.key === "ArrowRight" ? 1 : available.length - 1)) % available.length;
+
+            const next = (
+              index + (event.key === "ArrowRight" ? 1 : available.length - 1)
+            ) % available.length;
+
             const nextTab = playerSwitcher.querySelectorAll("button")[next];
             activatePlayer(next);
             nextTab.focus();
           }
         });
+
         playerSwitcher.appendChild(tab);
       });
 
@@ -676,18 +994,28 @@
       }
 
       playerSection.classList.add("visible");
-      $("#playerSubheading").textContent = `Найдено источников: ${playerContainer.children.length}. Выберите подходящий.`;
-      setStatus("success", "Поиск завершён", `Доступно источников: ${playerContainer.children.length}. Если видео не запускается, попробуйте другой.`);
+
+      $("#playerSubheading").textContent =
+        `Найдено источников: ${playerContainer.children.length}. Выберите подходящий.`;
+
+      setStatus(
+        "success",
+        "Поиск завершён",
+        `Доступно источников: ${playerContainer.children.length}. Если видео не запускается, попробуйте другой.`
+      );
+
       playerSection.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function buildShareUrl() {
       const id = extractID(queryInput.value);
+
       if (!id) {
         setStatus("error", "Нечего отправлять", "Сначала введите корректный ID или ссылку КиноПоиска.");
         queryInput.focus();
         return null;
       }
+
       const shareUrl = new URL(window.location.pathname, window.location.origin);
       shareUrl.searchParams.set("id", id);
       return shareUrl.href;
@@ -696,17 +1024,25 @@
     async function copyShareLink() {
       const shareUrl = buildShareUrl();
       if (!shareUrl) return;
+
       try {
         if (navigator.share) {
-          await navigator.share({ title: "KinoDivBox", text: "Открыть поиск фильма на KinoDivBox", url: shareUrl });
+          await navigator.share({
+            title: "KinoDivBox",
+            text: "Открыть поиск фильма на KinoDivBox",
+            url: shareUrl
+          });
+
           setStatus("success", "Ссылка готова", "Ссылка передана через меню общего доступа.");
           return;
         }
+
         if (navigator.clipboard && window.isSecureContext) {
           await navigator.clipboard.writeText(shareUrl);
           setStatus("success", "Ссылка скопирована", "Можно отправить её друзьям или открыть на другом устройстве.");
           return;
         }
+
         window.prompt("Скопируйте ссылку:", shareUrl);
       } catch (error) {
         if (error && error.name === "AbortError") return;
@@ -715,10 +1051,14 @@
     }
 
     function toggleHelp(forceOpen) {
-      const open = typeof forceOpen === "boolean" ? forceOpen : !$("#helpPopup").classList.contains("open");
+      const open = typeof forceOpen === "boolean"
+        ? forceOpen
+        : !$("#helpPopup").classList.contains("open");
+
       $("#helpPopup").classList.toggle("open", open);
       $("#helpPopup").setAttribute("aria-hidden", String(!open));
       $("#helpIcon").setAttribute("aria-expanded", String(open));
+
       if (open) $("#helpClose").focus();
       else $("#helpIcon").focus();
     }
@@ -727,22 +1067,32 @@
       event.preventDefault();
       searchPlayer();
     });
+
     $("#shareButton").addEventListener("click", copyShareLink);
     $("#helpIcon").addEventListener("click", () => toggleHelp());
     $("#helpClose").addEventListener("click", () => toggleHelp(false));
+
     document.addEventListener("click", event => {
-      if ($("#helpPopup").classList.contains("open") &&
-          !$("#helpPopup").contains(event.target) && !$("#helpIcon").contains(event.target)) {
+      if (
+        $("#helpPopup").classList.contains("open") &&
+        !$("#helpPopup").contains(event.target) &&
+        !$("#helpIcon").contains(event.target)
+      ) {
         toggleHelp(false);
       }
     });
+
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && $("#helpPopup").classList.contains("open")) toggleHelp(false);
+      if (event.key === "Escape" && $("#helpPopup").classList.contains("open")) {
+        toggleHelp(false);
+      }
     });
+
     $("#year").textContent = new Date().getFullYear();
 
     // Автоматически открываем поиск, если в URL уже есть ?id=...
     const initialId = new URLSearchParams(window.location.search).get("id");
+
     if (initialId && /^\d+$/.test(initialId)) {
       queryInput.value = initialId;
       searchPlayer();
