@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -48,13 +47,16 @@
       background: var(--bg);
     }
 
+    /* Кнопки источников располагаются по центру */
     .switcher {
       flex: 0 0 auto;
       display: flex;
       align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 7px;
       padding: 9px 10px;
-      overflow-x: auto;
+      overflow-x: hidden;
       overscroll-behavior-x: contain;
       scrollbar-width: thin;
       background: #0b1120;
@@ -118,7 +120,7 @@
       background: #03060c;
     }
 
-    /* VideoSeeD: кнопка по центру сверху */
+    /* Кнопка полного экрана VideoSeeD */
     .videoseed-fullscreen {
       position: absolute;
       top: 12px;
@@ -138,6 +140,15 @@
       cursor: pointer;
       box-shadow: 0 4px 18px rgba(0,0,0,.28);
       backdrop-filter: blur(8px);
+      opacity: 1;
+      visibility: visible;
+      transition: opacity .25s ease, visibility .25s ease;
+    }
+
+    .videoseed-fullscreen.auto-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
     .videoseed-fullscreen:hover {
@@ -249,7 +260,9 @@
         font-size: 12px;
       }
 
-      .state { padding: 14px; }
+      .state {
+        padding: 14px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -301,7 +314,7 @@
 
   </main>
 
-  <!-- Существующие вспомогательные скрипты -->
+  <!-- Вспомогательные скрипты существующих источников -->
   <script src="https://super-puper.che-bur-net.cc/vv2.js"></script>
   <script src="https://allohatv.github.io/insert-player.js"></script>
   <script src="https://kodir2.github.io/actualize.js" async></script>
@@ -324,10 +337,30 @@
 
     let currentId = '';
     let currentRequest = 0;
+    let fullscreenButtonHideTimer = 0;
+
+    function showFullscreenButton() {
+      fullscreenButton.classList.remove('auto-hidden');
+      window.clearTimeout(fullscreenButtonHideTimer);
+
+      fullscreenButtonHideTimer = window.setTimeout(() => {
+        if (document.activeElement === fullscreenButton) {
+          fullscreenButton.blur();
+        }
+        fullscreenButton.classList.add('auto-hidden');
+      }, 3000);
+    }
+
+    ['pointermove', 'pointerdown', 'touchstart', 'keydown', 'focusin']
+      .forEach(eventName => {
+        stage.addEventListener(eventName, showFullscreenButton, {
+          passive: eventName === 'touchstart'
+        });
+      });
 
     /*
-     * Порядок источников сохранён.
-     * HDVB всегда отображается третьим.
+     * Порядок массива определяет порядок кнопок.
+     * HDVB всегда третий, даже пока загружается API.
      */
     const providers = [
       {
@@ -483,8 +516,8 @@
       );
 
       /*
-       * Для HDVB и VideoSeeD не используем sandbox,
-       * чтобы не мешать работе сторонних плееров.
+       * VideoSeeD получает iframe без sandbox.
+       * Для остальных источников сохраняется прежнее ограничение.
        */
       if (name !== 'VideoSeeD' && name !== 'HDVB') {
         frame.setAttribute(
@@ -495,6 +528,14 @@
 
       stage.insertBefore(frame, state);
       fullscreenButton.classList.toggle('visible', name === 'VideoSeeD');
+
+      if (name === 'VideoSeeD') {
+        showFullscreenButton();
+      } else {
+        window.clearTimeout(fullscreenButtonHideTimer);
+        fullscreenButton.classList.remove('auto-hidden');
+      }
+
       hideState();
       footStatus.textContent = `Источник: ${name}`;
     }
@@ -503,7 +544,10 @@
       const button = document.createElement('button');
       button.className = 'switch-btn';
       button.type = 'button';
-      button.textContent = pending ? `${provider.name}…` : provider.name;
+      button.textContent = pending
+        ? `${provider.name}…`
+        : provider.name;
+
       button.setAttribute('aria-pressed', 'false');
       button.disabled = pending || !src;
 
@@ -540,6 +584,7 @@
         'Загружаем источники',
         'Подготавливаем доступные варианты просмотра…'
       );
+
       footStatus.textContent = `ID Кинопоиска: ${id}`;
 
       const buttons = new Map();
@@ -550,7 +595,7 @@
         provider => provider.name === 'HDVB'
       );
 
-      // Кнопки создаются сразу и остаются в правильном порядке.
+      // Кнопки создаются сразу; HDVB всегда третий.
       for (const provider of providers) {
         if (provider.name === 'HDVB') {
           const button = makeButton(provider, '', true);
@@ -577,14 +622,11 @@
 
       switcher.hidden = false;
 
-      // Открываем первый доступный источник, не ожидая ответа HDVB.
       const firstButton = [
         ...switcher.querySelectorAll('.switch-btn')
       ].find(button => !button.disabled);
 
-      if (firstButton) {
-        firstButton.click();
-      }
+      if (firstButton) firstButton.click();
 
       async function loadHDVB() {
         if (hdvbLoading || requestNumber !== currentRequest) return;
@@ -617,7 +659,6 @@
           if (requestNumber !== currentRequest) return;
 
           console.warn('[KinoDivBox] Не удалось загрузить HDVB:', error);
-
           button.disabled = false;
           button.textContent = 'HDVB · повторить';
           button.title =
@@ -645,11 +686,13 @@
         }
       }
 
-      // HDVB загружается отдельно от остальных плееров.
+      // HDVB загружается отдельно, остальные источники доступны сразу.
       loadHDVB();
     }
 
     fullscreenButton.addEventListener('click', async () => {
+      showFullscreenButton();
+
       try {
         if (document.fullscreenElement) {
           await document.exitFullscreen();
@@ -669,8 +712,7 @@
           '[KinoDivBox] Не удалось включить полный экран:',
           error
         );
-        footStatus.textContent =
-          'Браузер не разрешил полный экран';
+        footStatus.textContent = 'Браузер не разрешил полный экран';
       }
     });
 
@@ -683,7 +725,7 @@
   </script>
 
   <center>
-    <!-- Счётчик LiveInternet -->
+    <!--LiveInternet counter-->
     <a href="https://www.liveinternet.ru/click" target="_blank">
       <img id="licnt3652"
            width="88"
@@ -691,21 +733,22 @@
            style="border:0"
            title="LiveInternet: показано число посетителей за сегодня"
            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
-           alt="">
+           alt="" />
     </a>
 
     <script>
       (function(d, s) {
         d.getElementById("licnt3652").src =
           "https://counter.yadro.ru/hit?t26.6;r" + escape(d.referrer) +
-          ((typeof(s) === "undefined") ? "" :
-            ";s" + s.width + "*" + s.height + "*" +
-            (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
+          ((typeof(s) == "undefined")
+            ? ""
+            : ";s" + s.width + "*" + s.height + "*" +
+              (s.colorDepth ? s.colorDepth : s.pixelDepth)) +
           ";u" + escape(d.URL) +
-          ";h" + escape(d.title.substring(0,150)) + ";" + Math.random();
+          ";h" + escape(d.title.substring(0, 150)) + ";" + Math.random();
       })(document, screen);
     </script>
-    <!-- /LiveInternet -->
+    <!--/LiveInternet-->
   </center>
 </body>
 </html>
